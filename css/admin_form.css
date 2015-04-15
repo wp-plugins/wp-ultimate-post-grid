@@ -1,0 +1,61 @@
+.post-type-wpupg_grid #titlediv .inside {
+  display: none; }
+
+.select2 li {
+  margin-bottom: 0; }
+  .select2 li input {
+    margin: 0;
+    padding: 0; }
+
+#wpupg_no_taxonomies {
+  text-align: center; }
+
+.wpupg_form {
+  width: 100%;
+  border-collapse: collapse; }
+  .wpupg_form .wpupg_label_prefix {
+    float: left;
+    font-weight: bold; }
+  .wpupg_form td {
+    vertical-align: middle;
+    height: 45px; }
+    .wpupg_form td:nth-child(1) {
+      width: 20%;
+      text-align: right; }
+    .wpupg_form td:nth-child(2) {
+      width: 50%;
+      padding: 0 10px; }
+      .wpupg_form td:nth-child(2) input[type="text"], .wpupg_form td:nth-child(2) select {
+        width: 100%; }
+      .wpupg_form td:nth-child(2) label {
+        float: right; }
+      .wpupg_form td:nth-child(2) .noUi-target {
+        margin: 0 10px; }
+      .wpupg_form td:nth-child(2) .noUi-handle {
+        background-color: #aaa; }
+    .wpupg_form td:nth-child(3) {
+      width: 30%;
+      font-size: 12px;
+      color: #666; }
+      .wpupg_form td:nth-child(3) input[type="text"] {
+        width: 50px; }
+  .wpupg_form .wpupg_divider td {
+    border-top: 1px solid #ddd; }
+  .wpupg_form .wpupg_radiobuttons td {
+    vertical-align: top;
+    padding-top: 10px;
+    padding-bottom: 10px; }
+    .wpupg_form .wpupg_radiobuttons td input[type="radio"] {
+      margin: 0 5px 5px 0; }
+    .wpupg_form .wpupg_radiobuttons td label {
+      vertical-align: top; }
+  .wpupg_form .wp-color-result {
+    margin: 0; }
+  .wpupg_form .wp-picker-holder {
+    z-index: 10;
+    position: absolute; }
+
+.wpupg_filter_preview {
+  text-align: center;
+  border-top: 1px dashed #999;
+  border-bottom: 1px dashed #999; }
