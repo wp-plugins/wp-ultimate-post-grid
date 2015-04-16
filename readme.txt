@@ -45,10 +45,16 @@ It's still a very early version of the plugin and we'll be adding new features e
 
 == Changelog ==
 
-= 0.0.1 =
+= 1.1 =
+* Fix: Firefox compatibility
+
+= 1.0 =
 * Very first version of this plugin
 
 == Upgrade notice ==
 
-= 0.0.1 =
+= 1.1 =
+Update to ensure compatibility with Firefox
+
+= 1.0 =
 First version, no upgrades needed.

@@ -9,7 +9,7 @@ html body.rtl .wpupg-container {
   text-align: right; }
 
 html body .wpupg-container {
-  position: relative !important;
+  position: absolute !important;
   clear: both !important;
   text-align: left;
   font-size: 14px !important; }
