@@ -54,14 +54,6 @@ class WPUPG_Assets {
                     'file' => '/css/' . $base_layout,
                     'public' => true
                 ),
-//                array(
-//                    'name' => 'freewall',
-//                    'file' => '/vendor/freewall/freewall.js',
-//                    'public' => true,
-//                    'deps' => array(
-//                        'jquery',
-//                    )
-//                ),
                 array(
                     'name' => 'isotope',
                     'file' => '/vendor/isotope/isotope.pkgd.min.js',

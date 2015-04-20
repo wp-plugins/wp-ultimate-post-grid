@@ -15,31 +15,51 @@ $isotope_style = $filter_style['isotope'];
 
 <table id="wpupg_form_isotope_filter_style" class="wpupg_form">
     <tr>
-        <td><span class="wpupg_label_prefix"><?php _e( 'Background', 'wp-ultimate-post-grid' ); ?></span><label for="wpupg_isotope_filter_style_background_color"><?php _e( 'Color', 'wp-ultimate-post-grid' ); ?></label></td>
+        <td>&nbsp;</td>
+        <td><span class="wpupg_label_prefix"><?php _e( 'Background Color', 'wp-ultimate-post-grid' ); ?></span></td>
+        <td><span class="wpupg_label_prefix"><?php _e( 'Text Color', 'wp-ultimate-post-grid' ); ?></span></td>
+        <td><span class="wpupg_label_prefix"><?php _e( 'Border Color', 'wp-ultimate-post-grid' ); ?></span></td>
+    </tr>
+    <tr>
+        <td><span class="wpupg_label_prefix"><?php _e( 'Default', 'wp-ultimate-post-grid' ); ?></span></td>
         <td>
             <input type="color" id="wpupg_isotope_filter_style_background_color" name="wpupg_isotope_filter_style_background_color" value="<?php echo $isotope_style['background_color']; ?>">
-            <label for="wpupg_isotope_filter_style_background_hover_color"><?php _e( 'On hover', 'wp-ultimate-post-grid' ); ?></label>
         </td>
-        <td><input type="color" id="wpupg_isotope_filter_style_background_hover_color" name="wpupg_isotope_filter_style_background_hover_color" value="<?php echo $isotope_style['background_hover_color']; ?>"></td>
-    </tr>
-    <tr>
-        <td><span class="wpupg_label_prefix"><?php _e( 'Text', 'wp-ultimate-post-grid' ); ?></span><label for="wpupg_isotope_filter_style_text_color"><?php _e( 'Color', 'wp-ultimate-post-grid' ); ?></label></td>
         <td>
             <input type="color" id="wpupg_isotope_filter_style_text_color" name="wpupg_isotope_filter_style_text_color" value="<?php echo $isotope_style['text_color']; ?>">
-            <label for="wpupg_isotope_filter_style_text_hover_color"><?php _e( 'On hover', 'wp-ultimate-post-grid' ); ?></label>
         </td>
-        <td><input type="color" id="wpupg_isotope_filter_style_text_hover_color" name="wpupg_isotope_filter_style_text_hover_color" value="<?php echo $isotope_style['text_hover_color']; ?>"></td>
-    </tr>
-    <tr class="wpupg_divider">
-        <td><span class="wpupg_label_prefix"><?php _e( 'Border', 'wp-ultimate-post-grid' ); ?></span><label for="wpupg_isotope_filter_style_border_color"><?php _e( 'Color', 'wp-ultimate-post-grid' ); ?></label></td>
         <td>
             <input type="color" id="wpupg_isotope_filter_style_border_color" name="wpupg_isotope_filter_style_border_color" value="<?php echo $isotope_style['border_color']; ?>">
-            <label for="wpupg_isotope_filter_style_border_hover_color"><?php _e( 'On hover', 'wp-ultimate-post-grid' ); ?></label>
         </td>
-        <td><input type="color" id="wpupg_isotope_filter_style_border_hover_color" name="wpupg_isotope_filter_style_border_hover_color" value="<?php echo $isotope_style['border_hover_color']; ?>"></td>
     </tr>
     <tr>
-        <td><label for="wpupg_isotope_filter_style_border_width"><?php _e( 'Width', 'wp-ultimate-post-grid' ); ?></label></td>
+        <td><span class="wpupg_label_prefix"><?php _e( 'Active', 'wp-ultimate-post-grid' ); ?></span></td>
+        <td>
+            <input type="color" id="wpupg_isotope_filter_style_background_active_color" name="wpupg_isotope_filter_style_background_active_color" value="<?php echo $isotope_style['background_active_color']; ?>">
+        </td>
+        <td>
+            <input type="color" id="wpupg_isotope_filter_style_text_active_color" name="wpupg_isotope_filter_style_text_active_color" value="<?php echo $isotope_style['text_active_color']; ?>">
+        </td>
+        <td>
+            <input type="color" id="wpupg_isotope_filter_style_border_active_color" name="wpupg_isotope_filter_style_border_active_color" value="<?php echo $isotope_style['border_active_color']; ?>">
+        </td>
+    </tr>
+    <tr>
+        <td><span class="wpupg_label_prefix"><?php _e( 'Hover', 'wp-ultimate-post-grid' ); ?></span></td>
+        <td>
+            <input type="color" id="wpupg_isotope_filter_style_background_hover_color" name="wpupg_isotope_filter_style_background_hover_color" value="<?php echo $isotope_style['background_hover_color']; ?>">
+        </td>
+        <td>
+            <input type="color" id="wpupg_isotope_filter_style_text_hover_color" name="wpupg_isotope_filter_style_text_hover_color" value="<?php echo $isotope_style['text_hover_color']; ?>">
+        </td>
+        <td>
+            <input type="color" id="wpupg_isotope_filter_style_border_hover_color" name="wpupg_isotope_filter_style_border_hover_color" value="<?php echo $isotope_style['border_hover_color']; ?>">
+        </td>
+    </tr>
+</table>
+<table id="wpupg_form_isotope_filter_style_2" class="wpupg_form">
+    <tr class="wpupg_divider">
+        <td><span class="wpupg_label_prefix"><?php _e( 'Border', 'wp-ultimate-post-grid' ); ?></span><label for="wpupg_isotope_filter_style_border_width"><?php _e( 'Width', 'wp-ultimate-post-grid' ); ?></label></td>
         <td>
             <div id="wpupg_isotope_filter_style_border_width_slider"></div>
         </td>
@@ -77,6 +97,7 @@ $isotope_style = $filter_style['isotope'];
 
 <div class="wpupg_filter_preview">
     <div class="wpupg-filter-isotope-term"><?php _e( 'A Tag', 'wp-ultimate-post-grid' ); ?></div>
+    <div class="wpupg-filter-isotope-term active"><?php _e( 'This is Active', 'wp-ultimate-post-grid' ); ?></div>
     <div class="wpupg-filter-isotope-term"><?php _e( 'Example', 'wp-ultimate-post-grid' ); ?></div>
     <div class="wpupg-filter-isotope-term"><?php _e( 'Preview', 'wp-ultimate-post-grid' ); ?></div>
 </div>

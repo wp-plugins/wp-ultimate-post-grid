@@ -27,8 +27,6 @@
       padding: 0 10px; }
       .wpupg_form td:nth-child(2) input[type="text"], .wpupg_form td:nth-child(2) select {
         width: 100%; }
-      .wpupg_form td:nth-child(2) label {
-        float: right; }
       .wpupg_form td:nth-child(2) .noUi-target {
         margin: 0 10px; }
       .wpupg_form td:nth-child(2) .noUi-handle {
@@ -54,6 +52,14 @@
   .wpupg_form .wp-picker-holder {
     z-index: 10;
     position: absolute; }
+
+#wpupg_form_isotope_filter_style td {
+  width: 30%;
+  font-size: 13px;
+  color: #444;
+  text-align: left; }
+  #wpupg_form_isotope_filter_style td:nth-child(1) {
+    width: 10%; }
 
 .wpupg_filter_preview {
   text-align: center;

@@ -42,10 +42,6 @@
         width: 100%;
       }
 
-      label {
-        float: right;
-      }
-
       .noUi-target {
         margin: 0 10px;
       }
@@ -91,6 +87,19 @@
   .wp-picker-holder {
     z-index: 10;
     position: absolute;
+  }
+}
+
+#wpupg_form_isotope_filter_style {
+  td {
+    width: 30%;
+    font-size: 13px;
+    color: #444;
+    text-align: left;
+
+    &:nth-child(1) {
+      width: 10%;
+    }
   }
 }
 

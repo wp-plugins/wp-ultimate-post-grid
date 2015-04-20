@@ -14,7 +14,15 @@ Easily create filterable responsive grids for your posts, pages or custom post t
 
 Use WP Ultimate Post Grid to create responsive grids for your posts, pages or any custom post type. Optionally add an isotope filter for any taxonomy associated with those posts.
 
-Grid and filter can be added anywhere with their own shortcode.
+An overview of the WP Ultimate Post Grid features:
+
+*   Use posts, pages or **custom post types** as the source
+*   Grids are **responsive** and will look good on any device
+*   Ability to set **order by** options
+*   Add an **isotope filter** for any taxonomy
+*   **Deeplinking** directly to a filtered grid
+*   Grids and filters can be added anywhere with **their own shortcode**
+*   Multiple **templates** for your grids
 
 This plugin is under active development. Any feature requests are welcome!
 
@@ -45,6 +53,11 @@ It's still a very early version of the plugin and we'll be adding new features e
 
 == Changelog ==
 
+= 1.2 =
+* Feature: Set active colors for isotope filter
+* Feature: Deeplinking to selected tags with isotope filter
+* Feature: New "Simple with Excerpt" template
+
 = 1.1 =
 * Fix: Firefox compatibility
 
@@ -52,6 +65,9 @@ It's still a very early version of the plugin and we'll be adding new features e
 * Very first version of this plugin
 
 == Upgrade notice ==
+
+= 1.2 =
+Update for a few new features
 
 = 1.1 =
 Update to ensure compatibility with Firefox

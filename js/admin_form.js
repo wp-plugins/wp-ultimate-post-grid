@@ -72,16 +72,25 @@ WPUltimatePostGrid.initForm = function() {
     jQuery('#wpupg_isotope_filter_style_background_color').wpColorPicker({
             change: function () { WPUltimatePostGrid.changedIsotopeFilterStyle(); }
         });
+    jQuery('#wpupg_isotope_filter_style_background_active_color').wpColorPicker({
+        change: function () { WPUltimatePostGrid.changedIsotopeFilterStyle(); }
+    });
     jQuery('#wpupg_isotope_filter_style_background_hover_color').wpColorPicker({
         change: function () { WPUltimatePostGrid.changedIsotopeFilterStyle(); }
     });
     jQuery('#wpupg_isotope_filter_style_text_color').wpColorPicker({
         change: function () { WPUltimatePostGrid.changedIsotopeFilterStyle(); }
     });
+    jQuery('#wpupg_isotope_filter_style_text_active_color').wpColorPicker({
+        change: function () { WPUltimatePostGrid.changedIsotopeFilterStyle(); }
+    });
     jQuery('#wpupg_isotope_filter_style_text_hover_color').wpColorPicker({
         change: function () { WPUltimatePostGrid.changedIsotopeFilterStyle(); }
     });
     jQuery('#wpupg_isotope_filter_style_border_color').wpColorPicker({
+        change: function () { WPUltimatePostGrid.changedIsotopeFilterStyle(); }
+    });
+    jQuery('#wpupg_isotope_filter_style_border_active_color').wpColorPicker({
         change: function () { WPUltimatePostGrid.changedIsotopeFilterStyle(); }
     });
     jQuery('#wpupg_isotope_filter_style_border_hover_color').wpColorPicker({
@@ -104,25 +113,29 @@ WPUltimatePostGrid.initForm = function() {
     border_width.on('change', function() { WPUltimatePostGrid.changedIsotopeFilterStyle(); });
 
     jQuery('.wpupg-filter-isotope-term').hover(function() {
-        var background_hover_color = jQuery('#wpupg_isotope_filter_style_background_hover_color').wpColorPicker('color');
-        var text_hover_color = jQuery('#wpupg_isotope_filter_style_text_hover_color').wpColorPicker('color');
-        var border_hover_color = jQuery('#wpupg_isotope_filter_style_border_hover_color').wpColorPicker('color');
+        if(!jQuery(this).hasClass('active')) {
+            var background_hover_color = jQuery('#wpupg_isotope_filter_style_background_hover_color').wpColorPicker('color');
+            var text_hover_color = jQuery('#wpupg_isotope_filter_style_text_hover_color').wpColorPicker('color');
+            var border_hover_color = jQuery('#wpupg_isotope_filter_style_border_hover_color').wpColorPicker('color');
 
-        jQuery(this)
-            .css( 'background-color', background_hover_color )
-            .css( 'color', text_hover_color )
-            .css( 'border-color', border_hover_color )
-        ;
+            jQuery(this)
+                .css('background-color', background_hover_color)
+                .css('color', text_hover_color)
+                .css('border-color', border_hover_color)
+            ;
+        }
     }, function() {
-        var background_color = jQuery('#wpupg_isotope_filter_style_background_color').wpColorPicker('color');
-        var text_color = jQuery('#wpupg_isotope_filter_style_text_color').wpColorPicker('color');
-        var border_color = jQuery('#wpupg_isotope_filter_style_border_color').wpColorPicker('color');
+        if(!jQuery(this).hasClass('active')) {
+            var background_color = jQuery('#wpupg_isotope_filter_style_background_color').wpColorPicker('color');
+            var text_color = jQuery('#wpupg_isotope_filter_style_text_color').wpColorPicker('color');
+            var border_color = jQuery('#wpupg_isotope_filter_style_border_color').wpColorPicker('color');
 
-        jQuery(this)
-            .css( 'background-color', background_color )
-            .css( 'color', text_color)
-            .css( 'border-color', border_color )
-        ;
+            jQuery(this)
+                .css( 'background-color', background_color )
+                .css( 'color', text_color)
+                .css( 'border-color', border_color )
+            ;
+        }
     });
 };
 
@@ -183,7 +196,15 @@ WPUltimatePostGrid.changedIsotopeFilterStyle = function() {
         .css( 'border', border_width + 'px solid ' + border_color )
     ;
 
+    var background_active_color = jQuery('#wpupg_isotope_filter_style_background_active_color').wpColorPicker('color');
+    var text_active_color = jQuery('#wpupg_isotope_filter_style_text_active_color').wpColorPicker('color');
+    var border_active_color = jQuery('#wpupg_isotope_filter_style_border_active_color').wpColorPicker('color');
 
+    jQuery('.wpupg-filter-isotope-term.active')
+        .css( 'background-color', background_active_color )
+        .css( 'color', text_active_color )
+        .css( 'border', border_width + 'px solid ' + border_active_color )
+    ;
 };
 
 jQuery(document).ready(function($) {

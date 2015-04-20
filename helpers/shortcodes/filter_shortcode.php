@@ -26,7 +26,29 @@ class WPUPG_Filter_Shortcode {
                 $filter_type = $grid->filter_type();
 
                 if( $filter_type !== 'none' ) {
-                    $output = '<div id="wpupg-grid-' . esc_attr( $slug ) . '-filter" class="wpupg-filter wpupg-filter-' . $filter_type . '">';
+                    $filter_style = $grid->filter_style();
+                    $filter_style = $filter_style[$filter_type];
+
+                    $style_data = 'data-filter-type="' . $filter_type . '"';
+                    $style_data .= ' data-margin-vertical="' . $filter_style['margin_vertical'] . '"';
+                    $style_data .= ' data-margin-horizontal="' . $filter_style['margin_horizontal'] . '"';
+                    $style_data .= ' data-padding-vertical="' . $filter_style['padding_vertical'] . '"';
+                    $style_data .= ' data-padding-horizontal="' . $filter_style['padding_horizontal'] . '"';
+                    $style_data .= ' data-border-width="' . $filter_style['border_width'] . '"';
+
+                    $style_data .= ' data-background-color="' . $filter_style['background_color'] . '"';
+                    $style_data .= ' data-text-color="' . $filter_style['text_color'] . '"';
+                    $style_data .= ' data-border-color="' . $filter_style['border_color'] . '"';
+
+                    $style_data .= ' data-active-background-color="' . $filter_style['background_active_color'] . '"';
+                    $style_data .= ' data-active-text-color="' . $filter_style['text_active_color'] . '"';
+                    $style_data .= ' data-active-border-color="' . $filter_style['border_active_color'] . '"';
+                    
+                    $style_data .= ' data-hover-background-color="' . $filter_style['background_hover_color'] . '"';
+                    $style_data .= ' data-hover-text-color="' . $filter_style['text_hover_color'] . '"';
+                    $style_data .= ' data-hover-border-color="' . $filter_style['border_hover_color'] . '"';
+
+                    $output = '<div id="wpupg-grid-' . esc_attr( $slug ) . '-filter" class="wpupg-filter wpupg-filter-' . $filter_type . '"' . $style_data . '>';
                     $output .= $grid->filter();
                     $output .= '</div>';
                 }

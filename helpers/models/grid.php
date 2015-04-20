@@ -17,10 +17,13 @@ class WPUPG_Grid {
     private $style_fields = array(
         'isotope' => array(
             'background_color'          => '#2E5077',
+            'background_active_color'   => '#1C3148',
             'background_hover_color'    => '#1C3148',
             'text_color'                => '#FFFFFF',
+            'text_active_color'         => '#FFFFFF',
             'text_hover_color'          => '#FFFFFF',
             'border_color'              => '#1C3148',
+            'border_active_color'       => '#1C3148',
             'border_hover_color'        => '#1C3148',
             'border_width'              => '1',
             'margin_vertical'           => '5',

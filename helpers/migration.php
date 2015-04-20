@@ -24,13 +24,30 @@ class WPUPG_Migration {
             $migrate_special = $_GET['wpupg_migrate'];
         }
 
-        //if( $migrate_version < '0.0.1' ) require_once( WPUltimatePostGrid::get()->coreDir . '/helpers/migration/0_0_1_example_migration.php');
+        if( $migrate_version < '1.2' ) require_once( WPUltimatePostGrid::get()->coreDir . '/helpers/migration/1_2_active_colors.php');
 
         // Each version update once
         if( $migrate_version < WPUPG_VERSION ) {
             WPUltimatePostGrid::addon( 'custom-templates' )->default_templates( true ); // Reset default templates
 
-            update_option( 'wpurp_migrate_version', WPUPG_VERSION );
+            // Update all grid caches
+            $args = array(
+                'post_type' => WPUPG_POST_TYPE,
+                'post_status' => 'any',
+                'posts_per_page' => -1,
+                'nopaging' => true,
+                'fields' => 'ids',
+            );
+
+            $query = new WP_Query( $args );
+            $posts = $query->have_posts() ? $query->posts : array();
+            $grid_ids = array_map( 'intval', $posts );
+
+            if( count( $grid_ids ) > 0 ) {
+                update_option( 'wpupg_regenerate_grids_check', $grid_ids );
+            }
+
+            update_option( 'wpupg_migrate_version', WPUPG_VERSION );
         }
     }
 }

@@ -115,6 +115,7 @@ class WPUPG_Grid_Cache {
         $posts_per_term = array();
         $terms_per_post = array();
         $filter_terms = array();
+        $filter_slugs = array();
 
 
         // Loop over all terms
@@ -138,6 +139,7 @@ class WPUPG_Grid_Cache {
 
                     // Filter terms
                     $filter_terms[$taxonomy . '-' . $term->term_id] = $term->name;
+                    $filter_slugs[$taxonomy . '-' . $term->term_id] = $term->slug;
                 }
 
                 $terms_per_post[$post_id][$taxonomy] = $post_taxonomy_term_ids;
@@ -151,36 +153,11 @@ class WPUPG_Grid_Cache {
         $filter = '';
 
         if( count( $filter_terms ) > 0 ) {
-
-            // Filter Style
-            $filter_style = $grid->filter_style();
-            $filter_style = $filter_style['isotope'];
-
-            $style = ' style="';
-            $style .= 'margin: ' . $filter_style['margin_vertical'] . 'px ' . $filter_style['margin_horizontal'] . 'px; ';
-            $style .= 'padding: ' . $filter_style['padding_vertical'] . 'px ' . $filter_style['padding_horizontal'] . 'px; ';
-            $style .= 'background-color: ' . $filter_style['background_color'] . '; ';
-            $style .= 'color: ' . $filter_style['text_color'] . '; ';
-            $style .= 'border: ' . $filter_style['border_width'] . 'px solid ' . $filter_style['border_color'] . '; ';
-            $style .= '"';
-
-            $style .= ' onmouseover="';
-            $style .= 'this.style.backgroundColor=\'' . $filter_style['background_hover_color'] . '\';';
-            $style .= 'this.style.color=\'' . $filter_style['text_hover_color'] . '\';';
-            $style .= 'this.style.borderColor=\'' . $filter_style['border_hover_color'] . '\';';
-            $style .= '"';
-            $style .= ' onmouseout="';
-            $style .= 'this.style.backgroundColor=\'' . $filter_style['background_color'] . '\';';
-            $style .= 'this.style.color=\'' . $filter_style['text_color'] . '\';';
-            $style .= 'this.style.borderColor=\'' . $filter_style['border_color'] . '\';';
-            $style .= '"';
-
-
-                $filter .= '<div class="wpupg-filter-isotope-term"' . $style . ' data-filter="*">' . __( 'All', 'wp-ultimate-post-grid' ) . '</div>';
+            $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term active" data-filter="*" data-slug="">' . __( 'All', 'wp-ultimate-post-grid' ) . '</div>';
 
             asort( $filter_terms );
             foreach( $filter_terms as $term_id => $term_name ) {
-                $filter .= '<div class="wpupg-filter-isotope-term" data-filter=".wpupg-tax-' . $term_id . '"' . $style . '>' . $term_name . '</div>';
+                $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term" data-filter=".wpupg-tax-' . $term_id . '" data-slug="' . $filter_slugs[$term_id] . '">' . $term_name . '</div>';
             }
         }
 
