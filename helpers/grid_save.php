@@ -47,10 +47,10 @@ class WPUPG_Grid_Save {
             }
 
             // Filter style metadata
-            $styles = $grid->style_fields();
+            $styles = $grid->filter_style_fields();
             $filter_style = array();
 
-            foreach( $styles as $style => $fields) {
+            foreach( $styles as $style => $fields ) {
                 $filter_style[$style] = array();
 
                 foreach( $fields as $field => $default ) {
@@ -62,6 +62,36 @@ class WPUPG_Grid_Save {
             }
 
             update_post_meta( $post_id, 'wpupg_filter_style', $filter_style );
+
+            // Pagination metadata
+            $pagination_fields = $grid->pagination_fields();
+            $pagination = array();
+
+            foreach( $pagination_fields as $type => $fields ) {
+                $pagination[$type] = array();
+
+                foreach( $fields as $field => $default ) {
+                    $field_name  = 'wpupg_pagination_' . $type . '_' . $field;
+                    if( isset( $_POST[$field_name] ) ) {
+                        $pagination[$type][$field] = $_POST[$field_name];
+                    }
+                }
+            }
+
+            update_post_meta( $post_id, 'wpupg_pagination', $pagination );
+
+            // Pagination style metadata
+            $pagination_style_fields = $grid->pagination_style_fields();
+            $pagination_style = array();
+
+            foreach( $pagination_style_fields as $field => $default ) {
+                $field_name  = 'wpupg_pagination_style_' . $field;
+                if( isset( $_POST[$field_name] ) ) {
+                    $pagination_style[$field] = $_POST[$field_name];
+                }
+            }
+
+            update_post_meta( $post_id, 'wpupg_pagination_style', $pagination_style );
 
             // Cache gets automatically generated in WPUPG_Grid_Cache
         }

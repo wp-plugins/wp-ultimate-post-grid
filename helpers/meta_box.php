@@ -53,6 +53,24 @@ class WPUPG_Meta_Box {
             'normal',
             'high'
         );
+
+        add_meta_box(
+            'wpupg_meta_box_pagination',
+            __( 'Pagination', 'wp-ultimate-post-grid' ),
+            array( $this, 'meta_box_pagination' ),
+            WPUPG_POST_TYPE,
+            'normal',
+            'high'
+        );
+
+        add_meta_box(
+            'wpupg_meta_box_pagination_style',
+            __( 'Pagination Style', 'wp-ultimate-post-grid' ),
+            array( $this, 'meta_box_pagination_style' ),
+            WPUPG_POST_TYPE,
+            'normal',
+            'high'
+        );
     }
 
     public function meta_box_shortcode( $post )
@@ -83,5 +101,17 @@ class WPUPG_Meta_Box {
     {
         $grid = new WPUPG_Grid( $post );
         include( WPUltimatePostGrid::get()->coreDir . '/helpers/meta_boxes/meta_box_grid.php' );
+    }
+
+    public function meta_box_pagination( $post )
+    {
+        $grid = new WPUPG_Grid( $post );
+        include( WPUltimatePostGrid::get()->coreDir . '/helpers/meta_boxes/meta_box_pagination.php' );
+    }
+
+    public function meta_box_pagination_style( $post )
+    {
+        $grid = new WPUPG_Grid( $post );
+        include( WPUltimatePostGrid::get()->coreDir . '/helpers/meta_boxes/meta_box_pagination_style.php' );
     }
 }

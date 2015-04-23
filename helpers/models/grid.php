@@ -7,14 +7,40 @@ class WPUPG_Grid {
     private $fields = array(
         'wpupg_images_only',
         'wpupg_filter_type',
+        'wpupg_pagination_type',
         'wpupg_post_types',
         'wpupg_order_by',
         'wpupg_order',
         'wpupg_template',
     );
 
+    // Pagination fields with defaults
+    private $pagination_fields = array(
+        'pages' => array(
+            'posts_per_page'    => 20,
+        )
+    );
+
+    private $pagination_style_fields = array(
+        'background_color'          => '#2E5077',
+        'background_active_color'   => '#1C3148',
+        'background_hover_color'    => '#1C3148',
+        'text_color'                => '#FFFFFF',
+        'text_active_color'         => '#FFFFFF',
+        'text_hover_color'          => '#FFFFFF',
+        'border_color'              => '#1C3148',
+        'border_active_color'       => '#1C3148',
+        'border_hover_color'        => '#1C3148',
+        'border_width'              => '1',
+        'margin_vertical'           => '5',
+        'margin_horizontal'         => '5',
+        'padding_vertical'          => '5',
+        'padding_horizontal'        => '10',
+        'alignment'                 => 'left',
+    );
+
     // Filter style fields with defaults
-    private $style_fields = array(
+    private $filter_style_fields = array(
         'isotope' => array(
             'background_color'          => '#2E5077',
             'background_active_color'   => '#1C3148',
@@ -30,6 +56,7 @@ class WPUPG_Grid {
             'margin_horizontal'         => '5',
             'padding_vertical'          => '5',
             'padding_horizontal'        => '10',
+            'alignment'                 => 'left',
         )
     );
 
@@ -71,9 +98,19 @@ class WPUPG_Grid {
         return $this->fields;
     }
 
-    public function style_fields()
+    public function filter_style_fields()
     {
-        return $this->style_fields;
+        return $this->filter_style_fields;
+    }
+
+    public function pagination_fields()
+    {
+        return $this->pagination_fields;
+    }
+
+    public function pagination_style_fields()
+    {
+        return $this->pagination_style_fields;
     }
 
     /**
@@ -97,8 +134,8 @@ class WPUPG_Grid {
         $filter_style = is_array( $filter_style ) ? $filter_style : array();
 
         // Set defaults
-        foreach( $this->style_fields() as $style => $fields ) {
-            $filter_style[$style] = isset( $filter_style[$style] ) ? $filter_style[$style] + $fields : $fields;
+        foreach( $this->filter_style_fields() as $type => $defaults ) {
+            $filter_style[$type] = isset( $filter_style[$type] ) ? $filter_style[$type] + $defaults : $defaults;
         }
 
         return $filter_style;
@@ -137,6 +174,35 @@ class WPUPG_Grid {
     public function order_by()
     {
         return $this->meta( 'wpupg_order_by' );
+    }
+
+    public function pagination()
+    {
+        $pagination = unserialize( $this->meta( 'wpupg_pagination' ) );
+        $pagination = is_array( $pagination ) ? $pagination : array();
+
+        // Set defaults
+        foreach( $this->pagination_fields() as $type => $defaults ) {
+            $pagination[$type] = isset( $pagination[$type] ) ? $pagination[$type] + $defaults : $defaults;
+        }
+
+        return $pagination;
+    }
+
+    public function pagination_style()
+    {
+        $pagination_style = unserialize( $this->meta( 'wpupg_pagination_style' ) );
+        $pagination_style = is_array( $pagination_style ) ? $pagination_style : array();
+
+        // Set defaults
+        $pagination_style = $pagination_style + $this->pagination_style_fields();
+
+        return $pagination_style;
+    }
+
+    public function pagination_type()
+    {
+        return $this->meta( 'wpupg_pagination_type' );
     }
 
     public function posts()
@@ -187,9 +253,15 @@ class WPUPG_Grid {
 
         $posts_per_page = $page == 0 ? $this->limit_initial() : $this->limit_load();
 
+        if( $this->pagination_type() == 'pages' ) {
+            $pagination = $this->pagination();
+            $posts_per_page = $pagination['pages']['posts_per_page'];
+        }
+
         $offset = 0;
         if( $page > 0 ) {
-            $offset = $this->limit_initial() + ( $page - 1 ) * $posts_per_page;
+//            $offset = $this->limit_initial() + ( $page - 1 ) * $posts_per_page;
+            $offset = $page * $posts_per_page;
         }
 
         $args = array(
@@ -210,15 +282,16 @@ class WPUPG_Grid {
         return $posts;
     }
 
-    public function draw_posts()
+    public function draw_posts( $page = 0 )
     {
         $output = '';
         $grid_posts = $this->posts();
-        $posts = $this->get_posts();
+        $posts = $this->get_posts( $page );
 
         foreach( $posts as $post ) {
             $classes = array(
                 'wpupg-item',
+                'wpupg-page-' . $page,
                 'wpupg-post-' . $post->ID,
                 'wpupg-type-' . $post->post_type,
             );
@@ -238,6 +311,29 @@ class WPUPG_Grid {
             $output .= '</a>';
         }
 
+        return $output;
+    }
+
+    public function draw_pagination()
+    {
+        $output = '';
+
+        $grid_posts = $this->posts();
+        $nbr_posts = count( $grid_posts['all'] );
+
+        $pagination = $this->pagination();
+        $pagination_type = $this->pagination_type();
+
+        $pagination = $pagination[$pagination_type];
+
+        if( $pagination_type == 'pages' ) {
+            $nbr_pages = ceil( $nbr_posts / floatval( $pagination['posts_per_page'] ) );
+
+            for( $page = 0; $page < $nbr_pages; $page++ ) {
+                $active = $page == 0 ? ' active' : '';
+                $output .= '<div class="wpupg-pagination-term wpupg-page-' . $page . $active . '" data-page="' . $page . '">' . ($page+1) . '</div>';
+            }
+        }
         return $output;
     }
 }

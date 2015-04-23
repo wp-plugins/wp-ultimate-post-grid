@@ -48,7 +48,7 @@ class WPUPG_Filter_Shortcode {
                     $style_data .= ' data-hover-text-color="' . $filter_style['text_hover_color'] . '"';
                     $style_data .= ' data-hover-border-color="' . $filter_style['border_hover_color'] . '"';
 
-                    $output = '<div id="wpupg-grid-' . esc_attr( $slug ) . '-filter" class="wpupg-filter wpupg-filter-' . $filter_type . '"' . $style_data . '>';
+                    $output = '<div id="wpupg-grid-' . esc_attr( $slug ) . '-filter" class="wpupg-filter wpupg-filter-' . $filter_type . '" style="text-align: ' . $filter_style['alignment'] . ';" data-grid="' . esc_attr( $slug ) . '"' . $style_data . '>';
                     $output .= $grid->filter();
                     $output .= '</div>';
                 }

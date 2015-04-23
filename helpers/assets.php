@@ -24,6 +24,11 @@ class WPUPG_Assets {
                 'admin' => true,
             ),
             array(
+                'file' => '/css/pagination.css',
+                'public' => true,
+                'admin' => true,
+            ),
+            array(
                 'file' => '/vendor/nouislider/jquery.nouislider.min.css',
                 'public' => true,
                 'admin' => true
@@ -72,6 +77,7 @@ class WPUPG_Assets {
                     'data' => array(
                         'name' => 'wpupg_public',
                         'ajax_url' => WPUltimatePostGrid::get()->helper('ajax')->url(),
+                        'nonce' => wp_create_nonce( 'wpupg_grid' ),
                     ),
                 )
             );

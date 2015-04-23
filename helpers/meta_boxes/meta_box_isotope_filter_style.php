@@ -2,13 +2,6 @@
 // Grid should never be null. Construct just allows easy access to WPUPG_Grid functions in IDE.
 if( is_null( $grid ) ) $grid = new WPUPG_Grid(0);
 
-// background-color: #2E5077;
-//  color: white;
-//  padding: 5px 10px !important;
-//  margin: 5px;
-// hover background
-// hover color
-// Border?
 $filter_style = $grid->filter_style();
 $isotope_style = $filter_style['isotope'];
 ?>
@@ -93,9 +86,29 @@ $isotope_style = $filter_style['isotope'];
         </td>
         <td><input type="text" name="wpupg_isotope_filter_style_padding_horizontal" id="wpupg_isotope_filter_style_padding_horizontal" value="<?php echo $isotope_style['padding_horizontal']; ?>" />px</td>
     </tr>
+    <tr class="wpupg_divider">
+        <td><label for="wpupg_isotope_filter_style_alignment"><?php _e( 'Alignment', 'wp-ultimate-post-grid' ); ?></label></td>
+        <td>
+            <select name="wpupg_isotope_filter_style_alignment" id="wpupg_isotope_filter_style_alignment" class="wpupg-select2">
+                <?php
+                $alignment_options = array(
+                    'left' => __( 'Left', 'wp-ultimate-post-grid' ),
+                    'center' => __( 'Center', 'wp-ultimate-post-grid' ),
+                    'right' => __( 'Right', 'wp-ultimate-post-grid' ),
+                );
+
+                foreach( $alignment_options as $alignment_option => $alignment_option_name ) {
+                    $selected = $alignment_option == $isotope_style['alignment'] ? ' selected="selected"' : '';
+                    echo '<option value="' . esc_attr( $alignment_option ) . '"' . $selected . '>' . $alignment_option_name . '</option>';
+                }
+                ?>
+            </select>
+        </td>
+        <td><?php _e( 'How to align the filters.', 'wp-ultimate-post-grid' ); ?></td>
+    </tr>
 </table>
 
-<div class="wpupg_filter_preview">
+<div id="wpupg_filter_preview_isotope_filter_style" class="wpupg_filter_preview">
     <div class="wpupg-filter-isotope-term"><?php _e( 'A Tag', 'wp-ultimate-post-grid' ); ?></div>
     <div class="wpupg-filter-isotope-term active"><?php _e( 'This is Active', 'wp-ultimate-post-grid' ); ?></div>
     <div class="wpupg-filter-isotope-term"><?php _e( 'Example', 'wp-ultimate-post-grid' ); ?></div>

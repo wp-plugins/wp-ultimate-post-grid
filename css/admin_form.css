@@ -49,19 +49,22 @@
       vertical-align: top; }
   .wpupg_form .wp-color-result {
     margin: 0; }
+  .wpupg_form .wp-picker-clear {
+    display: none; }
   .wpupg_form .wp-picker-holder {
     z-index: 10;
     position: absolute; }
 
-#wpupg_form_isotope_filter_style td {
+#wpupg_form_isotope_filter_style td,
+#wpupg_form_pagination_style td {
   width: 30%;
   font-size: 13px;
   color: #444;
   text-align: left; }
-  #wpupg_form_isotope_filter_style td:nth-child(1) {
+  #wpupg_form_isotope_filter_style td:nth-child(1),
+  #wpupg_form_pagination_style td:nth-child(1) {
     width: 10%; }
 
 .wpupg_filter_preview {
-  text-align: center;
   border-top: 1px dashed #999;
   border-bottom: 1px dashed #999; }

@@ -153,11 +153,11 @@ class WPUPG_Grid_Cache {
         $filter = '';
 
         if( count( $filter_terms ) > 0 ) {
-            $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term active" data-filter="*" data-slug="">' . __( 'All', 'wp-ultimate-post-grid' ) . '</div>';
+            $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term wpupg-filter-tag- active" data-filter="*" data-slug="">' . __( 'All', 'wp-ultimate-post-grid' ) . '</div>';
 
             asort( $filter_terms );
             foreach( $filter_terms as $term_id => $term_name ) {
-                $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term" data-filter=".wpupg-tax-' . $term_id . '" data-slug="' . $filter_slugs[$term_id] . '">' . $term_name . '</div>';
+                $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term wpupg-filter-tag-' . $filter_slugs[$term_id] . '" data-filter=".wpupg-tax-' . $term_id . '" data-slug="' . $filter_slugs[$term_id] . '">' . $term_name . '</div>';
             }
         }
 
