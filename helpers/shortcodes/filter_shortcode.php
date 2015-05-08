@@ -25,7 +25,8 @@ class WPUPG_Filter_Shortcode {
 
                 $filter_type = $grid->filter_type();
 
-                if( $filter_type !== 'none' ) {
+                $filter = '';
+                if( $filter_type == 'isotope' ) {
                     $filter_style = $grid->filter_style();
                     $filter_style = $filter_style[$filter_type];
 
@@ -48,10 +49,13 @@ class WPUPG_Filter_Shortcode {
                     $style_data .= ' data-hover-text-color="' . $filter_style['text_hover_color'] . '"';
                     $style_data .= ' data-hover-border-color="' . $filter_style['border_hover_color'] . '"';
 
-                    $output = '<div id="wpupg-grid-' . esc_attr( $slug ) . '-filter" class="wpupg-filter wpupg-filter-' . $filter_type . '" style="text-align: ' . $filter_style['alignment'] . ';" data-grid="' . esc_attr( $slug ) . '"' . $style_data . '>';
-                    $output .= $grid->filter();
-                    $output .= '</div>';
+                    $multiselect = $grid->filter_multiselect() ? 'true' : 'false';
+                    $filter .= '<div id="wpupg-grid-' . esc_attr( $slug ) . '-filter" class="wpupg-filter wpupg-filter-' . $filter_type . '" style="text-align: ' . $filter_style['alignment'] . ';" data-grid="' . esc_attr( $slug ) . '" data-type="' . $filter_type . '" data-multiselect="' . $multiselect . '" data-multiselect-type="' . $grid->filter_multiselect_type() . '"' . $style_data . '>';
+                    $filter .= $grid->filter();
+                    $filter .= '</div>';
                 }
+
+                $output = apply_filters( 'wpupg_filter_shortcode', $filter, $grid );
             }
         }
 

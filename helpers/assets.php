@@ -27,20 +27,6 @@ class WPUPG_Assets {
                 'file' => '/css/pagination.css',
                 'public' => true,
                 'admin' => true,
-            ),
-            array(
-                'file' => '/vendor/nouislider/jquery.nouislider.min.css',
-                'public' => true,
-                'admin' => true
-            ),
-            array(
-                'name' => 'nouislider',
-                'file' => '/vendor/nouislider/jquery.nouislider.all.min.js',
-                'public' => true,
-                'admin' => true,
-                'deps' => array(
-                    'jquery',
-                )
             )
         );
     }
@@ -68,11 +54,20 @@ class WPUPG_Assets {
                     )
                 ),
                 array(
+                    'name' => 'imagesloaded',
+                    'file' => '/vendor/imagesloaded/imagesloaded.pkgd.min.js',
+                    'public' => true,
+                    'deps' => array(
+                        'jquery',
+                    )
+                ),
+                array(
                     'file' => '/js/grid.js',
                     'public' => true,
                     'deps' => array(
                         'jquery',
                         'isotope',
+                        'imagesloaded',
                     ),
                     'data' => array(
                         'name' => 'wpupg_public',
@@ -88,6 +83,10 @@ class WPUPG_Assets {
     {
         $this->add(
             array(
+                'file' => '/css/admin.css',
+                'admin' => true,
+            ),
+            array(
                 'file' => '/css/admin_form.css',
                 'admin' => true,
                 'page' => 'grid_form',
@@ -99,7 +98,7 @@ class WPUPG_Assets {
                 'page' => 'grid_form',
             ),
             array(
-                'name' => 'select2',
+                'name' => 'select2wpupg',
                 'file' => '/vendor/select2/js/select2.js',
                 'admin' => true,
                 'page' => 'grid_form',
@@ -108,12 +107,28 @@ class WPUPG_Assets {
                 ),
             ),
             array(
+                'file' => '/vendor/nouislider/jquery.nouislider.min.css',
+                'public' => true,
+                'admin' => true,
+                'page' => 'grid_form',
+            ),
+            array(
+                'name' => 'nouislider',
+                'file' => '/vendor/nouislider/jquery.nouislider.all.min.js',
+                'public' => true,
+                'admin' => true,
+                'page' => 'grid_form',
+                'deps' => array(
+                    'jquery',
+                )
+            ),
+            array(
                 'file' => '/js/admin_form.js',
                 'admin' => true,
                 'page' => 'grid_form',
                 'deps' => array(
                     'jquery',
-                    'select2',
+                    'select2wpupg',
                     'nouislider',
                     'wp-color-picker',
                 ),

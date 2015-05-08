@@ -6,9 +6,14 @@ class WPUPG_Grid {
     private $meta;
     private $fields = array(
         'wpupg_images_only',
+        'wpupg_filter_match_parents',
+        'wpupg_filter_multiselect',
+        'wpupg_filter_multiselect_type',
         'wpupg_filter_type',
         'wpupg_pagination_type',
         'wpupg_post_types',
+        'wpupg_limit_posts',
+        'wpupg_link_type',
         'wpupg_order_by',
         'wpupg_order',
         'wpupg_template',
@@ -18,7 +23,12 @@ class WPUPG_Grid {
     private $pagination_fields = array(
         'pages' => array(
             'posts_per_page'    => 20,
-        )
+        ),
+        'load_more' => array(
+            'initial_posts'     => 20,
+            'posts_on_click'    => 20,
+            'button_text'       => 'Load More',
+        ),
     );
 
     private $pagination_style_fields = array(
@@ -57,7 +67,7 @@ class WPUPG_Grid {
             'padding_vertical'          => '5',
             'padding_horizontal'        => '10',
             'alignment'                 => 'left',
-        )
+        ),
     );
 
     public function __construct( $post )
@@ -141,6 +151,25 @@ class WPUPG_Grid {
         return $filter_style;
     }
 
+    public function filter_match_parents()
+    {
+        return $this->meta( 'wpupg_filter_match_parents' );
+    }
+
+    public function filter_multiselect()
+    {
+        if( WPUltimatePostGrid::is_premium_active() ) {
+            return $this->meta( 'wpupg_filter_multiselect' );
+        } else {
+            return false;
+        }
+    }
+
+    public function filter_multiselect_type()
+    {
+        return $this->meta( 'wpupg_filter_multiselect_type' );
+    }
+
     public function filter_type()
     {
         return $this->meta( 'wpupg_filter_type' );
@@ -156,14 +185,20 @@ class WPUPG_Grid {
         return $this->meta( 'wpupg_images_only' );
     }
 
-    public function limit_initial() // TODO
+    public function limit_posts()
     {
-        return -1;
+        return $this->meta( 'wpupg_limit_posts' );
     }
 
-    public function limit_load() // TODO
+    public function limit_rules()
     {
-        return 5;
+        $limit_rules = unserialize( $this->meta( 'wpupg_limit_rules' ) );
+        return is_array( $limit_rules ) ? $limit_rules : array();
+    }
+
+    public function link_type()
+    {
+        return $this->meta( 'wpupg_link_type' );
     }
 
     public function order()
@@ -211,7 +246,7 @@ class WPUPG_Grid {
         return is_array( $posts ) ? $posts : array();
     }
 
-    public function post() // TODO
+    public function post()
     {
         return $this->post;
     }
@@ -225,6 +260,11 @@ class WPUPG_Grid {
     {
         $post_types = unserialize( $this->meta( 'wpupg_post_types' ) );
         return is_array( $post_types ) ? $post_types : array();
+    }
+
+    public function slug()
+    {
+        return $this->post->post_name;
     }
 
     public function template()
@@ -251,7 +291,9 @@ class WPUPG_Grid {
         $grid_posts = $this->posts();
         $post_ids = $grid_posts['all'];
 
-        $posts_per_page = $page == 0 ? $this->limit_initial() : $this->limit_load();
+        if( count( $post_ids ) == 0 ) return array();
+
+        $posts_per_page = -1;
 
         if( $this->pagination_type() == 'pages' ) {
             $pagination = $this->pagination();
@@ -260,7 +302,6 @@ class WPUPG_Grid {
 
         $offset = 0;
         if( $page > 0 ) {
-//            $offset = $this->limit_initial() + ( $page - 1 ) * $posts_per_page;
             $offset = $page * $posts_per_page;
         }
 
@@ -273,12 +314,15 @@ class WPUPG_Grid {
             'post__in' => $post_ids,
         );
 
-        if( $posts_per_page == -1 ) {
+        $args = apply_filters( 'wpupg_get_posts_args', $args, $page, $this );
+
+        if( $args['posts_per_page'] == -1 ) {
             $args['nopaging'] = true;
         }
 
         $query = new WP_Query( $args );
         $posts = $query->have_posts() ? $query->posts : array();
+
         return $posts;
     }
 
@@ -289,26 +333,28 @@ class WPUPG_Grid {
         $posts = $this->get_posts( $page );
 
         foreach( $posts as $post ) {
+            $post_id = $post->ID;
+
             $classes = array(
                 'wpupg-item',
                 'wpupg-page-' . $page,
-                'wpupg-post-' . $post->ID,
+                'wpupg-post-' . $post_id,
                 'wpupg-type-' . $post->post_type,
             );
 
-            if( isset( $grid_posts['terms'][$post->ID] ) ) {
-                foreach( $grid_posts['terms'][$post->ID] as $taxonomy => $terms ) {
+            if( isset( $grid_posts['terms'][$post_id] ) ) {
+                foreach( $grid_posts['terms'][$post_id] as $taxonomy => $terms ) {
                     foreach( $terms as $term ) {
                         $classes[] = 'wpupg-tax-' . $taxonomy . '-' . $term;
                     }
                 }
             }
 
-            $template = apply_filters( 'wpupg_output_grid_template', $this->template() );
+            $classes = apply_filters( 'wpupg_output_grid_classes', $classes, $this );
+            $template = apply_filters( 'wpupg_output_grid_template', $this->template(), $this );
+            $post = apply_filters( 'wpupg_output_grid_post', $post, $this );
 
-            $output .= '<a href="' . get_post_permalink( $post->ID ) . '">';
             $output .= $template->output_string( $post, $classes );
-            $output .= '</a>';
         }
 
         return $output;

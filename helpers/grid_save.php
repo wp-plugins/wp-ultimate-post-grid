@@ -38,12 +38,43 @@ class WPUPG_Grid_Save {
                 }
             }
 
+            // Limit rules
+
+            $limit_rules = array();
+
+            if( isset( $_POST['wpupg_limit_posts_rule'] ) ) {
+                foreach( $_POST['wpupg_limit_posts_rule'] as $id => $limit_rule ) {
+                    if($id != 0) {
+                        $field = $limit_rule['field'];
+                        $type = $limit_rule['type'];
+
+                        $field_parts = explode( '|', $field );
+                        $values_name = 'values_' . $field_parts[0] . '_' . $field_parts[1];
+
+                        if( isset( $limit_rule[$values_name] ) && $limit_rule[$values_name] ) {
+                            $values = $limit_rule[$values_name];
+
+                            if( !is_array( $values ) ) $values = explode( ';', $values );
+
+                            $limit_rules[] = array(
+                                'field' => $field,
+                                'post_type' => $field_parts[0],
+                                'taxonomy' => $field_parts[1],
+                                'values' => $values,
+                                'type' => $type,
+                            );
+                        }
+                    }
+                }
+            }
+
+            update_post_meta( $post_id, 'wpupg_limit_rules', $limit_rules );
+
             // Filter Taxonomies
             $post_type = $_POST['wpupg_post_types'];
 
             if( isset( $_POST['wpupg_filter_taxonomy_' . $post_type] ) ) {
-                $filter_taxonomies = array( $_POST['wpupg_filter_taxonomy_' . $post_type] );
-                update_post_meta( $post_id, 'wpupg_filter_taxonomies', $filter_taxonomies );
+                update_post_meta( $post_id, 'wpupg_filter_taxonomies', $_POST['wpupg_filter_taxonomy_' . $post_type] );
             }
 
             // Filter style metadata

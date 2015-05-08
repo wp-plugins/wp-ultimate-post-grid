@@ -107,9 +107,13 @@ $pagination_style = $grid->pagination_style();
     </tr>
 </table>
 
-<div id="wpupg_filter_preview_pagination_style" class="wpupg_filter_preview">
-    <div class="wpupg-pagination-term"><?php _e( '1' ); ?></div>
-    <div class="wpupg-pagination-term active"><?php _e( '2' ); ?></div>
-    <div class="wpupg-pagination-term"><?php _e( '3', 'wp-ultimate-post-grid' ); ?></div>
-    <div class="wpupg-pagination-term"><?php _e( '4', 'wp-ultimate-post-grid' ); ?></div>
+<div id="wpupg_filter_preview_pagination_style_pages" class="wpupg_filter_preview wpupg_filter_preview_pagination_style">
+    <div class="wpupg-pagination-term">1</div>
+    <div class="wpupg-pagination-term active">2</div>
+    <div class="wpupg-pagination-term">3</div>
+    <div class="wpupg-pagination-term">4</div>
+</div>
+
+<div id="wpupg_filter_preview_pagination_style_load_more" class="wpupg_filter_preview wpupg_filter_preview_pagination_style">
+    <div class="wpupg-pagination-term"><?php _e( 'Load More', 'wp-ultimate-post-grid' ); ?></div>
 </div>

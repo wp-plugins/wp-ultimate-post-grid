@@ -4,7 +4,7 @@ class WPUPG_Vafpress_Menu {
 
     public function __construct()
     {
-//        add_action( 'after_setup_theme', array( $this, 'vafpress_menu_init' ) );
+        add_action( 'after_setup_theme', array( $this, 'vafpress_menu_init' ), 11 );
     }
 
     public function vafpress_menu_init()

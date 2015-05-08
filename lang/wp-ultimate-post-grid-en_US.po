@@ -1,186 +1,414 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Ultimate Post Grid\n"
-"POT-Creation-Date: 2015-04-09 11:32+0100\n"
-"PO-Revision-Date: 2015-04-09 11:32+0100\n"
+"POT-Creation-Date: 2015-05-05 10:07+0100\n"
+"PO-Revision-Date: 2015-05-05 10:07+0100\n"
 "Last-Translator: Brecht Vandersmissen <brecht.vandersmissen@gmail.com>\n"
 "Language-Team: Bootstrapped Ventures\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.7.6\n"
 "X-Poedit-KeywordsList: __;_e;_x\n"
 "X-Poedit-Basepath: /Users/Brecht/Development/WordPress Plugins/\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: wp-ultimate-post-grid-premium\n"
 
-#: wp-ultimate-post-grid-premium/core/helpers/grid_cache.php:179
+#: wp-ultimate-post-grid-premium/core/helpers/grid_cache.php:198
 msgid "All"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:14
+#: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:18
 msgid "Shortcode"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:23
-msgid "Data Source"
-msgstr ""
-
-#: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:32
-msgid "Filter"
+#: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:28
+msgid "Premium Only"
 msgstr ""
 
 #: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:41
-msgid "Filter Style"
+msgid "Data Source"
 msgstr ""
 
 #: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:50
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:76
+msgid "Limit Posts"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:62
+#: wp-ultimate-post-grid-premium/core/helpers/vafpress/vafpress_shortcode_options.php:29
+msgid "Filter"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:71
+msgid "Isotope Filter"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:83
 #: wp-ultimate-post-grid-premium/core/helpers/post_type.php:13
+#: wp-ultimate-post-grid-premium/core/helpers/vafpress/vafpress_shortcode_options.php:5
+#: wp-ultimate-post-grid-premium/core/helpers/vafpress/vafpress_shortcode_options.php:14
+#: wp-ultimate-post-grid-premium/core/helpers/vafpress/vafpress_shortcode_options.php:38
 msgid "Grid"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:9
+#: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:95
+msgid "Pagination"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_box.php:104
+msgid "Pagination Style"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:4
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:4
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:4
+msgid "Premium only"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:10
 msgid "Post Types"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:26
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:27
 msgid "Post types to be displayed in the grid."
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:29
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:30
 msgid "Order By"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:34
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:35
 msgid "Title"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:35
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:36
 msgid "Date"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:36
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:37
 msgid "Random"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:46
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:47
 msgid "How to order the posts in the grid."
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:49
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:50
 msgid "Order"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:54
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:55
 msgid "Ascending"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:55
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:56
 msgid "Descending"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:68
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:69
 msgid "Images Only"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:72
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:73
 msgid "Only display posts with a featured image."
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:5
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_data_source.php:81
+msgid "Limit the posts that will be shown in the grid."
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:6
 msgid "There are no taxonomies associated with this post type"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:8
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:9
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:11
 msgid "Type"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:13
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:14
 msgid "No Filter"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:14
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:15
 msgid "Isotope"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:24
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:16
+msgid "Dropdown"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:26
 msgid "Type of filter to be used for this grid."
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:27
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:29
 msgid "Taxonomy"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:53
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:56
 msgid "Taxonomy to be used for filtering the grid."
 msgstr ""
 
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:59
+msgid "Selecting parent terms matches children"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:63
+msgid ""
+"Selecting a parent term will also match posts with one of its child terms."
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:66
+msgid "Multi-select"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:71
+msgid "Allow users to select multiple terms."
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:75
+msgid "Multi-select Behaviour"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:80
+msgid "Only posts that match all selected terms"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:81
+msgid "All posts that match any of the selected terms"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_filter.php:91
+msgid "Type of filtering when selecting multiple terms."
+msgstr ""
+
 #: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_grid.php:8
+msgid "Links"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_grid.php:13
+msgid "Open in same tab"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_grid.php:14
+msgid "Open in new tab"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_grid.php:15
+msgid "Don't use links"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_grid.php:25
+msgid "Options for links surrounding the grid items."
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_grid.php:28
 msgid "Template"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_grid.php:21
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_grid.php:42
 msgid "Template to be used for grid items."
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:18
-msgid "Background"
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:12
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:11
+msgid "Background Color"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:18
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:26
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:34
-msgid "Color"
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:13
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:12
+msgid "Text Color"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:21
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:29
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:37
-msgid "On hover"
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:14
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:13
+msgid "Border Color"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:26
-msgid "Text"
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:17
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:16
+msgid "Default"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:34
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:29
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:28
+msgid "Active"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:41
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:40
+msgid "Hover"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:55
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:54
 msgid "Border"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:42
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:55
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:54
 msgid "Width"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:49
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:62
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:61
 msgid "Margin"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:49
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:63
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:62
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:76
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:61
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:75
 msgid "Vertical"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:56
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:70
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:69
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:83
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:68
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:82
 msgid "Horizontal"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:63
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:76
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:75
 msgid "Padding"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:79
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:90
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:89
+msgid "Alignment"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:95
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:94
+msgid "Left"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:96
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:95
+msgid "Center"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:97
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:96
+msgid "Right"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:107
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:106
+msgid "How to align the filters."
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:112
 msgid "A Tag"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:80
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:113
+msgid "This is Active"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:114
 msgid "Example"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter_style.php:81
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_isotope_filter.php:115
 msgid "Preview"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:19
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:136
+msgid "General"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:22
+msgid "Author"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:24
+msgid "Post ID"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:47
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:149
+msgid "Taxonomies"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:84
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:174
+msgid "Separate post IDs with a semicolon"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:109
+msgid "Only these posts"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:110
+msgid "Exclude these posts"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:121
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:206
+msgid "Delete Rule"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_limit_posts.php:215
+msgid "Add Rule"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:16
+msgid "No pagination (all posts visible at once)"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:17
+msgid "Divide posts in pages"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:18
+msgid "Use a \"Load More\" button"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:28
+msgid "Type of pagination to be used for this grid."
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:33
+msgid "Posts per page"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:37
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:46
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:53
+msgid "posts"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:42
+msgid "Initial posts"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:49
+msgid "Posts loaded on click"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:56
+msgid "Button text"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination.php:60
+msgid "Text shown on the \"Load More\" button."
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_pagination_style.php:118
+msgid "Load More"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_premium_only.php:1
+msgid ""
+"You are using features that are only available in WP Ultimate Post Grid "
+"Premium."
 msgstr ""
 
 #: wp-ultimate-post-grid-premium/core/helpers/meta_boxes/meta_box_shortcode.php:8
@@ -313,6 +541,19 @@ msgstr ""
 #: wp-ultimate-post-grid-premium/core/helpers/vafpress/vafpress_menu_whitelist.php:31
 #: wp-ultimate-post-grid-premium/core/helpers/vafpress/vafpress_menu_whitelist.php:33
 msgid "Open the Template Editor"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/vafpress/vafpress_shortcode_options.php:8
+msgid "Select a grid to display"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/vafpress/vafpress_shortcode_options.php:8
+#: wp-ultimate-post-grid-premium/core/helpers/vafpress/vafpress_shortcode_options.php:32
+msgid "Ordered by date added"
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/core/helpers/vafpress/vafpress_shortcode_options.php:32
+msgid "Select a filter to display"
 msgstr ""
 
 #: wp-ultimate-post-grid-premium/core/helpers/vafpress_shortcode.php:18
@@ -548,7 +789,11 @@ msgstr ""
 msgid "Image Manager"
 msgstr ""
 
-#: wp-ultimate-post-grid-premium/wp-ultimate-post-grid-premium.php:91
+#: wp-ultimate-post-grid-premium/premium/addons/template-editor/templates/parser.php:292
+msgid "Please set a Preview Grid in the settings first."
+msgstr ""
+
+#: wp-ultimate-post-grid-premium/wp-ultimate-post-grid-premium.php:93
 msgid ""
 "You need to deactivate the free WP Ultimate Post Grid plugin before "
 "activating the Premium version. You won't lose any settings or grids when "

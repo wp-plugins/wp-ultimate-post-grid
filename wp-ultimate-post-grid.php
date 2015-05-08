@@ -3,12 +3,12 @@
 Plugin Name: WP Ultimate Post Grid
 Plugin URI: http://www.bootstrappedventures.com
 Description: Easily create filterable grids for any of your posts, pages or custom post types
-Version: 1.3
+Version: 1.4
 Author: Bootstrapped Ventures
 Author URI: http://www.bootstrappedventures.com
 License: GPLv3
 */
-define( 'WPUPG_VERSION', '1.3' );
+define( 'WPUPG_VERSION', '1.4' );
 define( 'WPUPG_POST_TYPE', 'wpupg_grid' );
 
 class WPUltimatePostGrid {
@@ -80,6 +80,7 @@ class WPUltimatePostGrid {
 
     public $pluginName = 'wp-ultimate-post-grid';
     public $coreDir;
+    public $corePath;
     public $coreUrl;
     public $pluginFile;
 
@@ -92,14 +93,17 @@ class WPUltimatePostGrid {
     public function init()
     {
         // Load external libraries
-        require_once( 'vendor/vafpress/bootstrap.php' );
+        if( !class_exists( 'VP_AutoLoader' ) ) {
+            require_once( 'vendor/vafpress/bootstrap.php' );
+        }
 
         // Update plugin version
         update_option( $this->pluginName . '_version', WPUPG_VERSION );
 
         // Set core directory, URL and main plugin file
-        $this->coreDir = apply_filters( 'wpupg_core_dir', WP_PLUGIN_DIR . '/' . $this->pluginName );
-        $this->coreUrl = apply_filters( 'wpupg_core_url', plugins_url() . '/' . $this->pluginName );
+        $this->corePath = str_replace( '/wp-ultimate-post-grid.php', '', plugin_basename( __FILE__ ) );
+        $this->coreDir = apply_filters( 'wpupg_core_dir', WP_PLUGIN_DIR . '/' . $this->corePath );
+        $this->coreUrl = apply_filters( 'wpupg_core_url', plugins_url() . '/' . $this->corePath );
         $this->pluginFile = apply_filters( 'wpupg_plugin_file', __FILE__ );
 
         // Load textdomain
@@ -108,7 +112,7 @@ class WPUltimatePostGrid {
             $locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
             load_textdomain( $domain, WP_LANG_DIR.'/'.$domain.'/'.$domain.'-'.$locale.'.mo' );
-            load_plugin_textdomain( $domain, false, basename( dirname( __FILE__ ) ) . '/lang/' );
+            load_plugin_textdomain( $domain, false, $this->corePath . '/lang/' );
         }
 
         // Add core helper directory
@@ -121,6 +125,7 @@ class WPUltimatePostGrid {
         $this->helper( 'activate' );
         $this->helper( 'ajax' );
         $this->helper( 'content' );
+        $this->helper( 'css' );
         $this->helper( 'grid_cache' );
         $this->helper( 'grid_save' );
         $this->helper( 'meta_box' );
@@ -128,8 +133,9 @@ class WPUltimatePostGrid {
         $this->helper( 'pagination' );
         $this->helper( 'plugin_action_link' );
         $this->helper( 'post_type' );
+        $this->helper( 'support_tab' );
         $this->helper( 'vafpress_menu' );
-//        $this->helper( 'vafpress_shortcode' );
+        $this->helper( 'vafpress_shortcode' );
         $this->helper( 'shortcodes/filter_shortcode' );
         $this->helper( 'shortcodes/grid_shortcode' );
 

@@ -14,83 +14,79 @@ WPUltimatePostGrid.initGrid = function(container) {
         visibleStyle: {
             opacity: 1
         }
+        // Center grid
         //masonry: {
         //    isFitWidth: true
         //}
+    });
+
+    container.imagesLoaded( function() {
+        container.isotope('layout');
     });
 
     WPUltimatePostGrid.grids[grid_id] = {
         container: container,
         pages: [0],
         page: 0,
-        filter_tag: '*',
-        filter_slug: ''
+        filters: {}
     };
 
-    // TODO Refactor
-    // Isotope Filter
-    jQuery('#wpupg-grid-' + grid_id + '-filter').find('.wpupg-filter-isotope-term').click(function() {
-        var filter_item = jQuery(this);
-        filter_item.siblings('.wpupg-filter-isotope-term').removeClass('active').trigger('checkActiveFilter');
-
-        filter_item.addClass('active').trigger('checkActiveFilter');
-
-        WPUltimatePostGrid.grids[grid_id].filter_tag = filter_item.data('filter');;
-        WPUltimatePostGrid.grids[grid_id].filter_slug = filter_item.data('slug');
-        WPUltimatePostGrid.filterGrid(grid_id);
-    });
-
-    // pagination
-    jQuery('#wpupg-grid-' + grid_id + '-pagination').find('.wpupg-pagination-term').click(function() {
-        var pagination_item = jQuery(this);
-        pagination_item.siblings('.wpupg-pagination-term').removeClass('active').trigger('checkActiveFilter');
-
-        var page = parseInt(pagination_item.addClass('active').trigger('checkActiveFilter').data('page'));
-
-        if(WPUltimatePostGrid.grids[grid_id].pages.indexOf(page) !== -1) {
-            WPUltimatePostGrid.grids[grid_id].page = page;
-            WPUltimatePostGrid.filterGrid(grid_id);
-        } else {
-            // Get new page via AJAX
-            var data = {
-                action: 'wpupg_get_page',
-                security: wpupg_public.nonce,
-                grid: grid_id,
-                page: page
-            };
-
-            pagination_item.addClass('wpupg-spinner');
-            pagination_item.css('color', WPUltimatePostGrid.grids[grid_id].pagination_style.active_background_color);
-
-            // Get recipes through AJAX
-            jQuery.post(wpupg_public.ajax_url, data, function(html) {
-                var posts = jQuery(html).toArray();
-                container.isotope('insert', posts);
-                WPUltimatePostGrid.grids[grid_id].page = page;
-                WPUltimatePostGrid.filterGrid(grid_id);
-
-                pagination_item.removeClass('wpupg-spinner');
-                pagination_item.css('color', WPUltimatePostGrid.grids[grid_id].pagination_style.active_text_color);
-
-                WPUltimatePostGrid.grids[grid_id].pages.push(page);
-            });
-        }
-    });
+    WPUltimatePostGrid.checkLinks(grid_id);
 };
 
 WPUltimatePostGrid.filterGrid = function(grid_id) {
     var grid = WPUltimatePostGrid.grids[grid_id];
-    var page = grid.page || 0;
-    var filter_tag = grid.filter_tag || '*';
+    var filters = [];
 
-    var filter = '.wpupg-page-' + page;
-
-    if(filter_tag != '*') {
-        filter += filter_tag;
+    // Page filter
+    if(grid.pagination_type != 'load_more') {
+        var page = grid.page || 0;
+        filters.push(['.wpupg-page-' + page]);
     }
 
-    grid.container.isotope({ filter: filter });
+    // Taxonomy filters
+    for(var taxonomy in grid.filters) {
+        if(grid.filters.hasOwnProperty(taxonomy)) {
+            var taxonomy_filters = grid.filters[taxonomy];
+
+            var match_one_filters = [];
+            var match_all_filter = '';
+
+            if(taxonomy_filters) {
+                for(var i = 0; i < taxonomy_filters.length; i++) {
+                    if(grid.multiselect_type == 'match_one') {
+                        match_one_filters.push('.wpupg-tax-' + taxonomy + '-' + taxonomy_filters[i]);
+                    } else {
+                        match_all_filter += '.wpupg-tax-' + taxonomy + '-' + taxonomy_filters[i];
+                    }
+                }
+            }
+
+            if(grid.multiselect_type == 'match_one') {
+                if(match_one_filters.length > 0) filters.push(match_one_filters);
+            } else {
+                if(match_all_filter !== '') filters.push([match_all_filter]);
+            }
+        }
+    }
+
+    grid.filter = '';
+    WPUltimatePostGrid.getFilterString(grid_id, '', filters, 0);
+
+    grid.container.isotope({ filter: grid.filter });
+    grid.container.trigger('wpupgFiltered');
     WPUltimatePostGrid.updateDeeplink();
+};
+
+WPUltimatePostGrid.getFilterString = function(grid_id, s, attrs, k) {
+    if(k==attrs.length) {
+        if(WPUltimatePostGrid.grids[grid_id].filter !== '') s = ', ' + s;
+        WPUltimatePostGrid.grids[grid_id].filter += s;
+    } else {
+        for(var i=0; i<attrs[k].length;i++) {
+            WPUltimatePostGrid.getFilterString(grid_id, s+attrs[k][i], attrs, k+1);
+        }
+    }
 };
 
 WPUltimatePostGrid.updateDeeplink = function() {
@@ -99,16 +95,31 @@ WPUltimatePostGrid.updateDeeplink = function() {
     for(var grid_id in WPUltimatePostGrid.grids) {
         if(WPUltimatePostGrid.grids.hasOwnProperty(grid_id)) {
             var grid = WPUltimatePostGrid.grids[grid_id];
+            var grid_link = '';
 
-            if(grid.page != 0 || grid.filter_slug != '') {
+            // Page filter
+            if(grid.page != 0) grid_link += '|p:' + (grid.page+1);
+
+            // Taxonomy filters
+            for(var taxonomy in grid.filters) {
+                if(grid.filters.hasOwnProperty(taxonomy)) {
+                    var taxonomy_filter = grid.filters[taxonomy];
+
+                    if(taxonomy_filter.length > 0) {
+                        grid_link += '|' + taxonomy + ':' + taxonomy_filter.join(',');
+                    }
+                }
+            }
+
+            if(grid_link != '') {
                 if(link != '') link += '#';
                 link += grid_id;
-
-                if(grid.page != 0) link += '|p:' + grid.page;
-                if(grid.filter_slug != 0) link += '|tag:' + grid.filter_slug;
+                link += grid_link;
             }
         }
     }
+
+    if(link == '') link = '*';
     document.location.hash = link;
 };
 
@@ -116,25 +127,128 @@ WPUltimatePostGrid.restoreDeeplink = function() {
     var link = document.location.hash;
     link = link.substr(1);
 
-    var grids = link.split('#');
+    if(link && link != '*') {
+        var grids = link.split('#');
 
-    for(var i=0; i < grids.length; i++) {
-        var parts = grids[i].split('|');
-        var grid_id = parts[0];
+        for(var i=0; i < grids.length; i++) {
+            var parts = grids[i].split('|');
+            var grid_id = parts[0];
 
-        for(var j=1; j < parts.length; j++) {
-            var filter = parts[j].split(':');
+            for(var j=1; j < parts.length; j++) {
+                var filter = parts[j].split(':');
 
-            if(filter[0] == 'p') {
-                jQuery('#wpupg-grid-' + grid_id + '-pagination').find('.wpupg-page-' + filter[1]).click();
-            } else {
-                jQuery('#wpupg-grid-' + grid_id + '-filter').find('.wpupg-filter-' + filter[0] + '-' + filter[1]).click();
+                if(filter[0] == 'p') {
+                    var page = parseInt(filter[1]) - 1;
+                    WPUltimatePostGrid.updatePagination(jQuery('#wpupg-grid-' + grid_id + '-pagination'), page);
+                } else {
+                    var terms = filter[1].split(',');
+                    WPUltimatePostGrid.updateFilter(jQuery('#wpupg-grid-' + grid_id + '-filter'), filter[0], terms);
+                }
             }
         }
     }
 };
 
-WPUltimatePostGrid.initFilter = function(container) {
+WPUltimatePostGrid.checkLinks = function(grid_id) {
+    var grid = WPUltimatePostGrid.grids[grid_id];
+    var link_type = grid.container.data('link-type');
+
+    if(link_type != 'none') {
+        grid.container.find('.wpupg-item').each(function() {
+            var item = jQuery(this);
+
+            // Remove links from item
+            item.find('a:not(.wpupg-keep-link, .wpurp-recipe-favorite, .wpurp-recipe-add-to-shopping-list, .wpurp-recipe-print-button, .wpurp-recipe-grid-link)').each(function() {
+                var link = jQuery(this);
+                if(link.parents('.sharrre').length == 0) {
+                    link.replaceWith(function() { return link.contents(); });
+                }
+            });
+
+            // Add link around item
+            if (item.parent('a').length == 0) {
+                item.wrap('<a href="' + item.data('permalink') + '" target="' + link_type + '"></a>');
+            }
+        });
+    }
+};
+
+WPUltimatePostGrid.updateFilter = function(container, taxonomy, terms) {
+    var type = container.data('type');
+    var func = 'updateFilter' + type.charAt(0).toUpperCase() + type.slice(1);
+    if(typeof WPUltimatePostGrid[func] == 'function') {
+        WPUltimatePostGrid[func](container, taxonomy, terms);
+    }
+};
+
+WPUltimatePostGrid.updateFilterIsotope = function(container, taxonomy, terms) {
+    for(var i = 0; i < terms.length; i++) {
+        container.find('.wpupg-filter-tag-' + terms[i]).click();
+    }
+};
+
+WPUltimatePostGrid.initFilterIsotope = function(container) {
+    var grid_id = container.data('grid');
+
+    WPUltimatePostGrid.grids[grid_id].multiselect = container.data('multiselect');
+    WPUltimatePostGrid.grids[grid_id].multiselect_type = container.data('multiselect-type');
+
+    container.find('.wpupg-filter-isotope-term').click(function() {
+        var filter_item = jQuery(this);
+        var taxonomy = filter_item.data('taxonomy');
+        var filter_all = filter_item.data('filter') == undefined;
+        var filter_term = filter_item.data('filter');
+
+        var filters = [];
+
+        if(WPUltimatePostGrid.grids[grid_id].multiselect && !filter_all) {
+            // Make sure "All" is not selected
+            filter_item.siblings('.wpupg-filter-tag-').removeClass('active').trigger('checkActiveFilter');
+
+            filters = WPUltimatePostGrid.grids[grid_id].filters || [];
+
+            if(filters[taxonomy] == undefined) filters[taxonomy] = [];
+
+            var term_index = filters[taxonomy].indexOf(filter_term);
+            if(term_index == -1) {
+                // Term was not select before, add
+                filter_item.addClass('active').trigger('checkActiveFilter');
+                filters[taxonomy].push(filter_term);
+            } else {
+                // Term was already selected, remove
+                filter_item.removeClass('active').trigger('checkActiveFilter');
+                filters[taxonomy].splice(term_index, 1);
+
+                // Set "All" active if no terms left
+                var nbr_terms = 0;
+
+                for(var filter_taxonomy in filters) {
+                    if(filters.hasOwnProperty(filter_taxonomy)) {
+                        var filter_taxonomy_terms = filters[filter_taxonomy];
+
+                        if(filter_taxonomy_terms) {
+                            nbr_terms += filter_taxonomy_terms.length;
+                        }
+                    }
+                }
+
+                if(nbr_terms == 0) {
+                    filter_item.siblings('.wpupg-filter-tag-').addClass('active').trigger('checkActiveFilter');
+                }
+            }
+        } else {
+            filter_item.siblings('.wpupg-filter-isotope-term').removeClass('active').trigger('checkActiveFilter');
+            filter_item.addClass('active').trigger('checkActiveFilter');
+
+                if(!filter_all) {
+                    filters[taxonomy] = [filter_term];
+                }
+        }
+
+        WPUltimatePostGrid.grids[grid_id].filters = filters;
+        WPUltimatePostGrid.filterGrid(grid_id);
+    });
+
     var filter_type = container.data('filter-type');
     var filter_items = container.find('.wpupg-filter-item');
 
@@ -194,8 +308,62 @@ WPUltimatePostGrid.initFilter = function(container) {
     }
 };
 
-WPUltimatePostGrid.initPagination = function(container) {
+WPUltimatePostGrid.updatePagination = function(container, page) {
+    var type = container.data('type');
+    var func = 'updatePagination' + type.charAt(0).toUpperCase() + type.slice(1);
+    if(typeof WPUltimatePostGrid[func] == 'function') {
+        WPUltimatePostGrid[func](container, page);
+    }
+};
+
+WPUltimatePostGrid.updatePaginationPages = function(container, page) {
+    container.find('.wpupg-page-' + page).click();
+};
+
+WPUltimatePostGrid.initPaginationPages = function(container) {
     var grid_id = container.data('grid');
+
+    container.find('.wpupg-pagination-term').click(function() {
+        var pagination_item = jQuery(this);
+        pagination_item.siblings('.wpupg-pagination-term').removeClass('active').trigger('checkActiveFilter');
+
+        var page = parseInt(pagination_item.addClass('active').trigger('checkActiveFilter').data('page'));
+
+        if(WPUltimatePostGrid.grids[grid_id].pages.indexOf(page) !== -1) {
+            WPUltimatePostGrid.grids[grid_id].page = page;
+            WPUltimatePostGrid.filterGrid(grid_id);
+        } else {
+            // Get new page via AJAX
+            var data = {
+                action: 'wpupg_get_page',
+                security: wpupg_public.nonce,
+                grid: grid_id,
+                page: page
+            };
+
+            pagination_item.addClass('wpupg-spinner');
+            pagination_item.css('color', WPUltimatePostGrid.grids[grid_id].pagination_style.active_background_color);
+
+            // Get recipes through AJAX
+            jQuery.post(wpupg_public.ajax_url, data, function(html) {
+                var posts = jQuery(html).toArray();
+                WPUltimatePostGrid.grids[grid_id].container.isotope('insert', posts);
+                WPUltimatePostGrid.grids[grid_id].page = page;
+                WPUltimatePostGrid.filterGrid(grid_id);
+                WPUltimatePostGrid.checkLinks(grid_id);
+
+                WPUltimatePostGrid.grids[grid_id].container.imagesLoaded( function() {
+                    WPUltimatePostGrid.grids[grid_id].container.isotope('layout');
+                });
+
+                pagination_item.removeClass('wpupg-spinner');
+                pagination_item.css('color', WPUltimatePostGrid.grids[grid_id].pagination_style.active_text_color);
+
+                WPUltimatePostGrid.grids[grid_id].pages.push(page);
+            });
+        }
+    });
+
     var pagination_items = container.find('.wpupg-pagination-term');
 
     var margin = container.data('margin-vertical') + 'px ' + container.data('margin-horizontal') + 'px';
@@ -272,11 +440,29 @@ jQuery(document).ready(function($) {
     });
 
     $('.wpupg-filter').each(function() {
-        WPUltimatePostGrid.initFilter($(this));
+        var container = $(this);
+        var grid_id = container.data('grid');
+        var type = container.data('type');
+
+        WPUltimatePostGrid.grids[grid_id].filter_type = type;
+
+        var func = 'initFilter' + type.charAt(0).toUpperCase() + type.slice(1);
+        if(typeof WPUltimatePostGrid[func] == 'function') {
+            WPUltimatePostGrid[func](container);
+        }
     });
 
     $('.wpupg-pagination').each(function() {
-        WPUltimatePostGrid.initPagination($(this));
+        var container = $(this);
+        var grid_id = container.data('grid');
+        var type = container.data('type');
+
+        WPUltimatePostGrid.grids[grid_id].pagination_type = type;
+
+        var func = 'initPagination' + type.charAt(0).toUpperCase() + type.slice(1);
+        if(typeof WPUltimatePostGrid[func] == 'function') {
+            WPUltimatePostGrid[func](container);
+        }
     });
     WPUltimatePostGrid.restoreDeeplink();
 });

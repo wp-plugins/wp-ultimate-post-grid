@@ -1,9 +1,9 @@
 .post-type-wpupg_grid #titlediv .inside {
   display: none; }
 
-.select2 li {
+.select2wpupg li {
   margin-bottom: 0; }
-  .select2 li input {
+  .select2wpupg li input {
     margin: 0;
     padding: 0; }
 
@@ -65,6 +65,37 @@
   #wpupg_form_pagination_style td:nth-child(1) {
     width: 10%; }
 
+#wpupg_form_limit_posts thead {
+  font-weight: bold; }
+#wpupg_form_limit_posts #wpupg_rule_placeholder {
+  display: none; }
+#wpupg_form_limit_posts td {
+  text-align: left; }
+  #wpupg_form_limit_posts td:nth-child(3) {
+    width: 25%; }
+  #wpupg_form_limit_posts td:nth-child(4) {
+    width: 5%;
+    text-align: center;
+    line-height: 18px; }
+    #wpupg_form_limit_posts td:nth-child(4) .wpupg_rule_delete {
+      cursor: pointer; }
+
+#wpupg_add_rule {
+  color: #00aa00;
+  font-weight: bold; }
+  #wpupg_add_rule:hover, #wpupg_add_rule:active, #wpupg_add_rule:visited {
+    color: #00aa00;
+    text-decoration: none; }
+
 .wpupg_filter_preview {
   border-top: 1px dashed #999;
   border-bottom: 1px dashed #999; }
+
+#wpupg_meta_box_premium_only {
+  display: none;
+  background-color: #FFCCCC;
+  border-color: #CC0000; }
+  #wpupg_meta_box_premium_only .handlediv {
+    color: #CC0000; }
+  #wpupg_meta_box_premium_only .hndle {
+    border-bottom-color: #FF9999; }

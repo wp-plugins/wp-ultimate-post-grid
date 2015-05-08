@@ -1,0 +1,9 @@
+#qt_content_wpupg_shortcode_generator {
+  width: 26px; }
+
+.wpupg_license {
+  width: 100%; }
+  .wpupg_license th, .wpupg_license td {
+    vertical-align: middle; }
+  .wpupg_license .license_button {
+    float: right; }

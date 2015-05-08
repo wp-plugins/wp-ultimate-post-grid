@@ -1,9 +1,9 @@
 /*!
- * Select2 4.0.0-rc.2
- * https://select2.github.io
+ * Select2wpupg 4.0.0
+ * https://select2wpupg.github.io
  *
  * Released under the MIT license
- * https://github.com/select2/select2/blob/master/LICENSE.md
+ * https://github.com/select2wpupg/select2wpupg/blob/master/LICENSE.md
  */
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
@@ -22,10 +22,10 @@
   // returns the AMD loader references.
   var S2 =
 (function () {
-  // Restore the Select2 AMD loader so it can be used
+  // Restore the Select2wpupg AMD loader so it can be used
   // Needed mostly in the language files, where the loader is not inserted
-  if (jQuery && jQuery.fn && jQuery.fn.select2 && jQuery.fn.select2.amd) {
-    var S2 = jQuery.fn.select2.amd;
+  if (jQuery && jQuery.fn && jQuery.fn.select2wpupg && jQuery.fn.select2wpupg.amd) {
+    var S2 = jQuery.fn.select2wpupg.amd;
   }
 var S2;(function () { if (!S2 || !S2.requirejs) {
 if (!S2) { S2 = {}; } else { require = S2; }
@@ -462,8 +462,8 @@ S2.define('jquery',[],function () {
 
   if (_$ == null && console && console.error) {
     console.error(
-      'Select2: An instance of jQuery or a jQuery-compatible library was not ' +
-      'found. Make sure that you are including jQuery before Select2 on your ' +
+      'Select2wpupg: An instance of jQuery or a jQuery-compatible library was not ' +
+      'found. Make sure that you are including jQuery before Select2wpupg on your ' +
       'web page.'
     );
   }
@@ -471,7 +471,7 @@ S2.define('jquery',[],function () {
   return _$;
 });
 
-S2.define('select2/utils',[
+S2.define('select2wpupg/utils',[
   'jquery'
 ], function ($) {
   var Utils = {};
@@ -714,10 +714,27 @@ S2.define('select2/utils',[
     });
   };
 
+  // Append an array of jQuery nodes to a given element.
+  Utils.appendMany = function ($element, $nodes) {
+    // jQuery 1.7.x does not support $.fn.append() with an array
+    // Fall back to a jQuery object collection using $.fn.add()
+    if ($.fn.jquery.substr(0, 3) === '1.7') {
+      var $jqNodes = $();
+
+      $.map($nodes, function (node) {
+        $jqNodes = $jqNodes.add(node);
+      });
+
+      $nodes = $jqNodes;
+    }
+
+    $element.append($nodes);
+  };
+
   return Utils;
 });
 
-S2.define('select2/results',[
+S2.define('select2wpupg/results',[
   'jquery',
   './utils'
 ], function ($, Utils) {
@@ -733,7 +750,7 @@ S2.define('select2/results',[
 
   Results.prototype.render = function () {
     var $results = $(
-      '<ul class="select2-results__options" role="tree"></ul>'
+      '<ul class="select2wpupg-results__options" role="tree"></ul>'
     );
 
     if (this.options.get('multiple')) {
@@ -756,7 +773,7 @@ S2.define('select2/results',[
     this.hideLoading();
 
     var $message = $(
-      '<li role="treeitem" class="select2-results__option"></li>'
+      '<li role="treeitem" class="select2wpupg-results__option"></li>'
     );
 
     var message = this.options.get('translations').get(params.message);
@@ -799,7 +816,7 @@ S2.define('select2/results',[
   };
 
   Results.prototype.position = function ($results, $dropdown) {
-    var $resultsContainer = $dropdown.find('.select2-results');
+    var $resultsContainer = $dropdown.find('.select2wpupg-results');
     $resultsContainer.append($results);
   };
 
@@ -818,7 +835,7 @@ S2.define('select2/results',[
       });
 
       var $options = self.$results
-        .find('.select2-results__option[aria-selected]');
+        .find('.select2wpupg-results__option[aria-selected]');
 
       $options.each(function () {
         var $option = $(this);
@@ -828,7 +845,8 @@ S2.define('select2/results',[
         // id needs to be converted to a string when comparing
         var id = '' + item.id;
 
-        if ($.inArray(id, selectedIds) > -1) {
+        if ((item.element != null && item.element.selected) ||
+            (item.element == null && $.inArray(id, selectedIds) > -1)) {
           $option.attr('aria-selected', 'true');
         } else {
           $option.attr('aria-selected', 'false');
@@ -871,7 +889,7 @@ S2.define('select2/results',[
 
   Results.prototype.option = function (data) {
     var option = document.createElement('li');
-    option.className = 'select2-results__option';
+    option.className = 'select2wpupg-results__option';
 
     var attrs = {
       'role': 'treeitem',
@@ -911,7 +929,7 @@ S2.define('select2/results',[
       var $option = $(option);
 
       var label = document.createElement('strong');
-      label.className = 'select2-results__group';
+      label.className = 'select2wpupg-results__group';
 
       var $label = $(label);
       this.template(data, label);
@@ -927,7 +945,7 @@ S2.define('select2/results',[
       }
 
       var $childrenContainer = $('<ul></ul>', {
-        'class': 'select2-results__options select2-results__options--nested'
+        'class': 'select2wpupg-results__options select2wpupg-results__options--nested'
       });
 
       $childrenContainer.append($children);
@@ -1096,7 +1114,7 @@ S2.define('select2/results',[
     });
 
     container.on('results:focus', function (params) {
-      params.element.addClass('select2-results__option--highlighted');
+      params.element.addClass('select2wpupg-results__option--highlighted');
     });
 
     container.on('results:message', function (params) {
@@ -1132,7 +1150,7 @@ S2.define('select2/results',[
       });
     }
 
-    this.$results.on('mouseup', '.select2-results__option[aria-selected]',
+    this.$results.on('mouseup', '.select2wpupg-results__option[aria-selected]',
       function (evt) {
       var $this = $(this);
 
@@ -1157,12 +1175,12 @@ S2.define('select2/results',[
       });
     });
 
-    this.$results.on('mouseenter', '.select2-results__option[aria-selected]',
+    this.$results.on('mouseenter', '.select2wpupg-results__option[aria-selected]',
       function (evt) {
       var data = $(this).data('data');
 
       self.getHighlightedResults()
-          .removeClass('select2-results__option--highlighted');
+          .removeClass('select2wpupg-results__option--highlighted');
 
       self.trigger('results:focus', {
         data: data,
@@ -1173,7 +1191,7 @@ S2.define('select2/results',[
 
   Results.prototype.getHighlightedResults = function () {
     var $highlighted = this.$results
-    .find('.select2-results__option--highlighted');
+    .find('.select2wpupg-results__option--highlighted');
 
     return $highlighted;
   };
@@ -1225,7 +1243,7 @@ S2.define('select2/results',[
   return Results;
 });
 
-S2.define('select2/keys',[
+S2.define('select2wpupg/keys',[
 
 ], function () {
   var KEYS = {
@@ -1251,7 +1269,7 @@ S2.define('select2/keys',[
   return KEYS;
 });
 
-S2.define('select2/selection/base',[
+S2.define('select2wpupg/selection/base',[
   'jquery',
   '../utils',
   '../keys'
@@ -1267,7 +1285,7 @@ S2.define('select2/selection/base',[
 
   BaseSelection.prototype.render = function () {
     var $selection = $(
-      '<span class="select2-selection" role="combobox" ' +
+      '<span class="select2wpupg-selection" role="combobox" ' +
       'aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">' +
       '</span>'
     );
@@ -1351,12 +1369,12 @@ S2.define('select2/selection/base',[
   BaseSelection.prototype._attachCloseHandler = function (container) {
     var self = this;
 
-    $(document.body).on('mousedown.select2.' + container.id, function (e) {
+    $(document.body).on('mousedown.select2wpupg.' + container.id, function (e) {
       var $target = $(e.target);
 
-      var $select = $target.closest('.select2');
+      var $select = $target.closest('.select2wpupg');
 
-      var $all = $('.select2.select2-container--open');
+      var $all = $('.select2wpupg.select2wpupg-container--open');
 
       $all.each(function () {
         var $this = $(this);
@@ -1367,13 +1385,13 @@ S2.define('select2/selection/base',[
 
         var $element = $this.data('element');
 
-        $element.select2('close');
+        $element.select2wpupg('close');
       });
     });
   };
 
   BaseSelection.prototype._detachCloseHandler = function (container) {
-    $(document.body).off('mousedown.select2.' + container.id);
+    $(document.body).off('mousedown.select2wpupg.' + container.id);
   };
 
   BaseSelection.prototype.position = function ($selection, $container) {
@@ -1392,7 +1410,7 @@ S2.define('select2/selection/base',[
   return BaseSelection;
 });
 
-S2.define('select2/selection/single',[
+S2.define('select2wpupg/selection/single',[
   'jquery',
   './base',
   '../utils',
@@ -1407,11 +1425,11 @@ S2.define('select2/selection/single',[
   SingleSelection.prototype.render = function () {
     var $selection = SingleSelection.__super__.render.call(this);
 
-    $selection.addClass('select2-selection--single');
+    $selection.addClass('select2wpupg-selection--single');
 
     $selection.html(
-      '<span class="select2-selection__rendered"></span>' +
-      '<span class="select2-selection__arrow" role="presentation">' +
+      '<span class="select2wpupg-selection__rendered"></span>' +
+      '<span class="select2wpupg-selection__arrow" role="presentation">' +
         '<b role="presentation"></b>' +
       '</span>'
     );
@@ -1426,7 +1444,7 @@ S2.define('select2/selection/single',[
 
     var id = container.id + '-container';
 
-    this.$selection.find('.select2-selection__rendered').attr('id', id);
+    this.$selection.find('.select2wpupg-selection__rendered').attr('id', id);
     this.$selection.attr('aria-labelledby', id);
 
     this.$selection.on('mousedown', function (evt) {
@@ -1454,7 +1472,7 @@ S2.define('select2/selection/single',[
   };
 
   SingleSelection.prototype.clear = function () {
-    this.$selection.find('.select2-selection__rendered').empty();
+    this.$selection.find('.select2wpupg-selection__rendered').empty();
   };
 
   SingleSelection.prototype.display = function (data) {
@@ -1478,7 +1496,7 @@ S2.define('select2/selection/single',[
 
     var formatted = this.display(selection);
 
-    var $rendered = this.$selection.find('.select2-selection__rendered');
+    var $rendered = this.$selection.find('.select2wpupg-selection__rendered');
     $rendered.empty().append(formatted);
     $rendered.prop('title', selection.title || selection.text);
   };
@@ -1486,7 +1504,7 @@ S2.define('select2/selection/single',[
   return SingleSelection;
 });
 
-S2.define('select2/selection/multiple',[
+S2.define('select2wpupg/selection/multiple',[
   'jquery',
   './base',
   '../utils'
@@ -1500,10 +1518,10 @@ S2.define('select2/selection/multiple',[
   MultipleSelection.prototype.render = function () {
     var $selection = MultipleSelection.__super__.render.call(this);
 
-    $selection.addClass('select2-selection--multiple');
+    $selection.addClass('select2wpupg-selection--multiple');
 
     $selection.html(
-      '<ul class="select2-selection__rendered"></ul>'
+      '<ul class="select2wpupg-selection__rendered"></ul>'
     );
 
     return $selection;
@@ -1520,7 +1538,7 @@ S2.define('select2/selection/multiple',[
       });
     });
 
-    this.$selection.on('click', '.select2-selection__choice__remove',
+    this.$selection.on('click', '.select2wpupg-selection__choice__remove',
       function (evt) {
       var $remove = $(this);
       var $selection = $remove.parent();
@@ -1535,7 +1553,7 @@ S2.define('select2/selection/multiple',[
   };
 
   MultipleSelection.prototype.clear = function () {
-    this.$selection.find('.select2-selection__rendered').empty();
+    this.$selection.find('.select2wpupg-selection__rendered').empty();
   };
 
   MultipleSelection.prototype.display = function (data) {
@@ -1547,8 +1565,8 @@ S2.define('select2/selection/multiple',[
 
   MultipleSelection.prototype.selectionContainer = function () {
     var $container = $(
-      '<li class="select2-selection__choice">' +
-        '<span class="select2-selection__choice__remove" role="presentation">' +
+      '<li class="select2wpupg-selection__choice">' +
+        '<span class="select2wpupg-selection__choice__remove" role="presentation">' +
           '&times;' +
         '</span>' +
       '</li>'
@@ -1564,7 +1582,7 @@ S2.define('select2/selection/multiple',[
       return;
     }
 
-    var $selections = $();
+    var $selections = [];
 
     for (var d = 0; d < data.length; d++) {
       var selection = data[d];
@@ -1577,16 +1595,18 @@ S2.define('select2/selection/multiple',[
 
       $selection.data('data', selection);
 
-      $selections = $selections.add($selection);
+      $selections.push($selection);
     }
 
-    this.$selection.find('.select2-selection__rendered').append($selections);
+    var $rendered = this.$selection.find('.select2wpupg-selection__rendered');
+
+    Utils.appendMany($rendered, $selections);
   };
 
   return MultipleSelection;
 });
 
-S2.define('select2/selection/placeholder',[
+S2.define('select2wpupg/selection/placeholder',[
   '../utils'
 ], function (Utils) {
   function Placeholder (decorated, $element, options) {
@@ -1610,8 +1630,8 @@ S2.define('select2/selection/placeholder',[
     var $placeholder = this.selectionContainer();
 
     $placeholder.html(this.display(placeholder));
-    $placeholder.addClass('select2-selection__placeholder')
-                .removeClass('select2-selection__choice');
+    $placeholder.addClass('select2wpupg-selection__placeholder')
+                .removeClass('select2wpupg-selection__choice');
 
     return $placeholder;
   };
@@ -1630,15 +1650,16 @@ S2.define('select2/selection/placeholder',[
 
     var $placeholder = this.createPlaceholder(this.placeholder);
 
-    this.$selection.find('.select2-selection__rendered').append($placeholder);
+    this.$selection.find('.select2wpupg-selection__rendered').append($placeholder);
   };
 
   return Placeholder;
 });
 
-S2.define('select2/selection/allowClear',[
-  'jquery'
-], function ($) {
+S2.define('select2wpupg/selection/allowClear',[
+  'jquery',
+  '../keys'
+], function ($, KEYS) {
   function AllowClear () { }
 
   AllowClear.prototype.bind = function (decorated, container, $container) {
@@ -1646,69 +1667,94 @@ S2.define('select2/selection/allowClear',[
 
     decorated.call(this, container, $container);
 
-    if (self.placeholder == null) {
-      if (self.options.get('debug') && window.console && console.error) {
+    if (this.placeholder == null) {
+      if (this.options.get('debug') && window.console && console.error) {
         console.error(
-          'Select2: The `allowClear` option should be used in combination ' +
+          'Select2wpupg: The `allowClear` option should be used in combination ' +
           'with the `placeholder` option.'
         );
       }
     }
 
-    this.$selection.on('mousedown', '.select2-selection__clear',
+    this.$selection.on('mousedown', '.select2wpupg-selection__clear',
       function (evt) {
-        // Ignore the event if it is disabled
-        if (self.options.get('disabled')) {
-          return;
-        }
-
-        evt.stopPropagation();
-
-        var data = $(this).data('data');
-
-        for (var d = 0; d < data.length; d++) {
-          var unselectData = {
-            data: data[d]
-          };
-
-          // Trigger the `unselect` event, so people can prevent it from being
-          // cleared.
-          self.trigger('unselect', unselectData);
-
-          // If the event was prevented, don't clear it out.
-          if (unselectData.prevented) {
-            return;
-          }
-        }
-
-        self.$element.val(self.placeholder.id).trigger('change');
-
-        self.trigger('toggle');
+        self._handleClear(evt);
     });
+
+    container.on('keypress', function (evt) {
+      self._handleKeyboardClear(evt, container);
+    });
+  };
+
+  AllowClear.prototype._handleClear = function (_, evt) {
+    // Ignore the event if it is disabled
+    if (this.options.get('disabled')) {
+      return;
+    }
+
+    var $clear = this.$selection.find('.select2wpupg-selection__clear');
+
+    // Ignore the event if nothing has been selected
+    if ($clear.length === 0) {
+      return;
+    }
+
+    evt.stopPropagation();
+
+    var data = $clear.data('data');
+
+    for (var d = 0; d < data.length; d++) {
+      var unselectData = {
+        data: data[d]
+      };
+
+      // Trigger the `unselect` event, so people can prevent it from being
+      // cleared.
+      this.trigger('unselect', unselectData);
+
+      // If the event was prevented, don't clear it out.
+      if (unselectData.prevented) {
+        return;
+      }
+    }
+
+    this.$element.val(this.placeholder.id).trigger('change');
+
+    this.trigger('toggle');
+  };
+
+  AllowClear.prototype._handleKeyboardClear = function (_, evt, container) {
+    if (container.isOpen()) {
+      return;
+    }
+
+    if (evt.which == KEYS.DELETE || evt.which == KEYS.BACKSPACE) {
+      this._handleClear(evt);
+    }
   };
 
   AllowClear.prototype.update = function (decorated, data) {
     decorated.call(this, data);
 
-    if (this.$selection.find('.select2-selection__placeholder').length > 0 ||
+    if (this.$selection.find('.select2wpupg-selection__placeholder').length > 0 ||
         data.length === 0) {
       return;
     }
 
     var $remove = $(
-      '<span class="select2-selection__clear">' +
+      '<span class="select2wpupg-selection__clear">' +
         '&times;' +
       '</span>'
     );
     $remove.data('data', data);
 
-    this.$selection.find('.select2-selection__rendered').prepend($remove);
+    this.$selection.find('.select2wpupg-selection__rendered').prepend($remove);
   };
 
   return AllowClear;
 });
 
-S2.define('select2/selection/search',[
+S2.define('select2wpupg/selection/search',[
   'jquery',
   '../utils',
   '../keys'
@@ -1719,8 +1765,8 @@ S2.define('select2/selection/search',[
 
   Search.prototype.render = function (decorated) {
     var $search = $(
-      '<li class="select2-search select2-search--inline">' +
-        '<input class="select2-search__field" type="search" tabindex="-1"' +
+      '<li class="select2wpupg-search select2wpupg-search--inline">' +
+        '<input class="select2wpupg-search__field" type="search" tabindex="-1"' +
         ' autocomplete="off" autocorrect="off" autocapitalize="off"' +
         ' spellcheck="false" role="textbox" />' +
       '</li>'
@@ -1760,15 +1806,15 @@ S2.define('select2/selection/search',[
       self.$search.prop('disabled', true);
     });
 
-    this.$selection.on('focusin', '.select2-search--inline', function (evt) {
+    this.$selection.on('focusin', '.select2wpupg-search--inline', function (evt) {
       self.trigger('focus', evt);
     });
 
-    this.$selection.on('focusout', '.select2-search--inline', function (evt) {
+    this.$selection.on('focusout', '.select2wpupg-search--inline', function (evt) {
       self.trigger('blur', evt);
     });
 
-    this.$selection.on('keydown', '.select2-search--inline', function (evt) {
+    this.$selection.on('keydown', '.select2wpupg-search--inline', function (evt) {
       evt.stopPropagation();
 
       self.trigger('keypress', evt);
@@ -1779,12 +1825,14 @@ S2.define('select2/selection/search',[
 
       if (key === KEYS.BACKSPACE && self.$search.val() === '') {
         var $previousChoice = self.$searchContainer
-          .prev('.select2-selection__choice');
+          .prev('.select2wpupg-selection__choice');
 
         if ($previousChoice.length > 0) {
           var item = $previousChoice.data('data');
 
           self.searchRemoveChoice(item);
+
+          evt.preventDefault();
         }
       }
     });
@@ -1792,12 +1840,12 @@ S2.define('select2/selection/search',[
     // Workaround for browsers which do not support the `input` event
     // This will prevent double-triggering of events for browsers which support
     // both the `keyup` and `input` events.
-    this.$selection.on('input', '.select2-search--inline', function (evt) {
+    this.$selection.on('input', '.select2wpupg-search--inline', function (evt) {
       // Unbind the duplicated `keyup` event
       self.$selection.off('keyup.search');
     });
 
-    this.$selection.on('keyup.search input', '.select2-search--inline',
+    this.$selection.on('keyup.search input', '.select2wpupg-search--inline',
         function (evt) {
       self.handleSearch(evt);
     });
@@ -1812,7 +1860,7 @@ S2.define('select2/selection/search',[
 
     decorated.call(this, data);
 
-    this.$selection.find('.select2-selection__rendered')
+    this.$selection.find('.select2wpupg-selection__rendered')
                    .append(this.$searchContainer);
 
     this.resizeSearch();
@@ -1848,7 +1896,7 @@ S2.define('select2/selection/search',[
     var width = '';
 
     if (this.$search.attr('placeholder') !== '') {
-      width = this.$selection.find('.select2-selection__rendered').innerWidth();
+      width = this.$selection.find('.select2wpupg-selection__rendered').innerWidth();
     } else {
       var minimumWidth = this.$search.val().length + 1;
 
@@ -1861,7 +1909,7 @@ S2.define('select2/selection/search',[
   return Search;
 });
 
-S2.define('select2/selection/eventRelay',[
+S2.define('select2wpupg/selection/eventRelay',[
   'jquery'
 ], function ($) {
   function EventRelay () { }
@@ -1888,8 +1936,8 @@ S2.define('select2/selection/eventRelay',[
       // The parameters should always be an object
       params = params || {};
 
-      // Generate the jQuery event for the Select2 event
-      var evt = $.Event('select2:' + name, {
+      // Generate the jQuery event for the Select2wpupg event
+      var evt = $.Event('select2wpupg:' + name, {
         params: params
       });
 
@@ -1907,7 +1955,7 @@ S2.define('select2/selection/eventRelay',[
   return EventRelay;
 });
 
-S2.define('select2/translation',[
+S2.define('select2wpupg/translation',[
   'jquery',
   'require'
 ], function ($, require) {
@@ -1944,7 +1992,7 @@ S2.define('select2/translation',[
   return Translation;
 });
 
-S2.define('select2/diacritics',[
+S2.define('select2wpupg/diacritics',[
 
 ], function () {
   var diacritics = {
@@ -2792,7 +2840,7 @@ S2.define('select2/diacritics',[
   return diacritics;
 });
 
-S2.define('select2/data/base',[
+S2.define('select2wpupg/data/base',[
   '../utils'
 ], function (Utils) {
   function BaseAdapter ($element, options) {
@@ -2833,7 +2881,7 @@ S2.define('select2/data/base',[
   return BaseAdapter;
 });
 
-S2.define('select2/data/select',[
+S2.define('select2wpupg/data/select',[
   './base',
   '../utils',
   'jquery'
@@ -2865,7 +2913,9 @@ S2.define('select2/data/select',[
   SelectAdapter.prototype.select = function (data) {
     var self = this;
 
-    // If data.element is a DOM nose, use it instead
+    data.selected = true;
+
+    // If data.element is a DOM node, use it instead
     if ($(data.element).is('option')) {
       data.element.selected = true;
 
@@ -2906,6 +2956,8 @@ S2.define('select2/data/select',[
     if (!this.$element.prop('multiple')) {
       return;
     }
+
+    data.selected = false;
 
     if ($(data.element).is('option')) {
       data.element.selected = false;
@@ -2949,7 +3001,7 @@ S2.define('select2/data/select',[
   SelectAdapter.prototype.destroy = function () {
     // Remove anything added to child elements
     this.$element.find('*').each(function () {
-      // Remove any custom data set by Select2
+      // Remove any custom data set by Select2wpupg
       $.removeData(this, 'data');
     });
   };
@@ -2982,7 +3034,7 @@ S2.define('select2/data/select',[
   };
 
   SelectAdapter.prototype.addOptions = function ($options) {
-    this.$element.append($options);
+    Utils.appendMany(this.$element, $options);
   };
 
   SelectAdapter.prototype.option = function (data) {
@@ -3115,7 +3167,7 @@ S2.define('select2/data/select',[
   return SelectAdapter;
 });
 
-S2.define('select2/data/array',[
+S2.define('select2wpupg/data/array',[
   './select',
   '../utils',
   'jquery'
@@ -3131,7 +3183,9 @@ S2.define('select2/data/array',[
   Utils.Extend(ArrayAdapter, SelectAdapter);
 
   ArrayAdapter.prototype.select = function (data) {
-    var $option = this.$element.find('option[value="' + data.id + '"]');
+    var $option = this.$element.find('option').filter(function (i, elm) {
+      return elm.value == data.id.toString();
+    });
 
     if ($option.length === 0) {
       $option = this.option(data);
@@ -3150,7 +3204,7 @@ S2.define('select2/data/array',[
       return self.item($(this)).id;
     }).get();
 
-    var $options = $();
+    var $options = [];
 
     // Filter out all items except for the one passed in the argument
     function onlyItem (item) {
@@ -3181,10 +3235,10 @@ S2.define('select2/data/array',[
       if (item.children) {
         var $children = this.convertToOptions(item.children);
 
-        $option.append($children);
+        Utils.appendMany($option, $children);
       }
 
-      $options = $options.add($option);
+      $options.push($option);
     }
 
     return $options;
@@ -3193,7 +3247,7 @@ S2.define('select2/data/array',[
   return ArrayAdapter;
 });
 
-S2.define('select2/data/ajax',[
+S2.define('select2wpupg/data/ajax',[
   './array',
   '../utils',
   'jquery'
@@ -3238,8 +3292,12 @@ S2.define('select2/data/ajax',[
     var matches = [];
     var self = this;
 
-    if (this._request) {
-      this._request.abort();
+    if (this._request != null) {
+      // JSONP requests cannot always be aborted
+      if ($.isFunction(this._request.abort)) {
+        this._request.abort();
+      }
+
       this._request = null;
     }
 
@@ -3263,7 +3321,7 @@ S2.define('select2/data/ajax',[
           // Check to make sure that the response included a `results` key.
           if (!results || !results.results || !$.isArray(results.results)) {
             console.error(
-              'Select2: The AJAX results did not return an array in the ' +
+              'Select2wpupg: The AJAX results did not return an array in the ' +
               '`results` key of the response.'
             );
           }
@@ -3291,7 +3349,7 @@ S2.define('select2/data/ajax',[
   return AjaxAdapter;
 });
 
-S2.define('select2/data/tags',[
+S2.define('select2wpupg/data/tags',[
   'jquery'
 ], function ($) {
   function Tags (decorated, $element, options) {
@@ -3362,9 +3420,9 @@ S2.define('select2/data/tags',[
 
       if (tag != null) {
         var $option = self.option(tag);
-        $option.attr('data-select2-tag', true);
+        $option.attr('data-select2wpupg-tag', true);
 
-        self.addOptions($option);
+        self.addOptions([$option]);
 
         self.insertTag(data, tag);
       }
@@ -3397,7 +3455,7 @@ S2.define('select2/data/tags',[
   Tags.prototype._removeOldTags = function (_) {
     var tag = this._lastTag;
 
-    var $options = this.$element.find('option[data-select2-tag]');
+    var $options = this.$element.find('option[data-select2wpupg-tag]');
 
     $options.each(function () {
       if (this.selected) {
@@ -3411,7 +3469,7 @@ S2.define('select2/data/tags',[
   return Tags;
 });
 
-S2.define('select2/data/tokenizer',[
+S2.define('select2wpupg/data/tokenizer',[
   'jquery'
 ], function ($) {
   function Tokenizer (decorated, $element, options) {
@@ -3428,7 +3486,7 @@ S2.define('select2/data/tokenizer',[
     decorated.call(this, container, $container);
 
     this.$search =  container.dropdown.$search || container.selection.$search ||
-      $container.find('.select2-search__field');
+      $container.find('.select2wpupg-search__field');
   };
 
   Tokenizer.prototype.query = function (decorated, params, callback) {
@@ -3498,7 +3556,7 @@ S2.define('select2/data/tokenizer',[
   return Tokenizer;
 });
 
-S2.define('select2/data/minimumInputLength',[
+S2.define('select2wpupg/data/minimumInputLength',[
 
 ], function () {
   function MinimumInputLength (decorated, $e, options) {
@@ -3529,7 +3587,7 @@ S2.define('select2/data/minimumInputLength',[
   return MinimumInputLength;
 });
 
-S2.define('select2/data/maximumInputLength',[
+S2.define('select2wpupg/data/maximumInputLength',[
 
 ], function () {
   function MaximumInputLength (decorated, $e, options) {
@@ -3561,7 +3619,7 @@ S2.define('select2/data/maximumInputLength',[
   return MaximumInputLength;
 });
 
-S2.define('select2/data/maximumSelectionLength',[
+S2.define('select2wpupg/data/maximumSelectionLength',[
 
 ], function (){
   function MaximumSelectionLength (decorated, $e, options) {
@@ -3593,7 +3651,7 @@ S2.define('select2/data/maximumSelectionLength',[
   return MaximumSelectionLength;
 });
 
-S2.define('select2/dropdown',[
+S2.define('select2wpupg/dropdown',[
   'jquery',
   './utils'
 ], function ($, Utils) {
@@ -3608,8 +3666,8 @@ S2.define('select2/dropdown',[
 
   Dropdown.prototype.render = function () {
     var $dropdown = $(
-      '<span class="select2-dropdown">' +
-        '<span class="select2-results"></span>' +
+      '<span class="select2wpupg-dropdown">' +
+        '<span class="select2wpupg-results"></span>' +
       '</span>'
     );
 
@@ -3632,7 +3690,7 @@ S2.define('select2/dropdown',[
   return Dropdown;
 });
 
-S2.define('select2/dropdown/search',[
+S2.define('select2wpupg/dropdown/search',[
   'jquery',
   '../utils'
 ], function ($, Utils) {
@@ -3642,8 +3700,8 @@ S2.define('select2/dropdown/search',[
     var $rendered = decorated.call(this);
 
     var $search = $(
-      '<span class="select2-search select2-search--dropdown">' +
-        '<input class="select2-search__field" type="search" tabindex="-1"' +
+      '<span class="select2wpupg-search select2wpupg-search--dropdown">' +
+        '<input class="select2wpupg-search__field" type="search" tabindex="-1"' +
         ' autocomplete="off" autocorrect="off" autocapitalize="off"' +
         ' spellcheck="false" role="textbox" />' +
       '</span>'
@@ -3701,9 +3759,9 @@ S2.define('select2/dropdown/search',[
         var showSearch = self.showSearch(params);
 
         if (showSearch) {
-          self.$searchContainer.removeClass('select2-search--hide');
+          self.$searchContainer.removeClass('select2wpupg-search--hide');
         } else {
-          self.$searchContainer.addClass('select2-search--hide');
+          self.$searchContainer.addClass('select2wpupg-search--hide');
         }
       }
     });
@@ -3728,7 +3786,7 @@ S2.define('select2/dropdown/search',[
   return Search;
 });
 
-S2.define('select2/dropdown/hidePlaceholder',[
+S2.define('select2wpupg/dropdown/hidePlaceholder',[
 
 ], function () {
   function HidePlaceholder (decorated, $element, options, dataAdapter) {
@@ -3771,7 +3829,7 @@ S2.define('select2/dropdown/hidePlaceholder',[
   return HidePlaceholder;
 });
 
-S2.define('select2/dropdown/infiniteScroll',[
+S2.define('select2wpupg/dropdown/infiniteScroll',[
   'jquery'
 ], function ($) {
   function InfiniteScroll (decorated, $element, options, dataAdapter) {
@@ -3859,7 +3917,7 @@ S2.define('select2/dropdown/infiniteScroll',[
   return InfiniteScroll;
 });
 
-S2.define('select2/dropdown/attachBody',[
+S2.define('select2wpupg/dropdown/attachBody',[
   'jquery',
   '../utils'
 ], function ($, Utils) {
@@ -3909,8 +3967,8 @@ S2.define('select2/dropdown/attachBody',[
     // Clone all of the container classes
     $dropdown.attr('class', $container.attr('class'));
 
-    $dropdown.removeClass('select2');
-    $dropdown.addClass('select2-container--open');
+    $dropdown.removeClass('select2wpupg');
+    $dropdown.addClass('select2wpupg-container--open');
 
     $dropdown.css({
       position: 'absolute',
@@ -3938,20 +3996,20 @@ S2.define('select2/dropdown/attachBody',[
   AttachBody.prototype._attachPositioningHandler = function (container) {
     var self = this;
 
-    var scrollEvent = 'scroll.select2.' + container.id;
-    var resizeEvent = 'resize.select2.' + container.id;
-    var orientationEvent = 'orientationchange.select2.' + container.id;
+    var scrollEvent = 'scroll.select2wpupg.' + container.id;
+    var resizeEvent = 'resize.select2wpupg.' + container.id;
+    var orientationEvent = 'orientationchange.select2wpupg.' + container.id;
 
     var $watchers = this.$container.parents().filter(Utils.hasScroll);
     $watchers.each(function () {
-      $(this).data('select2-scroll-position', {
+      $(this).data('select2wpupg-scroll-position', {
         x: $(this).scrollLeft(),
         y: $(this).scrollTop()
       });
     });
 
     $watchers.on(scrollEvent, function (ev) {
-      var position = $(this).data('select2-scroll-position');
+      var position = $(this).data('select2wpupg-scroll-position');
       $(this).scrollTop(position.y);
     });
 
@@ -3963,9 +4021,9 @@ S2.define('select2/dropdown/attachBody',[
   };
 
   AttachBody.prototype._detachPositioningHandler = function (container) {
-    var scrollEvent = 'scroll.select2.' + container.id;
-    var resizeEvent = 'resize.select2.' + container.id;
-    var orientationEvent = 'orientationchange.select2.' + container.id;
+    var scrollEvent = 'scroll.select2wpupg.' + container.id;
+    var resizeEvent = 'resize.select2wpupg.' + container.id;
+    var orientationEvent = 'orientationchange.select2wpupg.' + container.id;
 
     var $watchers = this.$container.parents().filter(Utils.hasScroll);
     $watchers.off(scrollEvent);
@@ -3976,8 +4034,8 @@ S2.define('select2/dropdown/attachBody',[
   AttachBody.prototype._positionDropdown = function () {
     var $window = $(window);
 
-    var isCurrentlyAbove = this.$dropdown.hasClass('select2-dropdown--above');
-    var isCurrentlyBelow = this.$dropdown.hasClass('select2-dropdown--below');
+    var isCurrentlyAbove = this.$dropdown.hasClass('select2wpupg-dropdown--above');
+    var isCurrentlyBelow = this.$dropdown.hasClass('select2wpupg-dropdown--below');
 
     var newDirection = null;
 
@@ -4027,11 +4085,11 @@ S2.define('select2/dropdown/attachBody',[
 
     if (newDirection != null) {
       this.$dropdown
-        .removeClass('select2-dropdown--below select2-dropdown--above')
-        .addClass('select2-dropdown--' + newDirection);
+        .removeClass('select2wpupg-dropdown--below select2wpupg-dropdown--above')
+        .addClass('select2wpupg-dropdown--' + newDirection);
       this.$container
-        .removeClass('select2-container--below select2-container--above')
-        .addClass('select2-container--' + newDirection);
+        .removeClass('select2wpupg-container--below select2wpupg-container--above')
+        .addClass('select2wpupg-container--' + newDirection);
     }
 
     this.$dropdownContainer.css(css);
@@ -4040,9 +4098,16 @@ S2.define('select2/dropdown/attachBody',[
   AttachBody.prototype._resizeDropdown = function () {
     this.$dropdownContainer.width();
 
-    this.$dropdown.css({
+    var css = {
       width: this.$container.outerWidth(false) + 'px'
-    });
+    };
+
+    if (this.options.get('dropdownAutoWidth')) {
+      css.minWidth = css.width;
+      css.width = 'auto';
+    }
+
+    this.$dropdown.css(css);
   };
 
   AttachBody.prototype._showDropdown = function (decorated) {
@@ -4055,7 +4120,7 @@ S2.define('select2/dropdown/attachBody',[
   return AttachBody;
 });
 
-S2.define('select2/dropdown/minimumResultsForSearch',[
+S2.define('select2wpupg/dropdown/minimumResultsForSearch',[
 
 ], function () {
   function countResults (data) {
@@ -4095,7 +4160,7 @@ S2.define('select2/dropdown/minimumResultsForSearch',[
   return MinimumResultsForSearch;
 });
 
-S2.define('select2/dropdown/selectOnClose',[
+S2.define('select2wpupg/dropdown/selectOnClose',[
 
 ], function () {
   function SelectOnClose () { }
@@ -4117,13 +4182,15 @@ S2.define('select2/dropdown/selectOnClose',[
       return;
     }
 
-    $highlightedResults.trigger('mouseup');
+    this.trigger('select', {
+        data: $highlightedResults.data('data')
+    });
   };
 
   return SelectOnClose;
 });
 
-S2.define('select2/dropdown/closeOnSelect',[
+S2.define('select2wpupg/dropdown/closeOnSelect',[
 
 ], function () {
   function CloseOnSelect () { }
@@ -4156,7 +4223,7 @@ S2.define('select2/dropdown/closeOnSelect',[
   return CloseOnSelect;
 });
 
-S2.define('select2/i18n/en',[],function () {
+S2.define('select2wpupg/i18n/en',[],function () {
   // English
   return {
     errorLoading: function () {
@@ -4201,7 +4268,7 @@ S2.define('select2/i18n/en',[],function () {
   };
 });
 
-S2.define('select2/defaults',[
+S2.define('select2wpupg/defaults',[
   'jquery',
   'require',
 
@@ -4368,6 +4435,19 @@ S2.define('select2/defaults',[
         );
       }
 
+      if (
+        options.dropdownCssClass != null ||
+        options.dropdownCss != null ||
+        options.adaptDropdownCssClass != null
+      ) {
+        var DropdownCSS = require(options.amdBase + 'compat/dropdownCss');
+
+        options.dropdownAdapter = Utils.Decorate(
+          options.dropdownAdapter,
+          DropdownCSS
+        );
+      }
+
       options.dropdownAdapter = Utils.Decorate(
         options.dropdownAdapter,
         AttachBody
@@ -4400,6 +4480,19 @@ S2.define('select2/defaults',[
         options.selectionAdapter = Utils.Decorate(
           options.selectionAdapter,
           SelectionSearch
+        );
+      }
+
+      if (
+        options.containerCssClass != null ||
+        options.containerCss != null ||
+        options.adaptContainerCssClass != null
+      ) {
+        var ContainerCSS = require(options.amdBase + 'compat/containerCss');
+
+        options.selectionAdapter = Utils.Decorate(
+          options.selectionAdapter,
+          ContainerCSS
         );
       }
 
@@ -4443,10 +4536,10 @@ S2.define('select2/defaults',[
           } catch (ex) {
             // The translation could not be loaded at all. Sometimes this is
             // because of a configuration problem, other times this can be
-            // because of how Select2 helps load all possible translation files.
+            // because of how Select2wpupg helps load all possible translation files.
             if (options.debug && window.console && console.warn) {
               console.warn(
-                'Select2: The language file for "' + name + '" could not be ' +
+                'Select2wpupg: The language file for "' + name + '" could not be ' +
                 'automatically loaded. A fallback will be used instead.'
               );
             }
@@ -4460,7 +4553,14 @@ S2.define('select2/defaults',[
 
       options.translations = languages;
     } else {
-      options.translations = new Translation(options.language);
+      var baseTranslation = Translation.loadPath(
+        this.defaults.amdLanguageBase + 'en'
+      );
+      var customTranslation = new Translation(options.language);
+
+      customTranslation.extend(baseTranslation);
+
+      options.translations = customTranslation;
     }
 
     return options;
@@ -4526,6 +4626,7 @@ S2.define('select2/defaults',[
       amdLanguageBase: './i18n/',
       closeOnSelect: true,
       debug: false,
+      dropdownAutoWidth: false,
       escapeMarkup: Utils.escapeMarkup,
       language: EnglishTranslation,
       matcher: matcher,
@@ -4564,11 +4665,12 @@ S2.define('select2/defaults',[
   return defaults;
 });
 
-S2.define('select2/options',[
+S2.define('select2wpupg/options',[
+  'require',
   'jquery',
   './defaults',
   './utils'
-], function ($, Defaults, Utils) {
+], function (require, $, Defaults, Utils) {
   function Options (options, $element) {
     this.options = options;
 
@@ -4589,7 +4691,7 @@ S2.define('select2/options',[
   }
 
   Options.prototype.fromElement = function ($e) {
-    var excludedData = ['select2'];
+    var excludedData = ['select2wpupg'];
 
     if (this.options.multiple == null) {
       this.options.multiple = $e.prop('multiple');
@@ -4620,25 +4722,25 @@ S2.define('select2/options',[
     $e.prop('disabled', this.options.disabled);
     $e.prop('multiple', this.options.multiple);
 
-    if ($e.data('select2Tags')) {
+    if ($e.data('select2wpupgTags')) {
       if (this.options.debug && window.console && console.warn) {
         console.warn(
-          'Select2: The `data-select2-tags` attribute has been changed to ' +
+          'Select2wpupg: The `data-select2wpupg-tags` attribute has been changed to ' +
           'use the `data-data` and `data-tags="true"` attributes and will be ' +
-          'removed in future versions of Select2.'
+          'removed in future versions of Select2wpupg.'
         );
       }
 
-      $e.data('data', $e.data('select2Tags'));
+      $e.data('data', $e.data('select2wpupgTags'));
       $e.data('tags', true);
     }
 
     if ($e.data('ajaxUrl')) {
       if (this.options.debug && window.console && console.warn) {
         console.warn(
-          'Select2: The `data-ajax-url` attribute has been changed to ' +
+          'Select2wpupg: The `data-ajax-url` attribute has been changed to ' +
           '`data-ajax--url` and support for the old attribute will be removed' +
-          ' in future versions of Select2.'
+          ' in future versions of Select2wpupg.'
         );
       }
 
@@ -4686,15 +4788,15 @@ S2.define('select2/options',[
   return Options;
 });
 
-S2.define('select2/core',[
+S2.define('select2wpupg/core',[
   'jquery',
   './options',
   './utils',
   './keys'
 ], function ($, Options, Utils, KEYS) {
-  var Select2 = function ($element, options) {
-    if ($element.data('select2') != null) {
-      $element.data('select2').destroy();
+  var Select2wpupg = function ($element, options) {
+    if ($element.data('select2wpupg') != null) {
+      $element.data('select2wpupg').destroy();
     }
 
     this.$element = $element;
@@ -4705,7 +4807,7 @@ S2.define('select2/core',[
 
     this.options = new Options(options, $element);
 
-    Select2.__super__.constructor.call(this);
+    Select2wpupg.__super__.constructor.call(this);
 
     // Set up the tabindex
 
@@ -4765,17 +4867,18 @@ S2.define('select2/core',[
     });
 
     // Hide the original select
-    $element.hide();
-
+    $element.addClass('select2wpupg-hidden-accessible');
+	$element.attr('aria-hidden', 'true');
+	
     // Synchronize any monitored attributes
     this._syncAttributes();
 
-    $element.data('select2', this);
+    $element.data('select2wpupg', this);
   };
 
-  Utils.Extend(Select2, Utils.Observable);
+  Utils.Extend(Select2wpupg, Utils.Observable);
 
-  Select2.prototype._generateId = function ($element) {
+  Select2wpupg.prototype._generateId = function ($element) {
     var id = '';
 
     if ($element.attr('id') != null) {
@@ -4786,12 +4889,12 @@ S2.define('select2/core',[
       id = Utils.generateChars(4);
     }
 
-    id = 'select2-' + id;
+    id = 'select2wpupg-' + id;
 
     return id;
   };
 
-  Select2.prototype._placeContainer = function ($container) {
+  Select2wpupg.prototype._placeContainer = function ($container) {
     $container.insertAfter(this.$element);
 
     var width = this._resolveWidth(this.$element, this.options.get('width'));
@@ -4801,7 +4904,7 @@ S2.define('select2/core',[
     }
   };
 
-  Select2.prototype._resolveWidth = function ($element, method) {
+  Select2wpupg.prototype._resolveWidth = function ($element, method) {
     var WIDTH = /^width:(([-+]?([0-9]*\.)?[0-9]+)(px|em|ex|%|in|cm|mm|pt|pc))/i;
 
     if (method == 'resolve') {
@@ -4848,7 +4951,7 @@ S2.define('select2/core',[
     return method;
   };
 
-  Select2.prototype._bindAdapters = function () {
+  Select2wpupg.prototype._bindAdapters = function () {
     this.dataAdapter.bind(this, this.$container);
     this.selection.bind(this, this.$container);
 
@@ -4856,10 +4959,10 @@ S2.define('select2/core',[
     this.results.bind(this, this.$container);
   };
 
-  Select2.prototype._registerDomEvents = function () {
+  Select2wpupg.prototype._registerDomEvents = function () {
     var self = this;
 
-    this.$element.on('change.select2', function () {
+    this.$element.on('change.select2wpupg', function () {
       self.dataAdapter.current(function (data) {
         self.trigger('selection:update', {
           data: data
@@ -4891,7 +4994,7 @@ S2.define('select2/core',[
     }
   };
 
-  Select2.prototype._registerDataEvents = function () {
+  Select2wpupg.prototype._registerDataEvents = function () {
     var self = this;
 
     this.dataAdapter.on('*', function (name, params) {
@@ -4899,7 +5002,7 @@ S2.define('select2/core',[
     });
   };
 
-  Select2.prototype._registerSelectionEvents = function () {
+  Select2wpupg.prototype._registerSelectionEvents = function () {
     var self = this;
     var nonRelayEvents = ['toggle'];
 
@@ -4916,7 +5019,7 @@ S2.define('select2/core',[
     });
   };
 
-  Select2.prototype._registerDropdownEvents = function () {
+  Select2wpupg.prototype._registerDropdownEvents = function () {
     var self = this;
 
     this.dropdown.on('*', function (name, params) {
@@ -4924,7 +5027,7 @@ S2.define('select2/core',[
     });
   };
 
-  Select2.prototype._registerResultsEvents = function () {
+  Select2wpupg.prototype._registerResultsEvents = function () {
     var self = this;
 
     this.results.on('*', function (name, params) {
@@ -4932,31 +5035,31 @@ S2.define('select2/core',[
     });
   };
 
-  Select2.prototype._registerEvents = function () {
+  Select2wpupg.prototype._registerEvents = function () {
     var self = this;
 
     this.on('open', function () {
-      self.$container.addClass('select2-container--open');
+      self.$container.addClass('select2wpupg-container--open');
     });
 
     this.on('close', function () {
-      self.$container.removeClass('select2-container--open');
+      self.$container.removeClass('select2wpupg-container--open');
     });
 
     this.on('enable', function () {
-      self.$container.removeClass('select2-container--disabled');
+      self.$container.removeClass('select2wpupg-container--disabled');
     });
 
     this.on('disable', function () {
-      self.$container.addClass('select2-container--disabled');
+      self.$container.addClass('select2wpupg-container--disabled');
     });
 
     this.on('focus', function () {
-      self.$container.addClass('select2-container--focus');
+      self.$container.addClass('select2wpupg-container--focus');
     });
 
     this.on('blur', function () {
-      self.$container.removeClass('select2-container--focus');
+      self.$container.removeClass('select2wpupg-container--focus');
     });
 
     this.on('query', function (params) {
@@ -5017,7 +5120,7 @@ S2.define('select2/core',[
     });
   };
 
-  Select2.prototype._syncAttributes = function () {
+  Select2wpupg.prototype._syncAttributes = function () {
     this.options.set('disabled', this.$element.prop('disabled'));
 
     if (this.options.get('disabled')) {
@@ -5035,8 +5138,8 @@ S2.define('select2/core',[
    * Override the trigger method to automatically trigger pre-events when
    * there are events that can be prevented.
    */
-  Select2.prototype.trigger = function (name, args) {
-    var actualTrigger = Select2.__super__.trigger;
+  Select2wpupg.prototype.trigger = function (name, args) {
+    var actualTrigger = Select2wpupg.__super__.trigger;
     var preTriggerMap = {
       'open': 'opening',
       'close': 'closing',
@@ -5064,7 +5167,7 @@ S2.define('select2/core',[
     actualTrigger.call(this, name, args);
   };
 
-  Select2.prototype.toggleDropdown = function () {
+  Select2wpupg.prototype.toggleDropdown = function () {
     if (this.options.get('disabled')) {
       return;
     }
@@ -5076,7 +5179,7 @@ S2.define('select2/core',[
     }
   };
 
-  Select2.prototype.open = function () {
+  Select2wpupg.prototype.open = function () {
     if (this.isOpen()) {
       return;
     }
@@ -5086,7 +5189,7 @@ S2.define('select2/core',[
     this.trigger('open');
   };
 
-  Select2.prototype.close = function () {
+  Select2wpupg.prototype.close = function () {
     if (!this.isOpen()) {
       return;
     }
@@ -5094,15 +5197,15 @@ S2.define('select2/core',[
     this.trigger('close');
   };
 
-  Select2.prototype.isOpen = function () {
-    return this.$container.hasClass('select2-container--open');
+  Select2wpupg.prototype.isOpen = function () {
+    return this.$container.hasClass('select2wpupg-container--open');
   };
 
-  Select2.prototype.enable = function (args) {
+  Select2wpupg.prototype.enable = function (args) {
     if (this.options.get('debug') && window.console && console.warn) {
       console.warn(
-        'Select2: The `select2("enable")` method has been deprecated and will' +
-        ' be removed in later Select2 versions. Use $element.prop("disabled")' +
+        'Select2wpupg: The `select2wpupg("enable")` method has been deprecated and will' +
+        ' be removed in later Select2wpupg versions. Use $element.prop("disabled")' +
         ' instead.'
       );
     }
@@ -5116,11 +5219,11 @@ S2.define('select2/core',[
     this.$element.prop('disabled', disabled);
   };
 
-  Select2.prototype.data = function () {
+  Select2wpupg.prototype.data = function () {
     if (this.options.get('debug') &&
         arguments.length > 0 && window.console && console.warn) {
       console.warn(
-        'Select2: Data can no longer be set using `select2("data")`. You ' +
+        'Select2wpupg: Data can no longer be set using `select2wpupg("data")`. You ' +
         'should consider setting the value instead using `$element.val()`.'
       );
     }
@@ -5134,11 +5237,11 @@ S2.define('select2/core',[
     return data;
   };
 
-  Select2.prototype.val = function (args) {
+  Select2wpupg.prototype.val = function (args) {
     if (this.options.get('debug') && window.console && console.warn) {
       console.warn(
-        'Select2: The `select2("val")` method has been deprecated and will be' +
-        ' removed in later Select2 versions. Use $element.val() instead.'
+        'Select2wpupg: The `select2wpupg("val")` method has been deprecated and will be' +
+        ' removed in later Select2wpupg versions. Use $element.val() instead.'
       );
     }
 
@@ -5157,7 +5260,7 @@ S2.define('select2/core',[
     this.$element.val(newVal).trigger('change');
   };
 
-  Select2.prototype.destroy = function () {
+  Select2wpupg.prototype.destroy = function () {
     this.$container.remove();
 
     if (this.$element[0].detachEvent) {
@@ -5174,11 +5277,12 @@ S2.define('select2/core',[
 
     this._sync = null;
 
-    this.$element.off('.select2');
+    this.$element.off('.select2wpupg');
     this.$element.attr('tabindex', this.$element.data('old-tabindex'));
 
-    this.$element.show();
-    this.$element.removeData('select2');
+    this.$element.removeClass('select2wpupg-hidden-accessible');
+	this.$element.attr('aria-hidden', 'false');
+    this.$element.removeData('select2wpupg');
 
     this.dataAdapter.destroy();
     this.selection.destroy();
@@ -5191,9 +5295,9 @@ S2.define('select2/core',[
     this.results = null;
   };
 
-  Select2.prototype.render = function () {
+  Select2wpupg.prototype.render = function () {
     var $container = $(
-      '<span class="select2 select2-container">' +
+      '<span class="select2wpupg select2wpupg-container">' +
         '<span class="selection"></span>' +
         '<span class="dropdown-wrapper" aria-hidden="true"></span>' +
       '</span>'
@@ -5203,54 +5307,79 @@ S2.define('select2/core',[
 
     this.$container = $container;
 
-    this.$container.addClass('select2-container--' + this.options.get('theme'));
+    this.$container.addClass('select2wpupg-container--' + this.options.get('theme'));
 
     $container.data('element', this.$element);
 
     return $container;
   };
 
-  return Select2;
+  return Select2wpupg;
 });
 
-S2.define('jquery.select2',[
+S2.define('jquery.select2wpupg',[
   'jquery',
-  './select2/core',
-  './select2/defaults'
-], function ($, Select2, Defaults) {
-  // Force jQuery.mousewheel to be loaded if it hasn't already
-  try {
-    require('jquery.mousewheel');
-  } catch (Exception) { }
+  'require',
 
-  if ($.fn.select2 == null) {
-    $.fn.select2 = function (options) {
+  './select2wpupg/core',
+  './select2wpupg/defaults'
+], function ($, require, Select2wpupg, Defaults) {
+  // Force jQuery.mousewheel to be loaded if it hasn't already
+  require('jquery.mousewheel');
+
+  if ($.fn.select2wpupg == null) {
+    // All methods that should return the element
+    var thisMethods = ['open', 'close', 'destroy'];
+
+    $.fn.select2wpupg = function (options) {
       options = options || {};
 
       if (typeof options === 'object') {
         this.each(function () {
           var instanceOptions = $.extend({}, options, true);
 
-          var instance = new Select2($(this), instanceOptions);
+          var instance = new Select2wpupg($(this), instanceOptions);
         });
 
         return this;
       } else if (typeof options === 'string') {
-        var instance = this.data('select2');
+        var instance = this.data('select2wpupg');
+
+        if (instance == null && window.console && console.error) {
+          console.error(
+            'The select2wpupg(\'' + options + '\') method was called on an ' +
+            'element that is not using Select2wpupg.'
+          );
+        }
+
         var args = Array.prototype.slice.call(arguments, 1);
 
-        return instance[options](args);
+        var ret = instance[options](args);
+
+        // Check if we should be returning `this`
+        if ($.inArray(options, thisMethods) > -1) {
+          return this;
+        }
+
+        return ret;
       } else {
-        throw new Error('Invalid arguments for Select2: ' + options);
+        throw new Error('Invalid arguments for Select2wpupg: ' + options);
       }
     };
   }
 
-  if ($.fn.select2.defaults == null) {
-    $.fn.select2.defaults = Defaults;
+  if ($.fn.select2wpupg.defaults == null) {
+    $.fn.select2wpupg.defaults = Defaults;
   }
 
-  return Select2;
+  return Select2wpupg;
+});
+
+S2.define('jquery.mousewheel',[
+  'jquery'
+], function ($) {
+  // Used to shim jQuery.mousewheel for non-full builds.
+  return $;
 });
 
   // Return the AMD loader configuration so it can be used outside of this file
@@ -5262,13 +5391,13 @@ S2.define('jquery.select2',[
 
   // Autoload the jQuery bindings
   // We know that all of the modules exist above this, so we're safe
-  var select2 = S2.require('jquery.select2');
+  var select2wpupg = S2.require('jquery.select2wpupg');
 
   // Hold the AMD module references on the jQuery function that was just loaded
-  // This allows Select2 to use the internal loader outside of this file, such
+  // This allows Select2wpupg to use the internal loader outside of this file, such
   // as in the language files.
-  jQuery.fn.select2.amd = S2;
+  jQuery.fn.select2wpupg.amd = S2;
 
-  // Return the Select2 instance for anyone who is importing it.
-  return select2;
+  // Return the Select2wpupg instance for anyone who is importing it.
+  return select2wpupg;
 }));

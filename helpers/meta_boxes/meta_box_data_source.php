@@ -1,6 +1,7 @@
 <?php
 // Grid should never be null. Construct just allows easy access to WPUPG_Grid functions in IDE.
 if( is_null( $grid ) ) $grid = new WPUPG_Grid(0);
+$premium_only = WPUltimatePostGrid::is_premium_active() ? '' : ' (' . __( 'Premium only', 'wp-ultimate-post-grid' ) . ')';
 ?>
 
 <input type="hidden" name="wpupg_nonce" value="<?php echo wp_create_nonce( 'grid' ); ?>" />
@@ -70,5 +71,13 @@ if( is_null( $grid ) ) $grid = new WPUPG_Grid(0);
             <input type="checkbox" name="wpupg_images_only" id="wpupg_images_only" <?php if( $grid->images_only() ) echo 'checked="true" '?>/>
         </td>
         <td><?php _e( 'Only display posts with a featured image.', 'wp-ultimate-post-grid' ); ?></td>
+    </tr>
+    <tr class="wpupg_divider">
+        <td><label for="wpupg_limit_posts"><?php _e( 'Limit Posts', 'wp-ultimate-post-grid' ); ?></label></td>
+        <td>
+            <input type="checkbox" name="wpupg_limit_posts" id="wpupg_limit_posts" <?php if( $grid->limit_posts() ) echo 'checked="true" '?>/>
+            <?php echo $premium_only; ?>
+        </td>
+        <td><?php _e( 'Limit the posts that will be shown in the grid.', 'wp-ultimate-post-grid' ); ?></td>
     </tr>
 </table>

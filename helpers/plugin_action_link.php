@@ -9,7 +9,7 @@ class WPUPG_Plugin_Action_Link {
 
     public function action_links( $links )
     {
-        //$links[] = '<a href="'. get_admin_url(null, 'edit.php?post_type=recipe&page=wpurp_admin') .'">'.__( 'Settings', 'wp-ultimate-recipe' ).'</a>';
+        //$links[] = '<a href="'. get_admin_url(null, 'edit.php?post_type=recipe&page=wpupg_admin') .'">'.__( 'Settings', 'wp-ultimate-recipe' ).'</a>';
         $links[] = '<a href="http://bootstrapped.ventures" target="_blank">'.__( 'More information', 'wp-ultimate-post-grid' ).'</a>';
 
         return $links;

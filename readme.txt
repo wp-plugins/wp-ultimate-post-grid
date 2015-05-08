@@ -14,6 +14,8 @@ Easily create filterable responsive grids for your posts, pages or custom post t
 
 Use WP Ultimate Post Grid to create responsive grids for your posts, pages or any custom post type. Optionally add an isotope filter for any taxonomy associated with those posts.
 
+Go to our website for [documentation and video lessons on all our features](http://bootstrapped.ventures/wp-ultimate-post-grid/).
+
 An overview of the WP Ultimate Post Grid features:
 
 *   Use posts, pages or **custom post types** as the source
@@ -23,7 +25,15 @@ An overview of the WP Ultimate Post Grid features:
 *   **Deeplinking** directly to a filtered grid
 *   Grids and filters can be added anywhere with **their own shortcode**
 *   Multiple **templates** for your grids
-*   Possible to use **pagination**
+*   Possibility to use **pagination**
+
+We also have a [WP Ultimate Post Grid Premium version](http://bootstrapped.ventures/wp-ultimate-post-grid/) which offers the following features:
+
+*   **Limit your posts** by any taxonomy, author or post ID
+*   Have **dropdown filters** for any taxonomy
+*   Allow for **multiselect** in the filters
+*   Extensive **Template Editor** to create any grid you want
+*   A **Load More button** for pagination
 
 This plugin is under active development. Any feature requests are welcome!
 
@@ -36,9 +46,12 @@ This plugin is under active development. Any feature requests are welcome!
 
 == Frequently asked questions ==
 
+= Where can I find more documenation? =
+[Over here!](http://bootstrapped.ventures/wp-ultimate-post-grid/)
+
 = Is this it? =
 
-It's still a very early version of the plugin and we'll be adding new features every few weeks. Let us know what you're looking for and we might be able to include it!
+It's still an early version of the plugin and we'll be adding new features every few weeks. Let us know what you're looking for and we might be able to include it!
 
 = Who made this? =
 
@@ -53,6 +66,12 @@ It's still a very early version of the plugin and we'll be adding new features e
 5. Everything is fully responsive
 
 == Changelog ==
+
+= 1.4 =
+* Feature: Link options for the grid (open in new tab, same tab or no link)
+* Feature: Shortcode editor to easily add grid and filter in the visual editor
+* Fix: Relayout grid after images are loaded
+* Fix: Admin JS error
 
 = 1.3 =
 * Feature: Pagination

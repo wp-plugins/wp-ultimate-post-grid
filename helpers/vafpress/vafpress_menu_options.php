@@ -1,7 +1,7 @@
 <?php
 
 // Include part of site URL hash in HTML settings to update when site URL changes
-$sitehash = substr( base64_encode( site_url() ), 0, 8 );
+$sitehash = substr( md5( WPUltimatePostGrid::get()->coreUrl ), 0, 8 );
 
 $template_editor_button = WPUltimatePostGrid::is_addon_active( 'template-editor' ) ? 'grid_template_open_template_editor_active' . $sitehash : 'grid_template_open_template_editor_disabled';
 
@@ -88,6 +88,31 @@ $admin_menu = array(
             'name' => 'advanced',
             'icon' => 'font-awesome:fa-wrench',
             'controls' => array(
+                array(
+                    'type' => 'section',
+                    'title' => __('Shortcode Editor', 'wp-ultimate-post-grid'),
+                    'name' => 'advanced_section_shortcode',
+                    'fields' => array(
+                        array(
+                            'type' => 'multiselect',
+                            'name' => 'shortcode_editor_post_types',
+                            'label' => __('Show shortcode editor for', 'wp-ultimate-post-grid'),
+                            'description' => __( 'Where do you want to be able to insert grids with the shortcode editor?', 'wp-ultimate-post-grid' ),
+                            'items' => array(
+                                'data' => array(
+                                    array(
+                                        'source' => 'function',
+                                        'value' => 'wpupg_admin_post_types',
+                                    ),
+                                ),
+                            ),
+                            'default' => array(
+                                'post',
+                                'page',
+                            ),
+                        ),
+                    ),
+                ),
                 array(
                     'type' => 'section',
                     'title' => __('Assets', 'wp-ultimate-post-grid'),

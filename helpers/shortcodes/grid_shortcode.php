@@ -25,11 +25,17 @@ class WPUPG_Grid_Shortcode {
             if( !is_null( $post ) ) {
                 $grid = new WPUPG_Grid( $post );
 
-                $output = '<div id="wpupg-grid-' . esc_attr( $slug ) . '" class="wpupg-grid" data-grid="' . esc_attr( $slug ) . '">';
-                $output .= $grid->draw_posts();
-                $output .= '</div>';
+                $link_type = $grid->link_type();
+                $link_type = $link_type ? $link_type : '_self';
 
-                if( $grid->pagination_type() !== 'none' ) {
+                $posts = '<div id="wpupg-grid-' . esc_attr( $slug ) . '" class="wpupg-grid" data-grid="' . esc_attr( $slug ) . '" data-link-type="' . $link_type . '">';
+                $posts .= $grid->draw_posts();
+                $posts .= '</div>';
+
+                $output = apply_filters( 'wpupg_posts_shortcode', $posts, $grid );
+
+                $pagination = '';
+                if( $grid->pagination_type() == 'pages' ) {
                     $pagination_type = $grid->pagination_type();
                     $pagination_style = $grid->pagination_style();
 
@@ -51,10 +57,12 @@ class WPUPG_Grid_Shortcode {
                     $style_data .= ' data-hover-text-color="' . $pagination_style['text_hover_color'] . '"';
                     $style_data .= ' data-hover-border-color="' . $pagination_style['border_hover_color'] . '"';
                     
-                    $output .= '<div id="wpupg-grid-' . esc_attr( $slug ) . '-pagination" class="wpupg-pagination wpupg-pagination-' . $pagination_type . '" style="text-align: ' . $pagination_style['alignment'] . ';" data-grid="' . esc_attr( $slug ) . '"' . $style_data . '>';
-                    $output .= $grid->draw_pagination();
-                    $output .= '</div>';
+                    $pagination .= '<div id="wpupg-grid-' . esc_attr( $slug ) . '-pagination" class="wpupg-pagination wpupg-pagination-' . $pagination_type . '" style="text-align: ' . $pagination_style['alignment'] . ';" data-grid="' . esc_attr( $slug ) . '" data-type="' . $pagination_type . '"' . $style_data . '>';
+                    $pagination .= $grid->draw_pagination();
+                    $pagination .= '</div>';
                 }
+
+                $output .= apply_filters( 'wpupg_pagination_shortcode', $pagination, $grid );
             }
         }
 

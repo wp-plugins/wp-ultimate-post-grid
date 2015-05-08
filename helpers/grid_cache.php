@@ -68,6 +68,7 @@ class WPUPG_Grid_Cache {
     public function regenerate_grids_check()
     {
         $grid_ids = get_option( 'wpupg_regenerate_grids_check', false );
+
         if( $grid_ids ) {
             foreach( $grid_ids as $grid_id ) {
                 $this->generate( $grid_id );
@@ -105,6 +106,8 @@ class WPUPG_Grid_Cache {
         $posts = $query->have_posts() ? $query->posts : array();
         $post_ids = array_map( 'intval', $posts );
 
+        $post_ids = apply_filters( 'wpupg_grid_cache_post_ids', $post_ids, $grid );
+
         $cache = array(
             'all' => $post_ids,
         );
@@ -115,8 +118,6 @@ class WPUPG_Grid_Cache {
         $posts_per_term = array();
         $terms_per_post = array();
         $filter_terms = array();
-        $filter_slugs = array();
-
 
         // Loop over all terms
         foreach( $post_ids as $post_id ) {
@@ -127,19 +128,60 @@ class WPUPG_Grid_Cache {
 
                 $terms = wp_get_post_terms( $post_id, $taxonomy );
 
+                // Get parent terms if enabled
+                if( $grid->filter_match_parents() ) {
+                    $parent_ids = array();
+                    $parents = array();
+
+                    foreach( $terms as $term ) {
+                        if( $term->parent != 0 ) {
+                            $parent_ids[] = $term->parent;
+                        }
+                    }
+
+                    while( count( $parent_ids ) > 0 )
+                    {
+                        $children_ids = $parent_ids;
+                        $parent_ids = array();
+
+                        foreach( $children_ids as $child ) {
+                            $term = get_term( $child, $taxonomy );
+                            $parents[] = $term;
+
+                            if( $term->parent != 0 ) {
+                                $parent_ids[] = $term->parent;
+                            }
+                        }
+                    }
+
+                    $terms = array_merge( $terms, $parents );
+                    $handled_terms = array();
+                }
+
                 $post_taxonomy_term_ids = array();
 
                 foreach( $terms as $term ) {
+                    // Make sure we only handle each term once
+                    if( $grid->filter_match_parents() ) {
+                        if( in_array( $term->slug, $handled_terms ) ) continue;
+                        $handled_terms[] = $term->slug;
+                    }
+
                     // Posts per term
-                    if( !isset( $posts_per_term[$taxonomy][$term->term_id] ) ) $posts_per_term[$taxonomy][$term->term_id] = array();
-                    $posts_per_term[$taxonomy][$term->term_id][] = $post_id;
+                    if( !isset( $posts_per_term[$taxonomy][$term->slug] ) ) $posts_per_term[$taxonomy][$term->slug] = array();
+                    $posts_per_term[$taxonomy][$term->slug][] = $post_id;
 
                     // Terms per post
-                    $post_taxonomy_term_ids[] = $term->term_id;
+                    $post_taxonomy_term_ids[] = $term->slug;
 
                     // Filter terms
-                    $filter_terms[$taxonomy . '-' . $term->term_id] = $term->name;
-                    $filter_slugs[$taxonomy . '-' . $term->term_id] = $term->slug;
+                    $filter_terms[$term->slug] = array(
+                        'taxonomy' => $taxonomy,
+                        'name' => $term->name,
+                    );
+
+
+
                 }
 
                 $terms_per_post[$post_id][$taxonomy] = $post_taxonomy_term_ids;
@@ -152,16 +194,18 @@ class WPUPG_Grid_Cache {
         // Generate Filter
         $filter = '';
 
-        if( count( $filter_terms ) > 0 ) {
-            $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term wpupg-filter-tag- active" data-filter="*" data-slug="">' . __( 'All', 'wp-ultimate-post-grid' ) . '</div>';
+        if( count( $filter_terms ) > 0 && $grid->filter_type() == 'isotope' ) {
+            $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term wpupg-filter-tag- active">' . __( 'All', 'wp-ultimate-post-grid' ) . '</div>';
 
-            asort( $filter_terms );
-            foreach( $filter_terms as $term_id => $term_name ) {
-                $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term wpupg-filter-tag-' . $filter_slugs[$term_id] . '" data-filter=".wpupg-tax-' . $term_id . '" data-slug="' . $filter_slugs[$term_id] . '">' . $term_name . '</div>';
+            ksort( $filter_terms );
+            foreach( $filter_terms as $slug => $options ) {
+                $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term wpupg-filter-tag-' . $slug . '" data-taxonomy="' . $options['taxonomy'] . '" data-filter="' . $slug . '">' . $options['name'] . '</div>';
             }
         }
 
         // Update Metadata
+        $cache = apply_filters( 'wpupg_grid_cache_posts', $cache, $grid );
+        $filter = apply_filters( 'wpupg_grid_cache_filter', $filter, $cache, $grid );
         update_post_meta( $grid_id, 'wpupg_posts', $cache );
         update_post_meta( $grid_id, 'wpupg_filter', $filter );
     }

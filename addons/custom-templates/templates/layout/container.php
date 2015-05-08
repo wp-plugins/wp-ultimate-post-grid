@@ -35,7 +35,7 @@ class WPUPG_Template_Container extends WPUPG_Template_Block {
 
         ob_start();
 ?>
-<div id="wpupg-container-post-<?php echo $post->ID; ?>"<?php echo $this->style(); ?>>
+<div id="wpupg-container-post-<?php echo $post->ID; ?>" data-permalink="<?php echo get_post_permalink( $post->ID ); ?>" <?php echo $this->style(); ?>>
     <?php $this->output_children( $post, 0, 0, $args ) ?>
 </div>
 <?php
