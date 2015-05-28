@@ -26,9 +26,10 @@ class WPUPG_Grid_Shortcode {
                 $grid = new WPUPG_Grid( $post );
 
                 $link_type = $grid->link_type();
-                $link_type = $link_type ? $link_type : '_self';
+                $layout_mode = $grid->layout_mode();
+                $centered = $grid->centered() ? 'true' : 'false';
 
-                $posts = '<div id="wpupg-grid-' . esc_attr( $slug ) . '" class="wpupg-grid" data-grid="' . esc_attr( $slug ) . '" data-link-type="' . $link_type . '">';
+                $posts = '<div id="wpupg-grid-' . esc_attr( $slug ) . '" class="wpupg-grid" data-grid="' . esc_attr( $slug ) . '" data-link-type="' . $link_type . '" data-layout-mode="' . $layout_mode . '" data-centered="' . $centered . '">';
                 $posts .= $grid->draw_posts();
                 $posts .= '</div>';
 

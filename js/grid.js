@@ -5,7 +5,7 @@ WPUltimatePostGrid.grids = {};
 WPUltimatePostGrid.initGrid = function(container) {
     var grid_id = container.data('grid');
 
-    container.isotope({
+    var args = {
         itemSelector: '.wpupg-item',
         transitionDuration: '0.8s',
         hiddenStyle: {
@@ -14,11 +14,20 @@ WPUltimatePostGrid.initGrid = function(container) {
         visibleStyle: {
             opacity: 1
         }
-        // Center grid
-        //masonry: {
-        //    isFitWidth: true
-        //}
-    });
+    };
+
+    var layout_mode = container.data('layout-mode');
+    if(layout_mode) {
+        args.layoutMode = layout_mode;
+    }
+
+    if(layout_mode == 'masonry' && container.data('centered')) {
+        args.masonry = {
+            isFitWidth: true
+        };
+    }
+
+    container.isotope(args);
 
     container.imagesLoaded( function() {
         container.isotope('layout');
@@ -26,6 +35,7 @@ WPUltimatePostGrid.initGrid = function(container) {
 
     WPUltimatePostGrid.grids[grid_id] = {
         container: container,
+        centered: container.data('centered'),
         pages: [0],
         page: 0,
         filters: {}
@@ -128,6 +138,12 @@ WPUltimatePostGrid.restoreDeeplink = function() {
     link = link.substr(1);
 
     if(link && link != '*') {
+        // Make sure characters are not URL encoded
+        link = link.replace('%23', '#');
+        link = link.replace('%7C', '|');
+        link = link.replace('%3A', ':');
+        link = link.replace('%2C', ',');
+
         var grids = link.split('#');
 
         for(var i=0; i < grids.length; i++) {

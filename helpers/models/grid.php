@@ -5,6 +5,7 @@ class WPUPG_Grid {
     private $post;
     private $meta;
     private $fields = array(
+        'wpupg_centered',
         'wpupg_images_only',
         'wpupg_filter_match_parents',
         'wpupg_filter_multiselect',
@@ -12,6 +13,7 @@ class WPUPG_Grid {
         'wpupg_filter_type',
         'wpupg_pagination_type',
         'wpupg_post_types',
+        'wpupg_layout_mode',
         'wpupg_limit_posts',
         'wpupg_link_type',
         'wpupg_order_by',
@@ -127,6 +129,11 @@ class WPUPG_Grid {
      * Grid fields
      */
 
+    public function centered()
+    {
+        return $this->meta( 'wpupg_centered' );
+    }
+
     public function filter()
     {
         return $this->meta( 'wpupg_filter' );
@@ -185,6 +192,12 @@ class WPUPG_Grid {
         return $this->meta( 'wpupg_images_only' );
     }
 
+    public function layout_mode()
+    {
+        $layout_mode = $this->meta( 'wpupg_layout_mode' );
+        return $layout_mode ? $layout_mode : 'masonry';
+    }
+
     public function limit_posts()
     {
         return $this->meta( 'wpupg_limit_posts' );
@@ -198,7 +211,8 @@ class WPUPG_Grid {
 
     public function link_type()
     {
-        return $this->meta( 'wpupg_link_type' );
+        $link_type = $this->meta( 'wpupg_link_type' );
+        return $link_type ? $link_type : '_self';
     }
 
     public function order()
@@ -354,7 +368,7 @@ class WPUPG_Grid {
             $template = apply_filters( 'wpupg_output_grid_template', $this->template(), $this );
             $post = apply_filters( 'wpupg_output_grid_post', $post, $this );
 
-            $output .= $template->output_string( $post, $classes );
+            $output .= apply_filters( 'wpupg_output_grid_html', $template->output_string( $post, $classes ), $template, $post, $classes );
         }
 
         return $output;

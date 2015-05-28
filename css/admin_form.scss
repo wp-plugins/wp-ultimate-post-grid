@@ -119,6 +119,12 @@
 
   td {
     text-align: left;
+    clear: both;
+
+    .rule_container_wpupg_general_date {
+      width: 50%;
+      float: left;
+    }
 
     &:nth-child(3) {
       width: 25%;

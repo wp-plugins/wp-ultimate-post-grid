@@ -70,7 +70,11 @@
 #wpupg_form_limit_posts #wpupg_rule_placeholder {
   display: none; }
 #wpupg_form_limit_posts td {
-  text-align: left; }
+  text-align: left;
+  clear: both; }
+  #wpupg_form_limit_posts td .rule_container_wpupg_general_date {
+    width: 50%;
+    float: left; }
   #wpupg_form_limit_posts td:nth-child(3) {
     width: 25%; }
   #wpupg_form_limit_posts td:nth-child(4) {

@@ -92,6 +92,12 @@ class WPUPG_Assets {
                 'page' => 'grid_form',
             ),
             array(
+                'file' => 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css',
+                'direct' => true,
+                'admin' => true,
+                'page' => 'grid_form',
+            ),
+            array(
                 'file' => WPUltimatePostGrid::get()->coreUrl . '/vendor/select2/css/select2.css',
                 'direct' => true,
                 'admin' => true,
@@ -128,6 +134,7 @@ class WPUPG_Assets {
                 'page' => 'grid_form',
                 'deps' => array(
                     'jquery',
+                    'jquery-ui-datepicker',
                     'select2wpupg',
                     'nouislider',
                     'wp-color-picker',
@@ -201,8 +208,12 @@ class WPUPG_Assets {
             if( isset( $asset['page'] ) ) {
                 switch ( strtolower( $asset['page'] ) ) {
 
+                    case 'grid_posts':
+                        if( $hook != 'edit.php' || ( isset( $_GET['post_type'] ) && $_GET['post_type'] != WPUPG_POST_TYPE ) ) continue 2; // Switch is consider a loop statement for continue
+                        break;
+
                     case 'grid_form':
-                        if( !in_array( $hook, array( 'post.php', 'post-new.php' ) ) || ( isset( $_GET['post_type'] ) && $_GET['post_type'] != WPUPG_POST_TYPE ) ) continue 2; // Switch is consider a loop statement for continue
+                        if( !in_array( $hook, array( 'post.php', 'post-new.php' ) ) || ( isset( $_GET['post_type'] ) && $_GET['post_type'] != WPUPG_POST_TYPE ) ) continue 2;
                         break;
 
                     default:

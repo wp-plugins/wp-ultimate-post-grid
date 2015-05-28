@@ -2,7 +2,7 @@
 Contributors: BrechtVds
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QG7KZMGFU325Y
 Tags: grid, isotope, filter, custom post type
-Requires at least: 3.3
+Requires at least: 3.5
 Tested up to: 4.2
 Stable tag: trunk
 License: GPLv2 or later
@@ -29,11 +29,12 @@ An overview of the WP Ultimate Post Grid features:
 
 We also have a [WP Ultimate Post Grid Premium version](http://bootstrapped.ventures/wp-ultimate-post-grid/) which offers the following features:
 
-*   **Limit your posts** by any taxonomy, author or post ID
+*   **Limit your posts** by any taxonomy, author, date or post ID
 *   Have **dropdown filters** for any taxonomy
 *   Allow for **multiselect** in the filters
 *   Extensive **Template Editor** to create any grid you want
 *   A **Load More button** for pagination
+*   Easily **clone your grids**
 
 This plugin is under active development. Any feature requests are welcome!
 
@@ -67,6 +68,14 @@ It's still an early version of the plugin and we'll be adding new features every
 
 == Changelog ==
 
+= 1.5 =
+* Feature: New “Overlay” template
+* Feature: New layout mode option to have items in rows
+* Feature: Ability to center the grid in the masonry layout
+* Improvement: FAQ page with some more documentation
+* Improvement: wpupg_output_grid_html filter hook
+* Fix: Deeplinking problem with URL encoded characters
+
 = 1.4 =
 * Feature: Link options for the grid (open in new tab, same tab or no link)
 * Feature: Shortcode editor to easily add grid and filter in the visual editor
@@ -88,6 +97,9 @@ It's still an early version of the plugin and we'll be adding new features every
 * Very first version of this plugin
 
 == Upgrade notice ==
+
+= 1.5 =
+Update to get some great new post grid features
 
 = 1.3 =
 Update to get the pagination feature

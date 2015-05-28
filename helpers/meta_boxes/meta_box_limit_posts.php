@@ -20,7 +20,7 @@ if( is_null( $grid ) ) $grid = new WPUPG_Grid(0);
                     <?php
                     $rule_field_options = array(
                         'wpupg_general|author' => __( 'Author', 'wp-ultimate-post-grid' ),
-//                        'wpupg_general|date' => __( 'Date', 'wp-ultimate-post-grid' ),
+                        'wpupg_general|date' => __( 'Date', 'wp-ultimate-post-grid' ),
                         'wpupg_general|id' => __( 'Post ID', 'wp-ultimate-post-grid' ),
                     );
 
@@ -79,6 +79,26 @@ if( is_null( $grid ) ) $grid = new WPUPG_Grid(0);
                     }
                     ?>
                 </select>
+            </div>
+            <div class="rule_container rule_container_wpupg_general_date">
+                <select name="wpupg_limit_posts_rule[0][values_wpupg_general_date_condition]" id="wpupg_limit_posts_rule_values_wpupg_general_date_condition_0">
+                    <?php
+                    $date_condition_options = array(
+                        'before' => __( 'Before', 'wp-ultimate-post-grid' ),
+                        'is' => __( 'Is', 'wp-ultimate-post-grid' ),
+                        'after' => __( 'After', 'wp-ultimate-post-grid' ),
+                    );
+
+                    foreach( $date_condition_options as $date_condition => $date_condition_name ) {
+                        $selected = '';//$rule_field == $grid->filter_type() ? ' selected="selected"' : '';
+                        echo '<option value="' . esc_attr( $date_condition ) . '"' . $selected . '>' . $date_condition_name . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="rule_container rule_container_wpupg_general_date">
+                <input type="text" name="wpupg_limit_posts_rule[0][values_wpupg_general_date_date]" class="wpupg-date" id="wpupg_limit_posts_rule_values_wpupg_general_date_date_0" placeholder="01/28/1988"/>
+                <input type="hidden" name="wpupg_limit_posts_rule[0][values_wpupg_general_date]" id="wpupg_limit_posts_rule_values_wpupg_general_date_0"/>
             </div>
             <div class="rule_container rule_container_wpupg_general_id">
                 <input type="text" name="wpupg_limit_posts_rule[0][values_wpupg_general_id]" id="wpupg_limit_posts_rule_values_wpupg_general_id_0" placeholder="<?php _e( 'Separate post IDs with a semicolon', 'wp-ultimate-post-grid' ); ?> (1;28;88)"/>
@@ -168,6 +188,25 @@ if( is_null( $grid ) ) $grid = new WPUPG_Grid(0);
                         }
                         ?>
                     </select>
+                </div>
+                <?php
+                $rule_date_condition = $rule['post_type'] == 'wpupg_general' && $rule['taxonomy'] == 'date' && isset( $rule['values'][0] ) ? $rule['values'][0] : '';
+                $rule_date_date = $rule['post_type'] == 'wpupg_general' && $rule['taxonomy'] == 'date' && isset( $rule['values'][1] ) ? $rule['values'][1] : '';
+                $rule_date = $rule_date_condition . ';' . $rule_date_date;
+                ?>
+                <div class="rule_container rule_container_wpupg_general_date">
+                    <select name="wpupg_limit_posts_rule[<?php echo $rule_id; ?>][values_wpupg_general_date_condition]" id="wpupg_limit_posts_rule_values_wpupg_general_date_condition_<?php echo $rule_id; ?>">
+                        <?php
+                        foreach( $date_condition_options as $date_condition => $date_condition_name ) {
+                            $selected = $date_condition == $rule_date_condition ? ' selected="selected"' : '';
+                            echo '<option value="' . esc_attr( $date_condition ) . '"' . $selected . '>' . $date_condition_name . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="rule_container rule_container_wpupg_general_date">
+                    <input type="text" name="wpupg_limit_posts_rule[<?php echo $rule_id; ?>][values_wpupg_general_date_date]" class="wpupg-date" id="wpupg_limit_posts_rule_values_wpupg_general_date_date_<?php echo $rule_id; ?>" value="<?php echo $rule_date_date; ?>" placeholder="01/28/1988"/>
+                    <input type="hidden" name="wpupg_limit_posts_rule[<?php echo $rule_id; ?>][values_wpupg_general_date]" id="wpupg_limit_posts_rule_values_wpupg_general_date_<?php echo $rule_id; ?>" value="<?php echo $rule_date; ?>"/>
                 </div>
                 <div class="rule_container rule_container_wpupg_general_id">
                     <?php $id_value = $rule['post_type'] == 'wpupg_general' && $rule['taxonomy'] == 'id' ? implode( ';', $rule['values'] ) : ''; ?>

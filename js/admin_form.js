@@ -10,6 +10,9 @@ WPUltimatePostGrid.initForm = function() {
         width: '100%'
     });
 
+    // Datepicker
+    jQuery('#wpupg_rules').find('.wpupg-date').datepicker();
+
     // Sliders
     var slider_args = {
         start: 1,
@@ -194,6 +197,7 @@ WPUltimatePostGrid.initForm = function() {
     WPUltimatePostGrid.changedFilterType();
     WPUltimatePostGrid.changedMultiselect();
     WPUltimatePostGrid.changedIsotopeFilterStyle();
+    WPUltimatePostGrid.changedLayoutMode();
     WPUltimatePostGrid.changedPaginationStyle();
     WPUltimatePostGrid.changedPaginationType();
     WPUltimatePostGrid.changedPaginationText();
@@ -204,8 +208,11 @@ WPUltimatePostGrid.initForm = function() {
     jQuery('#wpupg_add_rule').on('click', function(e) { e.preventDefault(); WPUltimatePostGrid.addRule(); });
     jQuery('.wpupg_rule_delete').on('click', function(e) { e.preventDefault(); WPUltimatePostGrid.removeRule(jQuery(this).parents('tr').attr('data-rule')); });
     jQuery('.wpupg_rule_field').on('change', function(e) { WPUltimatePostGrid.changedRuleField(jQuery(this).parents('tr').attr('data-rule')); });
+    jQuery('.rule_container_wpupg_general_date').find('select').on('change', function(e) { WPUltimatePostGrid.changedDateRule(jQuery(this).parents('tr').attr('data-rule')); });
+    jQuery('.wpupg-date').on('change', function(e) { WPUltimatePostGrid.changedDateRule(jQuery(this).parents('tr').attr('data-rule')); });
     jQuery('#wpupg_filter_type').on('change', function() { WPUltimatePostGrid.changedFilterType(); });
     jQuery('#wpupg_filter_multiselect').on('change', function() { WPUltimatePostGrid.changedMultiselect(); });
+    jQuery('#wpupg_layout_mode').on('change', function() { WPUltimatePostGrid.changedLayoutMode(); });
     jQuery('#wpupg_pagination_type').on('change', function() { WPUltimatePostGrid.changedPaginationType(); });
     jQuery('#wpupg_pagination_load_more_button_text').on('change keyup', function() { WPUltimatePostGrid.changedPaginationText(); });
 
@@ -352,7 +359,10 @@ WPUltimatePostGrid.addRule = function() {
         })
     ;
 
+    new_rule.find('.wpupg-date').datepicker();
+
     WPUltimatePostGrid.changedRuleField(rule_id);
+    WPUltimatePostGrid.changedDateRule(rule_id);
 };
 
 WPUltimatePostGrid.removeRule = function(id) {
@@ -370,6 +380,12 @@ WPUltimatePostGrid.changedRuleField = function(id) {
 
     row.find('.rule_container').hide();
     row.find('.rule_container_' + field).show();
+};
+
+WPUltimatePostGrid.changedDateRule = function(id) {
+    var condition = jQuery('#wpupg_limit_posts_rule_values_wpupg_general_date_condition_' + id).find(':selected').val();
+    var date = jQuery('#wpupg_limit_posts_rule_values_wpupg_general_date_date_' + id).val();
+    jQuery('#wpupg_limit_posts_rule_values_wpupg_general_date_' + id).val(condition + ';' + date);
 };
 
 WPUltimatePostGrid.changedFilterType = function() {
@@ -441,6 +457,16 @@ WPUltimatePostGrid.changedIsotopeFilterStyle = function() {
         .css( 'color', text_active_color )
         .css( 'border', border_width + 'px solid ' + border_active_color )
     ;
+};
+
+WPUltimatePostGrid.changedLayoutMode = function() {
+    var layout_mode = jQuery('#wpupg_layout_mode').find(':selected').val();
+
+    if(layout_mode == 'masonry') {
+        jQuery('.wpupg_masonry').show();
+    } else {
+        jQuery('.wpupg_masonry').hide();
+    }
 };
 
 WPUltimatePostGrid.changedPaginationStyle = function() {

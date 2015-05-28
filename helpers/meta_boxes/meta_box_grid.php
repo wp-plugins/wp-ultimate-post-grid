@@ -41,4 +41,30 @@ if( is_null( $grid ) ) $grid = new WPUPG_Grid(0);
         </td>
         <td><?php _e( 'Template to be used for grid items.', 'wp-ultimate-post-grid' ); ?></td>
     </tr>
+    <tr>
+        <td><label for="wpupg_layout_mode"><?php _e( 'Layout Mode', 'wp-ultimate-post-grid' ); ?></label></td>
+        <td>
+            <select name="wpupg_layout_mode" id="wpupg_layout_mode" class="wpupg-select2">
+                <?php
+                $layout_mode_options = array(
+                    'masonry' => __( 'Masonry (Pinterest like)', 'wp-ultimate-post-grid' ),
+                    'fitRows' => __( 'Items in rows', 'wp-ultimate-post-grid' ),
+                );
+
+                foreach( $layout_mode_options as $layout_mode => $layout_mode_name ) {
+                    $selected = $layout_mode == $grid->layout_mode() ? ' selected="selected"' : '';
+                    echo '<option value="' . esc_attr( $layout_mode ) . '"' . $selected . '>' . $layout_mode_name . '</option>';
+                }
+                ?>
+            </select>
+        </td>
+        <td><?php _e( 'Options for links surrounding the grid items.', 'wp-ultimate-post-grid' ); ?></td>
+    </tr>
+    <tr class="wpupg_masonry">
+        <td><label for="wpupg_centered"><?php _e( 'Center Grid', 'wp-ultimate-post-grid' ); ?></label></td>
+        <td>
+            <input type="checkbox" name="wpupg_centered" id="wpupg_centered" <?php if( $grid->centered() ) echo 'checked="true" '?>/>
+        </td>
+        <td><?php _e( 'Center the entire grid.', 'wp-ultimate-post-grid' ); ?></td>
+    </tr>
 </table>

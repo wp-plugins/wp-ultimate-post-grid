@@ -115,7 +115,7 @@ class WPUPG_Template_Post_Image extends WPUPG_Template_Block {
         ob_start();
 ?>
 <div<?php echo $this->style( 'outer' ); ?>>
-    <img src="<?php echo $image_url; ?>" alt="<?php echo esc_attr( get_post_meta( $post_image_id, '_wp_attachment_image_alt', true) ); ?>" title="<?php echo esc_attr( get_the_title( $post_image_id ) ); ?>"<?php echo $this->style(); ?> />
+    <img src="<?php echo $image_url; ?>" alt="<?php echo esc_attr( get_post_meta( $post_image_id, '_wp_attachment_image_alt', true) ); ?>"<?php echo $this->style(); ?> />
 </div>
 <?php
         $output .= ob_get_contents();
