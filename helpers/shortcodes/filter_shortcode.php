@@ -11,17 +11,32 @@ class WPUPG_Filter_Shortcode {
     {
         $output = '';
 
-        $options = shortcode_atts( array(
-            'id' => false,
-        ), $options );
-
         $slug = strtolower( trim( $options['id'] ) );
+        unset( $options['id'] );
 
         if( $slug ) {
             $post = get_page_by_path( $slug, OBJECT, WPUPG_POST_TYPE );
 
             if( !is_null( $post ) ) {
                 $grid = new WPUPG_Grid( $post );
+
+                // Check if we need to filter the grid dynamically
+                $dynamic_rules = array();
+                if( count( $options ) > 0 && WPUltimatePostGrid::is_premium_active() ) {
+                    foreach( $options as $taxonomy => $terms ) {
+                        if( taxonomy_exists( $taxonomy ) ) {
+                            $dynamic_rules[] = array(
+                                'post_type' => 'wpupg_dynamic',
+                                'taxonomy' => $taxonomy,
+                                'values' => explode( ';', str_replace( ',', ';', $terms ) ),
+                                'type' => 'restrict',
+                            );
+                        }
+                    }
+                }
+                if( count( $dynamic_rules ) > 0 ) {
+                    $grid->set_dynamic_rules( $dynamic_rules );
+                }
 
                 $filter_type = $grid->filter_type();
 
@@ -30,7 +45,7 @@ class WPUPG_Filter_Shortcode {
                     $filter_style = $grid->filter_style();
                     $filter_style = $filter_style[$filter_type];
 
-                    $style_data = 'data-filter-type="' . $filter_type . '"';
+                    $style_data = ' data-filter-type="' . $filter_type . '"';
                     $style_data .= ' data-margin-vertical="' . $filter_style['margin_vertical'] . '"';
                     $style_data .= ' data-margin-horizontal="' . $filter_style['margin_horizontal'] . '"';
                     $style_data .= ' data-padding-vertical="' . $filter_style['padding_vertical'] . '"';

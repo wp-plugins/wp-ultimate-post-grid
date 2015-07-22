@@ -197,6 +197,7 @@ WPUltimatePostGrid.initForm = function() {
     WPUltimatePostGrid.changedFilterType();
     WPUltimatePostGrid.changedMultiselect();
     WPUltimatePostGrid.changedIsotopeFilterStyle();
+    WPUltimatePostGrid.changedIsotopeFilterText();
     WPUltimatePostGrid.changedLayoutMode();
     WPUltimatePostGrid.changedPaginationStyle();
     WPUltimatePostGrid.changedPaginationType();
@@ -222,6 +223,7 @@ WPUltimatePostGrid.initForm = function() {
     isotope_padding_horizontal.on('change', function() { WPUltimatePostGrid.changedIsotopeFilterStyle(); });
     isotope_border_width.on('change', function() { WPUltimatePostGrid.changedIsotopeFilterStyle(); });
     jQuery('#wpupg_isotope_filter_style_alignment').on('change', function() { WPUltimatePostGrid.changedIsotopeFilterStyle(); });
+    jQuery('#wpupg_isotope_filter_style_all_button_text').on('change keyup', function() { WPUltimatePostGrid.changedIsotopeFilterText(); });
 
     pagination_margin_vertical.on('change', function() { WPUltimatePostGrid.changedPaginationStyle(); });
     pagination_margin_horizontal.on('change', function() { WPUltimatePostGrid.changedPaginationStyle(); });
@@ -458,6 +460,12 @@ WPUltimatePostGrid.changedIsotopeFilterStyle = function() {
         .css( 'border', border_width + 'px solid ' + border_active_color )
     ;
 };
+
+WPUltimatePostGrid.changedIsotopeFilterText = function() {
+    var text = jQuery('#wpupg_isotope_filter_style_all_button_text').val();
+    jQuery('#wpupg_isotope_filter_style_all_button_text_preview').text(text);
+};
+
 
 WPUltimatePostGrid.changedLayoutMode = function() {
     var layout_mode = jQuery('#wpupg_layout_mode').find(':selected').val();

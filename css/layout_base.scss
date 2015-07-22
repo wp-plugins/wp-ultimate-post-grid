@@ -12,8 +12,8 @@ html body.rtl .wpupg-container {
 }
 
 html body .wpupg-container {
-    position: absolute;
-    clear: both;
+    position: relative;
+    float: left;
     text-align: left;
     font-size: 14px;
 

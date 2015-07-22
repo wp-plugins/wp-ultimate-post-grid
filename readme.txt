@@ -21,6 +21,7 @@ An overview of the WP Ultimate Post Grid features:
 *   Use posts, pages or **custom post types** as the source
 *   Grids are **responsive** and will look good on any device
 *   Ability to set **order by** options
+*   Link to the actual **post or featured image**
 *   Add an **isotope filter** for any taxonomy
 *   **Deeplinking** directly to a filtered grid
 *   Grids and filters can be added anywhere with **their own shortcode**
@@ -35,6 +36,7 @@ We also have a [WP Ultimate Post Grid Premium version](http://bootstrapped.ventu
 *   Extensive **Template Editor** to create any grid you want
 *   A **Load More button** for pagination
 *   Easily **clone your grids**
+*   **Dynamically filter** grids in the shortcode
 
 This plugin is under active development. Any feature requests are welcome!
 
@@ -68,6 +70,17 @@ It's still an early version of the plugin and we'll be adding new features every
 
 == Changelog ==
 
+= 1.6 =
+* Feature: Change the animation speed in the settings
+* Feature: Change the “All” button text for the Isotope Filter
+* Feature: Choose post or featured image as the link destination when clicking on an item in the grid
+* Improvement: Better grid layout before Javascript kicks in
+* Improvement: Only include admin assets on grid edit page
+* Fix: Problem with sticky posts always showing up
+* Fix: PHP notices in certain cases
+* Fix: Term slugs with non-latin characters
+* Fix: Shortcode editor compatibility problem with some themes
+
 = 1.5 =
 * Feature: New “Overlay” template
 * Feature: New layout mode option to have items in rows
@@ -97,6 +110,9 @@ It's still an early version of the plugin and we'll be adding new features every
 * Very first version of this plugin
 
 == Upgrade notice ==
+
+= 1.6 =
+Update recommend. Lots of new features and improvements to the grid
 
 = 1.5 =
 Update to get some great new post grid features

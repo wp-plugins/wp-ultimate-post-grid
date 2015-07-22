@@ -9,8 +9,8 @@ html body.rtl .wpupg-container {
   text-align: right; }
 
 html body .wpupg-container {
-  position: absolute !important;
-  clear: both !important;
+  position: relative;
+  float: left;
   text-align: left;
   font-size: 14px !important; }
   html body .wpupg-container span {

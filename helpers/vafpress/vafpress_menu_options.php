@@ -20,6 +20,17 @@ $admin_menu = array(
                     'name' => 'grid_template_template_editor_menu',
                     'controls' => array(
                         array(
+                            'type' => 'notebox',
+                            'name' => 'grid_template_premium_not_installed',
+                            'label' => 'WP Ultimate Post Grid Premium',
+                            'description' => __('These features are only available in', 'wp-ultimate-post-grid') . ' <a href="http://bootstrapped.ventures/wp-ultimate-post-grid/" target="_blank">WP Ultimate Post Grid Premium</a></strong>.',
+                            'status' => 'warning',
+                            'dependency' => array(
+                                'field' => '',
+                                'function' => 'wpupg_admin_premium_not_installed',
+                            ),
+                        ),
+                        array(
                             'type' => 'section',
                             'title' => __('Template Editor', 'wp-ultimate-post-grid'),
                             'name' => 'grid_template_editor',
@@ -77,6 +88,85 @@ $admin_menu = array(
                                     'default' => '1',
                                 ),
                             ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+//=-=-=-=-=-=-= GRID =-=-=-=-=-=-=
+        array(
+            'title' => __('Grid', 'wp-ultimate-post-grid'),
+            'name' => 'grid',
+            'icon' => 'font-awesome:fa-th-large',
+            'controls' => array(
+                array(
+                    'type' => 'section',
+                    'title' => __('Animations', 'wp-ultimate-post-grid'),
+                    'name' => 'grid_animations',
+                    'fields' => array(
+                        array(
+                            'type' => 'slider',
+                            'name' => 'grid_animation_speed',
+                            'label' => __( 'Animation Speed', 'wp-ultimate-post-grid' ),
+                            'description' => __( 'Duration of the animations in seconds.', 'wp-ultimate-post-grid' ),
+                            'min' => '0',
+                            'max' => '5',
+                            'step' => '0.05',
+                            'default' => '0.8',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+//=-=-=-=-=-=-= GRID =-=-=-=-=-=-=
+        array(
+            'title' => __('Filters', 'wp-ultimate-post-grid'),
+            'name' => 'filters',
+            'icon' => 'font-awesome:fa-filter',
+            'controls' => array(
+                array(
+                    'type' => 'notebox',
+                    'name' => 'filters_premium_not_installed',
+                    'label' => 'WP Ultimate Post Grid Premium',
+                    'description' => __('These features are only available in', 'wp-ultimate-post-grid') . ' <a href="http://bootstrapped.ventures/wp-ultimate-post-grid/" target="_blank">WP Ultimate Post Grid Premium</a></strong>.',
+                    'status' => 'warning',
+                    'dependency' => array(
+                        'field' => '',
+                        'function' => 'wpupg_admin_premium_not_installed',
+                    ),
+                ),
+                array(
+                    'type' => 'section',
+                    'title' => __( 'Dropdown Filters', 'wp-ultimate-post-grid' ),
+                    'name' => 'filters_dropdown',
+                    'fields' => array(
+                        array(
+                            'type' => 'color',
+                            'name' => 'filters_dropdown_border_color',
+                            'label' => __( 'Border Color', 'wp-ultimate-post-grid' ),
+                            'default' => '#AAAAAA',
+                            'format' => 'hex',
+                        ),
+                        array(
+                            'type' => 'color',
+                            'name' => 'filters_dropdown_text_color',
+                            'label' => __( 'Default Text Color', 'wp-ultimate-post-grid' ),
+                            'default' => '#444444',
+                            'format' => 'hex',
+                        ),
+                        array(
+                            'type' => 'color',
+                            'name' => 'filters_dropdown_highlight_background_color',
+                            'label' => __( 'Highlight Background Color', 'wp-ultimate-post-grid' ),
+                            'default' => '#5897FB',
+                            'format' => 'hex',
+                        ),
+                        array(
+                            'type' => 'color',
+                            'name' => 'filters_dropdown_highlight_text_color',
+                            'label' => __( 'Highlight Text Color', 'wp-ultimate-post-grid' ),
+                            'default' => '#FFFFFF',
+                            'format' => 'hex',
                         ),
                     ),
                 ),

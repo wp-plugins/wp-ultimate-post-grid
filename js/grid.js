@@ -7,7 +7,7 @@ WPUltimatePostGrid.initGrid = function(container) {
 
     var args = {
         itemSelector: '.wpupg-item',
-        transitionDuration: '0.8s',
+        transitionDuration: wpupg_public.animationSpeed,
         hiddenStyle: {
             opacity: 0
         },
@@ -168,6 +168,7 @@ WPUltimatePostGrid.restoreDeeplink = function() {
 WPUltimatePostGrid.checkLinks = function(grid_id) {
     var grid = WPUltimatePostGrid.grids[grid_id];
     var link_type = grid.container.data('link-type');
+    var link_target = grid.container.data('link-target');
 
     if(link_type != 'none') {
         grid.container.find('.wpupg-item').each(function() {
@@ -181,9 +182,11 @@ WPUltimatePostGrid.checkLinks = function(grid_id) {
                 }
             });
 
+            var link = link_target == 'post' ? item.data('permalink') : item.data('image');
+
             // Add link around item
-            if (item.parent('a').length == 0) {
-                item.wrap('<a href="' + item.data('permalink') + '" target="' + link_type + '"></a>');
+            if (link && item.parent('a').length == 0) {
+                item.wrap('<a href="' + link + '" target="' + link_type + '"></a>');
             }
         });
     }

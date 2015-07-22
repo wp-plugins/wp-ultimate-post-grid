@@ -13,11 +13,8 @@ class WPUPG_Grid_Shortcode {
     {
         $output = '';
 
-        $options = shortcode_atts( array(
-            'id' => false
-        ), $options );
-
         $slug = strtolower( trim( $options['id'] ) );
+        unset( $options['id'] );
 
         if( $slug ) {
             $post = get_page_by_path( $slug, OBJECT, WPUPG_POST_TYPE );
@@ -25,11 +22,30 @@ class WPUPG_Grid_Shortcode {
             if( !is_null( $post ) ) {
                 $grid = new WPUPG_Grid( $post );
 
+                // Check if we need to filter the grid dynamically
+                $dynamic_rules = array();
+                if( count( $options ) > 0 && WPUltimatePostGrid::is_premium_active() ) {
+                    foreach( $options as $taxonomy => $terms ) {
+                        if( taxonomy_exists( $taxonomy ) ) {
+                            $dynamic_rules[] = array(
+                                'post_type' => 'wpupg_dynamic',
+                                'taxonomy' => $taxonomy,
+                                'values' => explode( ';', str_replace( ',', ';', $terms ) ),
+                                'type' => 'restrict',
+                            );
+                        }
+                    }
+                }
+                if( count( $dynamic_rules ) > 0 ) {
+                    $grid->set_dynamic_rules( $dynamic_rules );
+                }
+
                 $link_type = $grid->link_type();
+                $link_target = $grid->link_target();
                 $layout_mode = $grid->layout_mode();
                 $centered = $grid->centered() ? 'true' : 'false';
 
-                $posts = '<div id="wpupg-grid-' . esc_attr( $slug ) . '" class="wpupg-grid" data-grid="' . esc_attr( $slug ) . '" data-link-type="' . $link_type . '" data-layout-mode="' . $layout_mode . '" data-centered="' . $centered . '">';
+                $posts = '<div id="wpupg-grid-' . esc_attr( $slug ) . '" class="wpupg-grid" data-grid="' . esc_attr( $slug ) . '" data-link-type="' . $link_type . '" data-link-target="' . $link_target . '" data-layout-mode="' . $layout_mode . '" data-centered="' . $centered . '">';
                 $posts .= $grid->draw_posts();
                 $posts .= '</div>';
 

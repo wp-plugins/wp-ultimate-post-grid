@@ -42,7 +42,11 @@
         <div class="col-2 last-feature">
             <h3>Easy Image Collage</h3>
             <p>Create beautiful responsive image collages for all your posts and pages.</p>
-            <p>Free plugin.<br/><a href="https://wordpress.org/plugins/easy-image-collage/" target="_blank">http://wordpress.org/plugins/easy-image-collage</a></p>
+            <p>
+                Free & Premium plugin.
+                <br/><a href="https://wordpress.org/plugins/easy-image-collage/" target="_blank">http://wordpress.org/plugins/easy-image-collage</a>
+                <br/><a href="http://bootstrapped.ventures/easy-image-collage/" target="_blank">http://bootstrapped.ventures/easy-image-collage/</a>
+            </p>
         </div>
     </div>
 

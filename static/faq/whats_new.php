@@ -7,27 +7,33 @@
 
     <div class="feature-section col two-col">
         <div class="col-1">
-            <h3>WP Ultimate Post Grid 1.5</h3>
+            <h3>WP Ultimate Post Grid 1.6</h3>
             <strong>New</strong>
             <ul>
-                <li>Feature: New “Overlay” template</li>
-                <li>Feature: New layout mode option to have items in rows</li>
-                <li>Feature: Ability to center the grid in the masonry layout</li>
-                <li>Improvement: FAQ page with some more documentation</li>
-                <li>Improvement: wpupg_output_grid_html filter hook</li>
+                <li>Feature: Change the animation speed in the settings</li>
+                <li>Feature: Change the “All” button text for the Isotope Filter</li>
+                <li>Feature: Choose post or featured image as the link destination when clicking on an item in the grid</li>
+                <li>Improvement: Better grid layout before Javascript kicks in</li>
+                <li>Improvement: Only include admin assets on grid edit page</li>
             </ul>
             <strong>Update</strong>
             <ul>
-                <li>Fix: Deeplinking problem with URL encoded characters</li>
+                <li>Fix: Problem with sticky posts always showing up</li>
+                <li>Fix: PHP notices in certain cases</li>
+                <li>Fix: Term slugs with non-latin characters</li>
+                <li>Fix: Shortcode editor compatibility problem with some themes</li>
             </ul>
         </div>
         <div class="col-2 last-feature">
-            <h3>WP Ultimate Post Grid Premium 1.5</h3>
+            <h3>WP Ultimate Post Grid Premium 1.6</h3>
             <strong>New</strong>
             <ul>
-                <li>Feature: Ability to clone a grid</li>
-                <li>Feature: Limit posts by date</li>
-                <li>Feature: Taxonomy Terms block in Template Editor to show category or tag terms</li>
+                <li>Feature: Post Date block in Template Editor</li>
+                <li>Feature: Post Content block in Template Editor</li>
+                <li>Feature: Cut off text after X characters or X words in the Template Editor</li>
+                <li>Feature: Use hierarchy structure in dropdown selects</li>
+                <li>Feature: Dynamically filter grids by adding tags to the shortcode</li>
+                <li>Feature: Change dropdown filter colors in the settings</li>
             </ul>
         </div>
     </div>
@@ -36,6 +42,22 @@
 
     <div>
         <h3>Previous Versions</h3>
+
+        <h4>Premium Plugin 1.5</h4>
+        <ul>
+            <li>Feature: Ability to clone a grid</li>
+            <li>Feature: Limit posts by date</li>
+            <li>Feature: Taxonomy Terms block in Template Editor to show category or tag terms</li>
+        </ul>
+        <h4>Core Plugin 1.5</h4>
+        <ul>
+            <li>Feature: New “Overlay” template</li>
+            <li>Feature: New layout mode option to have items in rows</li>
+            <li>Feature: Ability to center the grid in the masonry layout</li>
+            <li>Improvement: FAQ page with some more documentation</li>
+            <li>Improvement: wpupg_output_grid_html filter hook</li>
+            <li>Fix: Deeplinking problem with URL encoded characters</li>
+        </ul>
 
         <h4>Premium Plugin 1.4</h4>
         <ul>

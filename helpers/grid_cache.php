@@ -82,6 +82,13 @@ class WPUPG_Grid_Cache {
     {
         $grid = new WPUPG_Grid( $grid_id );
 
+        $generated = $this->dynamic_generate( $grid );
+
+        update_post_meta( $grid->ID(), 'wpupg_posts', $generated['cache'] );
+        update_post_meta( $grid->ID(), 'wpupg_filter', $generated['filter'] );
+    }
+
+    public function dynamic_generate( $grid ) {
         // Get Posts
         $args = array(
             'post_type' => $grid->post_types(),
@@ -161,21 +168,23 @@ class WPUPG_Grid_Cache {
                 $post_taxonomy_term_ids = array();
 
                 foreach( $terms as $term ) {
+                    $slug = urldecode( $term->slug );
+
                     // Make sure we only handle each term once
                     if( $grid->filter_match_parents() ) {
-                        if( in_array( $term->slug, $handled_terms ) ) continue;
-                        $handled_terms[] = $term->slug;
+                        if( in_array( $slug, $handled_terms ) ) continue;
+                        $handled_terms[] = $slug;
                     }
 
                     // Posts per term
-                    if( !isset( $posts_per_term[$taxonomy][$term->slug] ) ) $posts_per_term[$taxonomy][$term->slug] = array();
-                    $posts_per_term[$taxonomy][$term->slug][] = $post_id;
+                    if( !isset( $posts_per_term[$taxonomy][$slug] ) ) $posts_per_term[$taxonomy][$slug] = array();
+                    $posts_per_term[$taxonomy][$slug][] = $post_id;
 
                     // Terms per post
-                    $post_taxonomy_term_ids[] = $term->slug;
+                    $post_taxonomy_term_ids[] = $slug;
 
                     // Filter terms
-                    $filter_terms[$term->slug] = array(
+                    $filter_terms[$slug] = array(
                         'taxonomy' => $taxonomy,
                         'name' => $term->name,
                     );
@@ -195,7 +204,8 @@ class WPUPG_Grid_Cache {
         $filter = '';
 
         if( count( $filter_terms ) > 0 && $grid->filter_type() == 'isotope' ) {
-            $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term wpupg-filter-tag- active">' . __( 'All', 'wp-ultimate-post-grid' ) . '</div>';
+            $filter_style = $grid->filter_style();
+            $filter .= '<div class="wpupg-filter-item wpupg-filter-isotope-term wpupg-filter-tag- active">' . $filter_style['isotope']['all_button_text'] . '</div>';
 
             ksort( $filter_terms );
             foreach( $filter_terms as $slug => $options ) {
@@ -206,7 +216,10 @@ class WPUPG_Grid_Cache {
         // Update Metadata
         $cache = apply_filters( 'wpupg_grid_cache_posts', $cache, $grid );
         $filter = apply_filters( 'wpupg_grid_cache_filter', $filter, $cache, $grid );
-        update_post_meta( $grid_id, 'wpupg_posts', $cache );
-        update_post_meta( $grid_id, 'wpupg_filter', $filter );
+
+        return array(
+            'cache' => $cache,
+            'filter' => $filter,
+        );
     }
 }

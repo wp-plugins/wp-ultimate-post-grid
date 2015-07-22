@@ -26,7 +26,7 @@ class WPUPG_Template_Post_Title extends WPUPG_Template_Block {
         $output = $this->before_output();
 
         $tag = isset( $this->tag ) ? $this->tag : 'span';
-        $output .= '<' . $tag . $this->style() . '>' . $post->post_title . '</' . $tag . '>';
+        $output .= '<' . $tag . $this->style() . '>' . $this->cut_off( $post->post_title ) . '</' . $tag . '>';
 
         return $this->after_output( $output, $post );
     }

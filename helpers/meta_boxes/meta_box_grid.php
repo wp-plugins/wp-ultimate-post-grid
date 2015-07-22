@@ -24,6 +24,25 @@ if( is_null( $grid ) ) $grid = new WPUPG_Grid(0);
         </td>
         <td><?php _e( 'Options for links surrounding the grid items.', 'wp-ultimate-post-grid' ); ?></td>
     </tr>
+    <tr>
+        <td><label for="wpupg_link_target"><?php _e( 'Link to', 'wp-ultimate-post-grid' ); ?></label></td>
+        <td>
+            <select name="wpupg_link_target" id="wpupg_link_target" class="wpupg-select2">
+                <?php
+                $link_target_options = array(
+                    'post' => __( 'Post', 'wp-ultimate-post-grid' ),
+                    'image' => __( 'Featured Image', 'wp-ultimate-post-grid' ),
+                );
+
+                foreach( $link_target_options as $link_target => $link_target_name ) {
+                    $selected = $link_target == $grid->link_target() ? ' selected="selected"' : '';
+                    echo '<option value="' . esc_attr( $link_target ) . '"' . $selected . '>' . $link_target_name . '</option>';
+                }
+                ?>
+            </select>
+        </td>
+        <td><?php _e( 'Options for links surrounding the grid items.', 'wp-ultimate-post-grid' ); ?></td>
+    </tr>
     <tr class="wpupg_divider">
         <td><label for="wpupg_template"><?php _e( 'Template', 'wp-ultimate-post-grid' ); ?></label></td>
         <td>

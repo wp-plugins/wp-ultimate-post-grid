@@ -19,6 +19,8 @@ class WPUPG_Template_Container extends WPUPG_Template_Block {
     {
         if( !$this->output_block( $post, $args ) ) return '';
 
+        $this->add_style( 'position', '' ); // Make sure position is handled by Isotope
+
         // Default arguments
         $args['desktop'] = true;
         $args['max_width'] = 9999;
@@ -31,11 +33,14 @@ class WPUPG_Template_Container extends WPUPG_Template_Block {
             $this->classes = $args['classes'];
         }
 
+        $image = get_post_thumbnail_id( $post->ID );
+        $image_url = $image ? wp_get_attachment_url( $image ) : '';
+
         $output = $this->before_output();
 
         ob_start();
 ?>
-<div id="wpupg-container-post-<?php echo $post->ID; ?>" data-permalink="<?php echo get_post_permalink( $post->ID ); ?>" <?php echo $this->style(); ?>>
+<div id="wpupg-container-post-<?php echo $post->ID; ?>" data-permalink="<?php echo get_post_permalink( $post->ID ); ?>" data-image="<?php echo $image_url; ?>" <?php echo $this->style(); ?>>
     <?php $this->output_children( $post, 0, 0, $args ) ?>
 </div>
 <?php

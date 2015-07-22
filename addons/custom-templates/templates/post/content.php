@@ -1,10 +1,10 @@
 <?php
 
-class WPUPG_Template_Post_Excerpt extends WPUPG_Template_Block {
+class WPUPG_Template_Post_Content extends WPUPG_Template_Block {
 
-    public $editorField = 'postExcerpt';
+    public $editorField = 'postContent';
 
-    public function __construct( $type = 'post-excerpt' )
+    public function __construct( $type = 'post-content' )
     {
         parent::__construct( $type );
     }
@@ -14,7 +14,7 @@ class WPUPG_Template_Post_Excerpt extends WPUPG_Template_Block {
         if( !$this->output_block( $post, $args ) ) return '';
 
         $output = $this->before_output();
-        $output .= '<span' . $this->style() . '>' . $this->cut_off( $post->post_excerpt ) . '</span>';
+        $output .= '<span' . $this->style() . '>' . $this->cut_off( $post->post_content ) . '</span>';
 
         return $this->after_output( $output, $post );
     }

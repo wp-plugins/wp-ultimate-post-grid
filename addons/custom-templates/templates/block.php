@@ -26,6 +26,7 @@ class WPUPG_Template_Block {
     // Special cases
     protected $link_color = false;
     protected $background_preset = false;
+    protected $cut_off = false;
 
     public function __construct( $type )
     {
@@ -197,6 +198,17 @@ class WPUPG_Template_Block {
         if( $this->present( $block, 'maxHeight' ) && $block->maxHeightType == 'px' )    $this->max_height = intval( $block->maxHeight );
         if( $this->present( $block, 'width' ) && $block->widthType == 'px' )            $this->max_width = intval( $block->width );
         if( $this->present( $block, 'height' ) && $block->heightType == 'px' )          $this->max_height = intval( $block->height );
+
+        /*
+         * Cut off
+         */
+        if( $this->present( $block, 'shortenText') && $block->shortenText != 'none' ) {
+            $this->cut_off = array(
+                'type' => $block->shortenText,
+                'number' => intval( $block->shortenTextNumber ),
+                'after_text' => $block->shortenTextAfter,
+            );
+        }
     }
 
     protected function present( $block, $field )
@@ -334,6 +346,9 @@ class WPUPG_Template_Block {
                     $post_image_id = get_post_thumbnail_id( $post->ID );
                     $present = $post_image_id == '' ? false : true;
                     break;
+                case 'post_content':
+                    $present = $post->post_content == '' ? false : true;
+                    break;
                 case 'post_excerpt':
                     $present = $post->post_excerpt == '' ? false : true;
                     break;
@@ -391,6 +406,32 @@ class WPUPG_Template_Block {
         }
 
         return true;
+    }
+
+    /*
+     * Cut off text
+     */
+    protected function cut_off( $text )
+    {
+        if( $this->cut_off ) {
+            $limit = $this->cut_off['number'];
+
+            if( $this->cut_off['type'] == 'words' && str_word_count( $text, 0 ) > $limit ) {
+                // Limit to X words
+                $words = str_word_count( $text, 2 );
+                $pos = array_keys( $words );
+                $text = substr( $text, 0, $pos[$limit] );
+
+                $text = rtrim( $text ) . $this->cut_off['after_text'];
+            } elseif( $this->cut_off['type'] == 'characters' && strlen( $text ) > $limit ) {
+                // Limit to X characters
+                $text = substr( $text, 0, $limit );
+
+                $text = rtrim( $text ) . $this->cut_off['after_text'];
+            }
+        }
+
+        return $text;
     }
 
     /*

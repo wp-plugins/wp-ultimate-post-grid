@@ -106,9 +106,17 @@ $isotope_style = $filter_style['isotope'];
         </td>
         <td><?php _e( 'How to align the filters.', 'wp-ultimate-post-grid' ); ?></td>
     </tr>
+    <tr class="wpupg_divider">
+        <td><label for="wpupg_isotope_filter_style_all_button_text"><?php _e( 'Button text', 'wp-ultimate-post-grid' ); ?></label></td>
+        <td>
+            <input type="text" name="wpupg_isotope_filter_style_all_button_text" id="wpupg_isotope_filter_style_all_button_text" value="<?php echo $isotope_style['all_button_text']; ?>" />
+        </td>
+        <td><?php _e( 'Text shown on the "All" button.', 'wp-ultimate-post-grid' ); ?></td>
+    </tr>
 </table>
 
 <div id="wpupg_filter_preview_isotope_filter_style" class="wpupg_filter_preview">
+    <div class="wpupg-filter-isotope-term" id="wpupg_isotope_filter_style_all_button_text_preview"><?php _e( 'All', 'wp-ultimate-post-grid' ); ?></div>
     <div class="wpupg-filter-isotope-term"><?php _e( 'A Tag', 'wp-ultimate-post-grid' ); ?></div>
     <div class="wpupg-filter-isotope-term active"><?php _e( 'This is Active', 'wp-ultimate-post-grid' ); ?></div>
     <div class="wpupg-filter-isotope-term"><?php _e( 'Example', 'wp-ultimate-post-grid' ); ?></div>

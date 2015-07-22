@@ -72,6 +72,7 @@ class WPUPG_Assets {
                     'data' => array(
                         'name' => 'wpupg_public',
                         'ajax_url' => WPUltimatePostGrid::get()->helper('ajax')->url(),
+                        'animationSpeed' => WPUltimatePostGrid::option( 'grid_animation_speed', '0.8' ) . 's',
                         'nonce' => wp_create_nonce( 'wpupg_grid' ),
                     ),
                 )
@@ -206,14 +207,16 @@ class WPUPG_Assets {
 
             // Check if we're on a certain page
             if( isset( $asset['page'] ) ) {
+                $screen = get_current_screen();
+                
                 switch ( strtolower( $asset['page'] ) ) {
 
                     case 'grid_posts':
-                        if( $hook != 'edit.php' || ( isset( $_GET['post_type'] ) && $_GET['post_type'] != WPUPG_POST_TYPE ) ) continue 2; // Switch is consider a loop statement for continue
+                        if( $hook != 'edit.php' || $screen->post_type != WPUPG_POST_TYPE ) continue 2; // Switch is consider a loop statement for continue
                         break;
 
                     case 'grid_form':
-                        if( !in_array( $hook, array( 'post.php', 'post-new.php' ) ) || ( isset( $_GET['post_type'] ) && $_GET['post_type'] != WPUPG_POST_TYPE ) ) continue 2;
+                        if( !in_array( $hook, array( 'post.php', 'post-new.php' ) ) || $screen->post_type != WPUPG_POST_TYPE ) continue 2;
                         break;
 
                     default:

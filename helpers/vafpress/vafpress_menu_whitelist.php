@@ -1,4 +1,14 @@
 <?php
+function wpupg_admin_premium_not_installed()
+{
+    return !WPUltimatePostGrid::is_premium_active();
+}
+
+function wpupg_admin_premium_installed()
+{
+    return WPUltimatePostGrid::is_premium_active();
+}
+
 function wpupg_admin_grids()
 {
     $args = array(
@@ -51,6 +61,8 @@ function wpupg_admin_post_types()
     return $types;
 }
 
+VP_Security::instance()->whitelist_function( 'wpupg_admin_premium_not_installed' );
+VP_Security::instance()->whitelist_function( 'wpupg_admin_premium_installed' );
 VP_Security::instance()->whitelist_function( 'wpupg_admin_grids' );
 VP_Security::instance()->whitelist_function( 'wpupg_admin_template_editor' );
 VP_Security::instance()->whitelist_function( 'wpupg_admin_post_types' );
