@@ -183,10 +183,11 @@ WPUltimatePostGrid.checkLinks = function(grid_id) {
             });
 
             var link = link_target == 'post' ? item.data('permalink') : item.data('image');
+            var rel = link_target == 'post' ? '' : ' rel="lightbox"';
 
             // Add link around item
             if (link && item.parent('a').length == 0) {
-                item.wrap('<a href="' + link + '" target="' + link_type + '"></a>');
+                item.wrap('<a href="' + link + '" target="' + link_type + '"' + rel + '></a>');
             }
         });
     }
