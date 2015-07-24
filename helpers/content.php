@@ -19,9 +19,8 @@ class WPUPG_Content {
 
             $grid = new WPUPG_Grid( get_post() );
 
-            $content .= '<div class="wpupg-grid">';
-            $content .= $grid->draw_posts();
-            $content .= '</div>';
+            $content .= '[wpupg-filter id="' . $grid->slug() . '"]';
+            $content .= '[wpupg-grid id="' . $grid->slug() . '"]';
 
             add_filter( 'the_content', array( $this, 'content_filter' ), 10 );
         }
