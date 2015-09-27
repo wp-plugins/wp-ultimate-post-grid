@@ -3,12 +3,12 @@
 Plugin Name: WP Ultimate Post Grid
 Plugin URI: http://bootstrapped.ventures/wp-ultimate-post-grid/
 Description: Easily create filterable grids for any of your posts, pages or custom post types
-Version: 1.6
+Version: 1.7
 Author: Bootstrapped Ventures
 Author URI: http://bootstrapped.ventures
 License: GPLv3
 */
-define( 'WPUPG_VERSION', '1.6' );
+define( 'WPUPG_VERSION', '1.7' );
 define( 'WPUPG_POST_TYPE', 'wpupg_grid' );
 
 class WPUltimatePostGrid {
@@ -130,9 +130,11 @@ class WPUltimatePostGrid {
         $this->helper( 'grid_cache' );
         $this->helper( 'grid_save' );
         $this->helper( 'meta_box' );
+        $this->helper( 'meta_box_post' );
         $this->helper( 'notices' );
         $this->helper( 'pagination' );
         $this->helper( 'plugin_action_link' );
+        $this->helper( 'post_save' );
         $this->helper( 'post_type' );
         $this->helper( 'support_tab' );
         $this->helper( 'vafpress_menu' );

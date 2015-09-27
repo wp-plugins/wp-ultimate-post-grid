@@ -111,7 +111,7 @@ $isotope_style = $filter_style['isotope'];
         <td>
             <input type="text" name="wpupg_isotope_filter_style_all_button_text" id="wpupg_isotope_filter_style_all_button_text" value="<?php echo $isotope_style['all_button_text']; ?>" />
         </td>
-        <td><?php _e( 'Text shown on the "All" button.', 'wp-ultimate-post-grid' ); ?></td>
+        <td><?php _e( 'Text shown on the "All" button.', 'wp-ultimate-post-grid' ); ?> <?php _e( 'Use no text to hide the button.', 'wp-ultimate-post-grid' ); ?></td>
     </tr>
 </table>
 

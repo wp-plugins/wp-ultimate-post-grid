@@ -12,9 +12,9 @@ class WPUPG_Filter_Shortcode {
         $output = '';
 
         $slug = strtolower( trim( $options['id'] ) );
-        unset( $options['id'] );
 
         if( $slug ) {
+            unset( $options['id'] );
             $post = get_page_by_path( $slug, OBJECT, WPUPG_POST_TYPE );
 
             if( !is_null( $post ) ) {

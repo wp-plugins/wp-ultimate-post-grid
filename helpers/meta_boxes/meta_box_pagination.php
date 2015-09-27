@@ -16,6 +16,8 @@ $pagination = $grid->pagination();
                     'none' => __( 'No pagination (all posts visible at once)', 'wp-ultimate-post-grid' ),
                     'pages' => __( 'Divide posts in pages', 'wp-ultimate-post-grid' ),
                     'load_more' => __( 'Use a "Load More" button', 'wp-ultimate-post-grid' ) . $premium_only,
+                    'load_filter' => __( 'Load more posts on filter', 'wp-ultimate-post-grid' ) . $premium_only,
+                    'load_more_filter' => __( 'Use a "Load More" button', 'wp-ultimate-post-grid' ) . ' & '. __( 'Load more posts on filter', 'wp-ultimate-post-grid' ) . $premium_only,
                 );
 
                 foreach( $pagination_type_options as $pagination_type => $pagination_type_name ) {
@@ -37,7 +39,7 @@ $pagination = $grid->pagination();
         <td><input type="text" name="wpupg_pagination_pages_posts_per_page" id="wpupg_pagination_pages_posts_per_page" value="<?php echo $pagination['pages']['posts_per_page']; ?>" /><?php _e( 'posts', 'wp-ultimate-posts-grid' ); ?></td>
     </tr>
     </tbody>
-    <tbody class="wpupg_pagination_load_more">
+    <tbody class="wpupg_pagination_load_more wpupg_pagination_load_more_filter">
     <tr class="wpupg_divider">
         <td><label for="wpupg_pagination_load_more_initial_posts"><?php _e( 'Initial posts', 'wp-ultimate-post-grid' ); ?></label></td>
         <td>
@@ -58,6 +60,15 @@ $pagination = $grid->pagination();
             <input type="text" name="wpupg_pagination_load_more_button_text" id="wpupg_pagination_load_more_button_text" value="<?php echo $pagination['load_more']['button_text']; ?>" />
         </td>
         <td><?php _e( 'Text shown on the "Load More" button.', 'wp-ultimate-post-grid' ); ?></td>
+    </tr>
+    </tbody>
+    <tbody class="wpupg_pagination_load_filter">
+    <tr class="wpupg_divider">
+        <td><label for="wpupg_pagination_load_filter_initial_posts"><?php _e( 'Initial posts', 'wp-ultimate-post-grid' ); ?></label></td>
+        <td>
+            <div id="wpupg_pagination_load_filter_initial_posts_slider"></div>
+        </td>
+        <td><input type="text" name="wpupg_pagination_load_filter_initial_posts" id="wpupg_pagination_load_filter_initial_posts" value="<?php echo $pagination['load_filter']['initial_posts']; ?>" /><?php _e( 'posts', 'wp-ultimate-posts-grid' ); ?></td>
     </tr>
     </tbody>
 </table>

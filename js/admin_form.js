@@ -39,6 +39,10 @@ WPUltimatePostGrid.initForm = function() {
     slider_args.start = posts_on_click.val();
     jQuery('#wpupg_pagination_load_more_posts_on_click_slider').noUiSlider(slider_args).Link('lower').to(posts_on_click);
 
+    var initial_posts_filter = jQuery('#wpupg_pagination_load_filter_initial_posts');
+    slider_args.start = initial_posts_filter.val();
+    jQuery('#wpupg_pagination_load_filter_initial_posts_slider').noUiSlider(slider_args).Link('lower').to(initial_posts_filter);
+
     slider_args = {
         start: 0,
         step: 1,
@@ -196,6 +200,7 @@ WPUltimatePostGrid.initForm = function() {
     WPUltimatePostGrid.initRules();
     WPUltimatePostGrid.changedFilterType();
     WPUltimatePostGrid.changedMultiselect();
+    WPUltimatePostGrid.changedLimitTerms();
     WPUltimatePostGrid.changedIsotopeFilterStyle();
     WPUltimatePostGrid.changedIsotopeFilterText();
     WPUltimatePostGrid.changedLayoutMode();
@@ -213,6 +218,8 @@ WPUltimatePostGrid.initForm = function() {
     jQuery('.wpupg-date').on('change', function(e) { WPUltimatePostGrid.changedDateRule(jQuery(this).parents('tr').attr('data-rule')); });
     jQuery('#wpupg_filter_type').on('change', function() { WPUltimatePostGrid.changedFilterType(); });
     jQuery('#wpupg_filter_multiselect').on('change', function() { WPUltimatePostGrid.changedMultiselect(); });
+    jQuery('.wpupg_filter_taxonomy').on('change', function() { WPUltimatePostGrid.changedLimitTerms(); });
+    jQuery('#wpupg_filter_limit').on('change', function() { WPUltimatePostGrid.changedLimitTerms(); });
     jQuery('#wpupg_layout_mode').on('change', function() { WPUltimatePostGrid.changedLayoutMode(); });
     jQuery('#wpupg_pagination_type').on('change', function() { WPUltimatePostGrid.changedPaginationType(); });
     jQuery('#wpupg_pagination_load_more_button_text').on('change keyup', function() { WPUltimatePostGrid.changedPaginationText(); });
@@ -303,6 +310,7 @@ WPUltimatePostGrid.changedPostType = function() {
     }
 
     WPUltimatePostGrid.changedFilterType();
+    WPUltimatePostGrid.changedLimitTerms();
 };
 
 WPUltimatePostGrid.changedLimitPosts = function() {
@@ -414,6 +422,8 @@ WPUltimatePostGrid.changedFilterType = function() {
     if(WPUltimatePostGrid.filter_possible) {
         jQuery('#wpupg_meta_box_' + filter_type + '_filter').show();
     }
+
+    WPUltimatePostGrid.changedLimitTerms();
 };
 
 WPUltimatePostGrid.changedMultiselect = function() {
@@ -425,6 +435,23 @@ WPUltimatePostGrid.changedMultiselect = function() {
     } else {
         WPUltimatePostGrid.checkPremiumFeatures('multiselect', false);
         jQuery('.wpupg_multiselect').hide();
+    }
+};
+
+WPUltimatePostGrid.changedLimitTerms = function() {
+    var limit_terms = jQuery('#wpupg_filter_limit').is(':checked');
+    var post_type = jQuery('#wpupg_post_types').find(':selected').val();
+    var taxonomies = jQuery('#wpupg_filter_taxonomy_' + post_type).val();
+
+    if(limit_terms) {
+        jQuery('.wpupg_limit_terms').show();
+        jQuery('.wpupg_filter_terms_taxonomy').hide();
+
+        for(var i = 0; i < taxonomies.length; i++) {
+            jQuery('#wpupg_filter_terms_taxonomy_' + taxonomies[i]).show();
+        }
+    } else {
+        jQuery('.wpupg_limit_terms').hide();
     }
 };
 
@@ -463,7 +490,12 @@ WPUltimatePostGrid.changedIsotopeFilterStyle = function() {
 
 WPUltimatePostGrid.changedIsotopeFilterText = function() {
     var text = jQuery('#wpupg_isotope_filter_style_all_button_text').val();
-    jQuery('#wpupg_isotope_filter_style_all_button_text_preview').text(text);
+
+    if(text.length > 0) {
+        jQuery('#wpupg_isotope_filter_style_all_button_text_preview').text(text).show();
+    } else {
+        jQuery('#wpupg_isotope_filter_style_all_button_text_preview').hide();
+    }
 };
 
 
@@ -518,14 +550,15 @@ WPUltimatePostGrid.changedPaginationType = function() {
     jQuery('#wpupg_form_pagination').find('tbody.wpupg_pagination_' + pagination_type).show();
 
     // Premium only pagination
-    if(pagination_type == 'load_more') {
-        WPUltimatePostGrid.checkPremiumFeatures('pagination_type', true);
-    } else {
+    if(pagination_type == 'pages') {
         WPUltimatePostGrid.checkPremiumFeatures('pagination_type', false);
+    } else {
+        WPUltimatePostGrid.checkPremiumFeatures('pagination_type', true);
     }
 
     // Hide & Show Pagination Styles
-    if(pagination_type != 'none') {
+    if(pagination_type != 'none' && pagination_type != 'load_filter') {
+        pagination_type = pagination_type == 'load_more_filter' ? 'load_more' : pagination_type;
         jQuery('#wpupg_meta_box_pagination_style').show().find('.wpupg_filter_preview').hide();
         jQuery('#wpupg_filter_preview_pagination_style_' + pagination_type).show();
     } else {

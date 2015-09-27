@@ -41,7 +41,7 @@ $premium_only = WPUltimatePostGrid::is_premium_active() ? '' : ' (' . __( 'Premi
                 if( count( $taxonomies ) > 0 ) {
                     $multiple = WPUltimatePostGrid::is_premium_active() ? ' multiple' : '';
                     echo '<div id="wpupg_filter_taxonomy_' . $post_type . '_container" class="wpupg_filter_taxonomy_container">';
-                    echo '<select name="wpupg_filter_taxonomy_' . $post_type . '[]" id="wpupg_filter_taxonomy_' . $post_type . '" class="wpupg-select2"' . $multiple . '>';
+                    echo '<select name="wpupg_filter_taxonomy_' . $post_type . '[]" id="wpupg_filter_taxonomy_' . $post_type . '" class="wpupg_filter_taxonomy wpupg-select2"' . $multiple . '>';
 
                     foreach( $taxonomies as $taxonomy => $tax_options ) {
                         $selected = in_array( $taxonomy, $grid->filter_taxonomies() ) ? ' selected="selected"' : '';
@@ -90,5 +90,45 @@ $premium_only = WPUltimatePostGrid::is_premium_active() ? '' : ' (' . __( 'Premi
         </td>
         <td><?php _e( 'Type of filtering when selecting multiple terms.', 'wp-ultimate-post-grid' ); ?></td>
     </tr>
+    </tbody>
+    <tr class="wpupg_divider">
+        <td><label for="wpupg_filter_limit"><?php _e( 'Limit Terms', 'wp-ultimate-post-grid' ); ?></label></td>
+        <td>
+            <input type="checkbox" name="wpupg_filter_limit" id="wpupg_filter_limit" <?php if( $grid->filter_limit() ) echo 'checked="true" '?>/>
+        </td>
+        <td><?php _e( 'Only show selected terms in the filter.', 'wp-ultimate-post-grid' ); ?></td>
+    </tr>
+    <tbody class="wpupg_limit_terms">
+    <?php
+    $post_types = get_post_types( '', 'objects' );
+
+    unset( $post_types[WPUPG_POST_TYPE] );
+    unset( $post_types['revision'] );
+    unset( $post_types['nav_menu_item'] );
+
+    $taxonomies_in_form = [];
+    foreach( $post_types as $post_type => $options ) {
+        $taxonomies = get_object_taxonomies( $post_type, 'objects' );
+        $limit_terms = $grid->filter_limit_terms();
+
+        foreach( $taxonomies as $taxonomy => $tax_options ) {
+            if( !in_array( $taxonomy, $taxonomies_in_form ) ) {
+                $taxonomies_in_form[] = $taxonomy;
+
+                echo '<tr id="wpupg_filter_terms_taxonomy_' . $taxonomy . '" class="wpupg_filter_terms_taxonomy">';
+                echo '<td><label for="wpupg_filter_limit_terms_' . $taxonomy . '">' . $tax_options->labels->name . '</label></td>';
+                echo '<td>';
+                echo '<select name="wpupg_filter_limit_terms_' . $taxonomy . '[]" id="wpupg_filter_limit_terms_' . $taxonomy . '" class="wpupg-select2" multiple>';
+                foreach( get_terms( $taxonomy ) as $term ) {
+                    $selected = isset( $limit_terms[$taxonomy] ) && in_array( $term->term_id, $limit_terms[$taxonomy] ) ? ' selected="selected"' : '';
+                    echo '<option value="' . esc_attr( $term->term_id ) . '"' . $selected . '>' . $term->name . '</option>';
+                }
+                echo '</td>';
+                echo '<td>&nbsp;</td>';
+                echo '</tr>';
+            }
+        }
+    }
+    ?>
     </tbody>
 </table>

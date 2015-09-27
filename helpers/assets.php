@@ -63,6 +63,7 @@ class WPUPG_Assets {
                 ),
                 array(
                     'file' => '/js/grid.js',
+                    'name' => 'wpupg_grid',
                     'public' => true,
                     'deps' => array(
                         'jquery',
@@ -74,6 +75,7 @@ class WPUPG_Assets {
                         'ajax_url' => WPUltimatePostGrid::get()->helper('ajax')->url(),
                         'animationSpeed' => WPUltimatePostGrid::option( 'grid_animation_speed', '0.8' ) . 's',
                         'nonce' => wp_create_nonce( 'wpupg_grid' ),
+                        'rtl' => is_rtl(),
                     ),
                 )
             );
@@ -90,7 +92,6 @@ class WPUPG_Assets {
             array(
                 'file' => '/css/admin_form.css',
                 'admin' => true,
-                'page' => 'grid_form',
             ),
             array(
                 'file' => 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css',

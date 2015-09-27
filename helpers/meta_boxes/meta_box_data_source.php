@@ -73,6 +73,13 @@ $premium_only = WPUltimatePostGrid::is_premium_active() ? '' : ' (' . __( 'Premi
         <td><?php _e( 'Only display posts with a featured image.', 'wp-ultimate-post-grid' ); ?></td>
     </tr>
     <tr class="wpupg_divider">
+        <td><label for="wpupg_limit_posts_number"><?php _e( 'Limit Total # Posts', 'wp-ultimate-post-grid' ); ?></label></td>
+        <td>
+            <input type="number" min="1" name="wpupg_limit_posts_number" id="wpupg_limit_posts_number" value="<?php echo $grid->limit_posts_number(); ?>"/>
+        </td>
+        <td><?php _e( 'Limit the total number of posts in the grid.', 'wp-ultimate-post-grid' ); ?></td>
+    </tr>
+    <tr>
         <td><label for="wpupg_limit_posts"><?php _e( 'Limit Posts', 'wp-ultimate-post-grid' ); ?></label></td>
         <td>
             <input type="checkbox" name="wpupg_limit_posts" id="wpupg_limit_posts" <?php if( $grid->limit_posts() ) echo 'checked="true" '?>/>

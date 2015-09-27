@@ -14,9 +14,9 @@ class WPUPG_Grid_Shortcode {
         $output = '';
 
         $slug = strtolower( trim( $options['id'] ) );
-        unset( $options['id'] );
 
         if( $slug ) {
+            unset( $options['id'] );
             $post = get_page_by_path( $slug, OBJECT, WPUPG_POST_TYPE );
 
             if( !is_null( $post ) ) {
@@ -45,7 +45,7 @@ class WPUPG_Grid_Shortcode {
                 $layout_mode = $grid->layout_mode();
                 $centered = $grid->centered() ? 'true' : 'false';
 
-                $posts = '<div id="wpupg-grid-' . esc_attr( $slug ) . '" class="wpupg-grid" data-grid="' . esc_attr( $slug ) . '" data-link-type="' . $link_type . '" data-link-target="' . $link_target . '" data-layout-mode="' . $layout_mode . '" data-centered="' . $centered . '">';
+                $posts = '<div id="wpupg-grid-' . esc_attr( $slug ) . '" class="wpupg-grid" data-grid="' . esc_attr( $slug ) . '" data-grid-id="' . $grid->ID() . '" data-link-type="' . $link_type . '" data-link-target="' . $link_target . '" data-layout-mode="' . $layout_mode . '" data-centered="' . $centered . '">';
                 $posts .= $grid->draw_posts();
                 $posts .= '</div>';
 
@@ -80,6 +80,10 @@ class WPUPG_Grid_Shortcode {
                 }
 
                 $output .= apply_filters( 'wpupg_pagination_shortcode', $pagination, $grid );
+
+                wp_localize_script( 'wpupg_grid', 'wpupg_grid_' . $grid->ID(), array(
+                    'posts' => $grid->posts(),
+                ));
             }
         }
 

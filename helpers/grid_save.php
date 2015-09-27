@@ -74,8 +74,20 @@ class WPUPG_Grid_Save {
             $post_type = $_POST['wpupg_post_types'];
 
             if( isset( $_POST['wpupg_filter_taxonomy_' . $post_type] ) ) {
-                update_post_meta( $post_id, 'wpupg_filter_taxonomies', $_POST['wpupg_filter_taxonomy_' . $post_type] );
+                $filter_taxonomies = $_POST['wpupg_filter_taxonomy_' . $post_type];
+                update_post_meta( $post_id, 'wpupg_filter_taxonomies', $filter_taxonomies );
             }
+
+            // Filter Limit Terms
+            $filter_limit_terms = [];
+            if( isset( $filter_taxonomies ) ) {
+                foreach( $filter_taxonomies as $filter_taxonomy ) {
+                    if( isset( $_POST['wpupg_filter_limit_terms_' . $filter_taxonomy] ) ) {
+                        $filter_limit_terms[$filter_taxonomy] = $_POST['wpupg_filter_limit_terms_' . $filter_taxonomy];
+                    }
+                }
+            }
+            update_post_meta( $post_id, 'wpupg_filter_limit_terms', $filter_limit_terms );
 
             // Filter style metadata
             $styles = $grid->filter_style_fields();

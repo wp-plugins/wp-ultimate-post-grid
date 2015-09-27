@@ -356,7 +356,7 @@ class WPUPG_Template_Block {
                     $present = $post->post_title == '' ? false : true;
                     break;
                 default:
-                    $present = false;
+                    $present = trim( get_post_meta( $post->ID, $condition['field'], true ) );
                     break;
             }
 

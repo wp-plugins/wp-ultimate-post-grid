@@ -28,6 +28,7 @@ class WPUPG_Custom_Templates extends WPUPG_Addon {
 
         $this->load( 'post/author' );
         $this->load( 'post/content' );
+        $this->load( 'post/custom_field' );
         $this->load( 'post/date' );
         $this->load( 'post/excerpt' );
         $this->load( 'post/image' );

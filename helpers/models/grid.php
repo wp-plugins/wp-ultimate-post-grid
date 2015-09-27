@@ -7,6 +7,7 @@ class WPUPG_Grid {
     private $fields = array(
         'wpupg_centered',
         'wpupg_images_only',
+        'wpupg_filter_limit',
         'wpupg_filter_match_parents',
         'wpupg_filter_multiselect',
         'wpupg_filter_multiselect_type',
@@ -15,6 +16,7 @@ class WPUPG_Grid {
         'wpupg_post_types',
         'wpupg_layout_mode',
         'wpupg_limit_posts',
+        'wpupg_limit_posts_number',
         'wpupg_link_target',
         'wpupg_link_type',
         'wpupg_order_by',
@@ -31,6 +33,9 @@ class WPUPG_Grid {
             'initial_posts'     => 20,
             'posts_on_click'    => 20,
             'button_text'       => 'Load More',
+        ),
+        'load_filter' => array(
+            'initial_posts'     => 20,
         ),
     );
 
@@ -146,15 +151,13 @@ class WPUPG_Grid {
 
     public function filter_taxonomies()
     {
-        $filter_taxonomies = $this->meta( 'wpupg_filter_taxonomies' );
-        $filter_taxonomies = is_null( $filter_taxonomies ) ? null : unserialize( $filter_taxonomies );
+        $filter_taxonomies = maybe_unserialize( $this->meta( 'wpupg_filter_taxonomies' ) );
         return is_array( $filter_taxonomies ) ? $filter_taxonomies : array();
     }
 
     public function filter_style()
     {
-        $filter_style = $this->meta( 'wpupg_filter_style' );
-        $filter_style = is_null( $filter_style ) ? null : unserialize( $filter_style );
+        $filter_style = maybe_unserialize( $this->meta( 'wpupg_filter_style' ) );
         $filter_style = is_array( $filter_style ) ? $filter_style : array();
 
         // Set defaults
@@ -163,6 +166,17 @@ class WPUPG_Grid {
         }
 
         return $filter_style;
+    }
+
+    public function filter_limit()
+    {
+        return $this->meta( 'wpupg_filter_limit' );
+    }
+
+    public function filter_limit_terms()
+    {
+        $limit_terms = maybe_unserialize( $this->meta( 'wpupg_filter_limit_terms' ) );
+        return is_array( $limit_terms ) ? $limit_terms : array();
     }
 
     public function filter_match_parents()
@@ -210,10 +224,15 @@ class WPUPG_Grid {
         return $this->meta( 'wpupg_limit_posts' );
     }
 
+    public function limit_posts_number()
+    {
+        $limit = intval( $this->meta( 'wpupg_limit_posts_number' ) );
+        return $limit > 0 ? $limit : '';
+    }
+
     public function limit_rules()
     {
-        $limit_rules = $this->meta( 'wpupg_limit_rules' );
-        $limit_rules = is_null( $limit_rules ) ? null : unserialize( $limit_rules );
+        $limit_rules = maybe_unserialize( $this->meta( 'wpupg_limit_rules' ) );
         return is_array( $limit_rules ) ? $limit_rules : array();
     }
 
@@ -241,8 +260,7 @@ class WPUPG_Grid {
 
     public function pagination()
     {
-        $pagination = $this->meta( 'wpupg_pagination' );
-        $pagination = is_null( $pagination ) ? null : unserialize( $pagination );
+        $pagination = maybe_unserialize( $this->meta( 'wpupg_pagination' ) );
         $pagination = is_array( $pagination ) ? $pagination : array();
 
         // Set defaults
@@ -255,8 +273,7 @@ class WPUPG_Grid {
 
     public function pagination_style()
     {
-        $pagination_style = $this->meta( 'wpupg_pagination_style' );
-        $pagination_style = is_null( $pagination_style ) ? null : unserialize( $pagination_style );
+        $pagination_style = maybe_unserialize( $this->meta( 'wpupg_pagination_style' ) );
         $pagination_style = is_array( $pagination_style ) ? $pagination_style : array();
 
         // Set defaults
@@ -272,8 +289,7 @@ class WPUPG_Grid {
 
     public function posts()
     {
-        $posts = $this->meta( 'wpupg_posts' );
-        $posts = is_null( $posts ) ? null : unserialize( $posts );
+        $posts = maybe_unserialize( $this->meta( 'wpupg_posts' ) );
         return is_array( $posts ) ? $posts : array();
     }
 
@@ -289,8 +305,7 @@ class WPUPG_Grid {
 
     public function post_types()
     {
-        $post_types = $this->meta( 'wpupg_post_types' );
-        $post_types = is_null( $post_types ) ? null : unserialize( $post_types );
+        $post_types = maybe_unserialize( $this->meta( 'wpupg_post_types' ) );
         return is_array( $post_types ) ? $post_types : array();
     }
 
@@ -323,8 +338,7 @@ class WPUPG_Grid {
         if( WPUltimatePostGrid::is_premium_active() ) {
             $this->meta['wpupg_limit_posts'][0] = 'on';
 
-            $limit_rules = $this->meta( 'wpupg_limit_rules' );
-            $limit_rules = is_null( $limit_rules ) ? null : unserialize( $limit_rules );
+            $limit_rules = maybe_unserialize( $this->meta( 'wpupg_limit_rules' ) );
             $limit_rules = is_array( $limit_rules ) ? $limit_rules : array();
 
             $new_rules = array_merge( $limit_rules, $dynamic_rules );
@@ -337,10 +351,10 @@ class WPUPG_Grid {
         }
     }
 
-    public function get_posts( $page = 0 )
+    public function get_posts( $page = 0, $post_ids = null )
     {
         $grid_posts = $this->posts();
-        $post_ids = $grid_posts['all'];
+        $post_ids = is_null( $post_ids ) ? $grid_posts['all'] : array_intersect( $post_ids, $grid_posts['all'] );
 
         if( count( $post_ids ) == 0 ) return array();
 
@@ -378,11 +392,11 @@ class WPUPG_Grid {
         return $posts;
     }
 
-    public function draw_posts( $page = 0 )
+    public function draw_posts( $page = 0, $post_ids = null )
     {
         $output = '';
         $grid_posts = $this->posts();
-        $posts = $this->get_posts( $page );
+        $posts = $this->get_posts( $page, $post_ids );
 
         foreach( $posts as $post ) {
             $post_id = $post->ID;

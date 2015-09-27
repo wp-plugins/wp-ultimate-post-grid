@@ -16,6 +16,10 @@ WPUltimatePostGrid.initGrid = function(container) {
         }
     };
 
+    if(wpupg_public.rtl) {
+        args.isOriginLeft = false;
+    }
+
     var layout_mode = container.data('layout-mode');
     if(layout_mode) {
         args.layoutMode = layout_mode;
@@ -36,12 +40,28 @@ WPUltimatePostGrid.initGrid = function(container) {
     WPUltimatePostGrid.grids[grid_id] = {
         container: container,
         centered: container.data('centered'),
+        data: window['wpupg_grid_' + container.data('grid-id')],
+        id: container.data('grid-id'),
         pages: [0],
         page: 0,
         filters: {}
     };
 
     WPUltimatePostGrid.checkLinks(grid_id);
+    WPUltimatePostGrid.updatePosts(grid_id);
+};
+
+WPUltimatePostGrid.updatePosts = function(grid_id) {
+    var grid = WPUltimatePostGrid.grids[grid_id];
+
+    var posts = [];
+
+    grid.container.find('.wpupg-item').each(function() {
+        var post_id = jQuery(this).data('id');
+        posts.push(post_id);
+    });
+
+    WPUltimatePostGrid.grids[grid_id].posts = posts;
 };
 
 WPUltimatePostGrid.filterGrid = function(grid_id) {
@@ -49,7 +69,7 @@ WPUltimatePostGrid.filterGrid = function(grid_id) {
     var filters = [];
 
     // Page filter
-    if(grid.pagination_type != 'load_more') {
+    if(grid.pagination_type == 'pages') {
         var page = grid.page || 0;
         filters.push(['.wpupg-page-' + page]);
     }
@@ -182,7 +202,7 @@ WPUltimatePostGrid.checkLinks = function(grid_id) {
                 }
             });
 
-            var link = link_target == 'post' ? item.data('permalink') : item.data('image');
+            var link = item.data('custom-link') ? item.data('custom-link') : ( link_target == 'post' ? item.data('permalink') : item.data('image') );
             var rel = link_target == 'post' ? '' : ' rel="lightbox"';
 
             // Add link around item
@@ -380,6 +400,7 @@ WPUltimatePostGrid.initPaginationPages = function(container) {
                 pagination_item.css('color', WPUltimatePostGrid.grids[grid_id].pagination_style.active_text_color);
 
                 WPUltimatePostGrid.grids[grid_id].pages.push(page);
+                WPUltimatePostGrid.updatePosts(grid_id);
             });
         }
     });

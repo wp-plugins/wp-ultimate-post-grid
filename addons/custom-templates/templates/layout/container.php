@@ -33,6 +33,7 @@ class WPUPG_Template_Container extends WPUPG_Template_Block {
             $this->classes = $args['classes'];
         }
 
+        $custom_link = trim( get_post_meta( $post->ID, 'wpupg_custom_link', true ) );
         $image = get_post_thumbnail_id( $post->ID );
         $image_url = $image ? wp_get_attachment_url( $image ) : '';
 
@@ -40,7 +41,7 @@ class WPUPG_Template_Container extends WPUPG_Template_Block {
 
         ob_start();
 ?>
-<div id="wpupg-container-post-<?php echo $post->ID; ?>" data-permalink="<?php echo get_post_permalink( $post->ID ); ?>" data-image="<?php echo $image_url; ?>" <?php echo $this->style(); ?>>
+<div id="wpupg-container-post-<?php echo $post->ID; ?>" data-id="<?php echo $post->ID; ?>" data-permalink="<?php echo esc_attr( get_permalink( $post->ID ) ); ?>" data-custom-link="<?php echo esc_attr( $custom_link ); ?>" data-image="<?php echo esc_attr( $image_url ); ?>" <?php echo $this->style(); ?>>
     <?php $this->output_children( $post, 0, 0, $args ) ?>
 </div>
 <?php
