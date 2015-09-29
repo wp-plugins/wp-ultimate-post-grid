@@ -106,7 +106,7 @@ $premium_only = WPUltimatePostGrid::is_premium_active() ? '' : ' (' . __( 'Premi
     unset( $post_types['revision'] );
     unset( $post_types['nav_menu_item'] );
 
-    $taxonomies_in_form = [];
+    $taxonomies_in_form = array();
     foreach( $post_types as $post_type => $options ) {
         $taxonomies = get_object_taxonomies( $post_type, 'objects' );
         $limit_terms = $grid->filter_limit_terms();

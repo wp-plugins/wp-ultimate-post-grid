@@ -72,6 +72,12 @@ It's still an early version of the plugin and we'll be adding new features every
 
 == Changelog ==
 
+= 1.7.2 =
+* Fix: Problem with some PHP versions
+
+= 1.7.1 =
+* Fix: Problem with some PHP versions
+
 = 1.7 =
 * Feature: Manually define links for grid items
 * Feature: Limit terms shown in filter
@@ -122,6 +128,12 @@ It's still an early version of the plugin and we'll be adding new features every
 * Very first version of this plugin
 
 == Upgrade notice ==
+
+= 1.7.2 =
+Update if you're experiencing issues when editing the grid
+
+= 1.7.1 =
+Update if you're experiencing issues when saving the grid
 
 = 1.7 =
 Update for some great new WP Ultimate Post Grid features

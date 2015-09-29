@@ -79,7 +79,7 @@ class WPUPG_Grid_Save {
             }
 
             // Filter Limit Terms
-            $filter_limit_terms = [];
+            $filter_limit_terms = array();
             if( isset( $filter_taxonomies ) ) {
                 foreach( $filter_taxonomies as $filter_taxonomy ) {
                     if( isset( $_POST['wpupg_filter_limit_terms_' . $filter_taxonomy] ) ) {
